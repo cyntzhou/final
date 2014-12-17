@@ -9,8 +9,7 @@ Roles
 =====
 Michael - Database Stuff
 Oliver - Javascript / HTML
-Cynthia - Combiner
-=====
+Cynthia - Combiner  
 Calendar
 =====
 Friday, 12/19/15 - Finalize Ideas  
