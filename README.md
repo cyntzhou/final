@@ -1,10 +1,10 @@
 final
 =====
 Stuy Assist  
+=====
 Helping Stuy students survive.  
 Schedule finder  
 College  
-=====
 Roles
 =====
 Michael - Database Stuff
