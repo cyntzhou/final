@@ -7,8 +7,8 @@ Schedule finder
 College  
 Roles
 =====
-Michael - Database Stuff
-Oliver - Javascript / HTML
+Michael - Database Stuff  
+Oliver - Javascript / HTML  
 Cynthia - Combiner  
 Calendar
 =====
