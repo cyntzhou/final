@@ -12,4 +12,5 @@ Oliver - Javascript / HTML
 Cynthia - Combiner  
 Calendar
 =====
-Friday, 12/19/15 - Finalize Ideas  
+Thursday, 12/19/14 - Make sure we know how to use branches  
+Friday, 12/19/14 - Finalize project ideas and plans  
