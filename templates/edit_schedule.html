@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block title %}
-View Schedule
+Edit Schedule
 {% endblock %}
 
 {% block body %}
@@ -11,7 +11,7 @@ You are not logged in.
 
 {% else %}
 
-<h1>Schedule</h1>
+<h1>Change Schedule</h1>
 
 <table class="pure-table">
   <thead>
@@ -26,12 +26,25 @@ You are not logged in.
     {% for item in [1,2,3,4,5,6,7,8,9,10] %}
     <tr>
       <td>{{item}}</td>
-      <td>Mr. Blah Blah</td>
+      <td>
+      <select name="teacher">
+	{% for teacher in staff %}
+	<option name="{{teacher}}">{{teacher}}</option>
+	{% endfor %}
+      </select>
+      </td>
       <td>Course Blah Blah</td>
     </tr>
     {% endfor %}
   </tbody>
 </table>
+
+<form method="POST">
+  <fieldset>
+    <input type="submit" class="pure-button pure-button-primary" name="button" value="submit">
+    <input type="submit" class="pure-button pure-button-primary" name="button" value="cancel">
+  </fieldset>
+</form>
 
 
 {% endif %}

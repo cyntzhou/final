@@ -4,6 +4,9 @@ import db
 
 app = Flask(__name__)
 
+staff = open("./templates/staff.txt",'r').read().splitlines()
+#a list of all teachers
+
 def authenticate(func):
     @wraps(func)
     def inner():
@@ -18,12 +21,22 @@ def home():
     return render_template('home.html')
 
 @app.route('/view_schedule')
+@authenticate
 def viewSchedule():
     return render_template('view_schedule.html')
 
-@app.route('/edit_schedule')
+@app.route('/edit_schedule', methods=['GET', 'POST'])
+@authenticate
 def editSchedule():
-    return render_template('edit_schedule.html')
+    if request.method == 'GET':
+        return render_template('edit_schedule.html', staff=staff)
+    else:
+        button = request.form['button']
+        if button == 'cancel':
+            return redirect('/')
+        else:
+            #change user stuff in database...
+            return redirect('/view_schedule')
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
