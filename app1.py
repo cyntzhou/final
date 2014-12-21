@@ -17,6 +17,13 @@ def authenticate(func):
 def home():
     return render_template('home.html')
 
+@app.route('/view_schedule')
+def viewSchedule():
+    return render_template('view_schedule.html')
+
+@app.route('/edit_schedule')
+def editSchedule():
+    return render_template('edit_schedule.html')
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -34,7 +41,7 @@ def login():
         user = db.find_user(criteria)
         if user:
             session['username'] = username
-            db.touch_user_login_time(criteria)
+            #db.touch_user_login_time(criteria)
             return redirect('/')
         else:
             return render_template('login.html',error=True)
@@ -71,7 +78,7 @@ def display():
 @authenticate
 def logout():
     criteria = {'username': session['username']}
-    db.touch_user_logout_time(criteria)
+    #db.touch_user_logout_time(criteria)
     session.pop('username', None)
     return render_template('logout.html',logged_out=True)
 
