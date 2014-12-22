@@ -20,6 +20,8 @@ def find_user(criteria):
 def update_user(criteria, changeset):
     db.users.update(criteria, {'$set':changeset}, upsert=False)
 
+def update_schedule(scheduleset,user):
+    
 #def touch_user_login_time(criteria):
 #    update_user(criteria, {'last_login_at': datetime.datetime.now()})
 

@@ -74,7 +74,8 @@ def register():
         if db.find_user(criteria):
             return render_template('register.html',error=True)
         else:
-            user_params = {'username': username, 'password': password}
+            initial_Schedule= ["N/A","N/A","N/A","N/A","N/A","N/A","N/A","N/A","N/A","N/A"]
+            user_params = {'username': username, 'password': password,'schedule':initial_Schedule}
             db.new_user(user_params)
             session['username'] = username
             return redirect('/')
