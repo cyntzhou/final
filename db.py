@@ -2,7 +2,7 @@ import datetime
 
 from pymongo import MongoClient
 
-client = MongoClient()
+conn = MongoClient()
 db = client['account_manager']
 users = db['users']
 
