@@ -23,9 +23,7 @@ def home():
 @app.route('/view_schedule')
 @authenticate
 def viewSchedule():
-    user = db.find_user({'username': session['username']})
-    
-    return render_template('view_schedule.html',user=user)
+    return render_template('view_schedule.html')
 
 @app.route('/edit_schedule', methods=['GET', 'POST'])
 @authenticate
@@ -37,16 +35,7 @@ def editSchedule():
         if button == 'cancel':
             return redirect('/')
         else:
-            user = db.find_user({'username': session['username']})
-            sL=[]
-            xd = 1
-            
-            while xd !=11:
-              sL.append( request.form['teacher'+str(xd)])
-              xd+= 1
-            
-            print sL
-            db.update_schedule(user,sL)
+            #change user stuff in database...
             return redirect('/view_schedule')
 
 @app.route('/login', methods=['GET', 'POST'])

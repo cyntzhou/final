@@ -21,29 +21,30 @@ You are not logged in.
       <th>Class</th>
     </tr>
   </thead>
-
-  <tbody>
-    {% for item in [1,2,3,4,5,6,7,8,9,10] %}
-    <tr>
-      <td>{{item}}</td>
-      <td>
-      <select name="teacher">
-	{% for teacher in staff %}
-	<option name="{{teacher}}">{{teacher}}</option>
-	{% endfor %}
-      </select>
-      </td>
-      <td>Course Blah Blah</td>
-    </tr>
-    {% endfor %}
-  </tbody>
+  <form method="POST">
+    <tbody name="teacherlist">
+      {% for item in ['1','2','3','4','5','6','7','8','9','10'] %}
+      <tr>
+	<td>{{item}}</td>
+	<td>
+	  
+	  <select  name="{{'teacher'+item}}">
+	    {% for teacher in staff %}
+	    <option name="teacher">{{teacher}}</option>
+	    {% endfor %}
+	  </select>
+	  
+	</td>
+	<td>Course Blah Blah</td>
+</tr>
+      {% endfor %}
+    </tbody>
 </table>
 
-<form method="POST">
-  <fieldset>
-    <input type="submit" class="pure-button pure-button-primary" name="button" value="submit">
-    <input type="submit" class="pure-button pure-button-primary" name="button" value="cancel">
-  </fieldset>
+
+<input type="submit" class="pure-button pure-button-primary" name="button" value="submit">
+<input type="submit" class="pure-button pure-button-primary" name="button" value="cancel">
+
 </form>
 
 

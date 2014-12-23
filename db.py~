@@ -2,7 +2,7 @@ import datetime
 
 from pymongo import MongoClient
 
-client = MongoClient()
+conn = MongoClient()
 db = client['account_manager']
 users = db['users']
 
@@ -18,11 +18,12 @@ def find_user(criteria):
 
 #gotta use $set or else update would repace the entry
 def update_user(criteria, changeset):
-    
     db.users.update(criteria, {'$set':changeset}, upsert=False)
 
-def update_schedule(user,changeset):
-    db.users.update(user,{'$set':{"schedule":changeset}})
+def update_schedule(scheduleset,user):
     
-                  
-                    
+#def touch_user_login_time(criteria):
+#    update_user(criteria, {'last_login_at': datetime.datetime.now()})
+
+#def touch_user_logout_time(criteria):
+#    update_user(criteria, {'last_logout_at': datetime.datetime.now()})

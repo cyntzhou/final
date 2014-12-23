@@ -41,6 +41,7 @@ You are not logged in.
 
 <form method="POST">
   <fieldset>
+    <input type="submit" class="pure-button pure-button-primary" name="button" value="submit">
     <input type="submit" class="pure-button pure-button-primary" name="button" value="cancel">
   </fieldset>
 </form>

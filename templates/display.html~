@@ -14,7 +14,6 @@ You are not logged in.
 <h1>Account Information</h1>
 Username: {{user['username']}} <br>
 Password: {{user['password']}} <br>
-
 <!--
 Last logged in at: {{user['last_login_at']}}<br>
 Last logged out at: {{user['last_logout_at']}}<br>
