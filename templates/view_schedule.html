@@ -18,7 +18,7 @@ You are not logged in.
     <tr>
       <th>Period</th>
       <th>Teacher</th>
-      <th>Class</th>
+      <th>Class ID </th>
     </tr>
   </thead>
 
@@ -28,7 +28,7 @@ You are not logged in.
     <tr>
       <td>{{item}}</td>
       <td>{{user['schedule'][item-1]}}</td>
-      <td>Course Blah Blah</td>
+      <td>{{user['schedule'][item+9]}}</td>
     </tr>
     {% endfor %}
   </tbody>

@@ -10,6 +10,7 @@ def new_user(user_params):
 #    user_params['last_login_at'] = None
 #    user_params['last_logout_at'] = None
     user_id = users.insert(user_params)
+    
     return user_id
 
 def find_user(criteria):

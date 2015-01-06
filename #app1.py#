@@ -4,14 +4,11 @@ import db
 
 app = Flask(__name__)
 
-staff = open("./templates/staff.txt",'r').read().splitlines()
-#a list of all teachers
-
 def authenticate(func):
     @wraps(func)
     def inner():
         if 'username' in session:
-            return func()
+            return func()`
         else:
             return redirect('/login')
     return inner
@@ -21,35 +18,12 @@ def home():
     return render_template('home.html')
 
 @app.route('/view_schedule')
-@authenticate
 def viewSchedule():
-    user = db.find_user({'username': session['username']})
-    
-    return render_template('view_schedule.html',user=user)
+    return render_template('view_schedule.html')
 
-@app.route('/edit_schedule', methods=['GET', 'POST'])
-@authenticate
+@app.route('/edit_schedule')
 def editSchedule():
-    if request.method == 'GET':
-        return render_template('edit_schedule.html', staff=staff)
-    else:
-        button = request.form['button']
-        if button == 'cancel':
-            return redirect('/')
-        else:
-            user = db.find_user({'username': session['username']})
-            sL=[]
-            xd = 1
-            
-            while xd !=11:
-              sL.append( request.form['teacher'+str(xd)])
-              xd+= 1
-            while xd !=21:
-              sL.append(request.form['course'+str(xd-10)])
-              xd+=1
-            
-            db.update_schedule(user,sL)
-            return redirect('/view_schedule')
+    return render_template('edit_schedule.html')
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -87,8 +61,7 @@ def register():
         if db.find_user(criteria):
             return render_template('register.html',error=True)
         else:
-            initial_Schedule= ["N/A","N/A","N/A","N/A","N/A","N/A","N/A","N/A","N/A","N/A","","","","","","","","","",""]
-            user_params = {'username': username, 'password': password,'schedule':initial_Schedule}
+            user_params = {'username': username, 'password': password}
             db.new_user(user_params)
             session['username'] = username
             return redirect('/')
