@@ -23,15 +23,28 @@ def home():
 @app.route('/view_schedule')
 @authenticate
 def viewSchedule():
-    user = db.find_user({'username': session['username']})
-    
+    user = db.find_user({'username': session['username']})    
     return render_template('view_schedule.html',user=user)
+
+
+@app.route('/classmates')
+@authenticate
+def classmates():
+    user = db.find_user({'username': session['username']})
+    periods = [1,2,3,4,5,6,7,8,9,10]
+    classmates = {} #a dictionary with indices with the format... period:[classmates]
+    for p in periods:
+        l = getClassmates(p) #a list of classmates
+        classmates[p] = l
+    return render_template('classmates.html',user=user,classmates=classmates)
+
 
 @app.route('/edit_schedule', methods=['GET', 'POST'])
 @authenticate
 def editSchedule():
+    user = db.find_user({'username': session['username']})
     if request.method == 'GET':
-        return render_template('edit_schedule.html', staff=staff)
+        return render_template('edit_schedule.html', staff=staff, user=user)
     else:
         button = request.form['button']
         if button == 'cancel':
@@ -151,6 +164,12 @@ def valid_change(username, password):
 def valid(username, password):
     return True
 
+def getClassmates(period):
+    index = period - 1
+    user = db.find_user({'username': session['username']})    
+    course = user['schedule'][index]
+    classmates = db.find_things({ 'schedule.' + str(index) : course },'username')
+    return classmates
 
 if __name__ == '__main__':
     app.secret_key = 'Happy Halloween'
