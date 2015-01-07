@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block title %}
-View Schedule
+Your Classmates
 {% endblock %}
 
 {% block body %}
@@ -11,7 +11,7 @@ You are not logged in.
 
 {% else %}
 
-<h1>Schedule</h1>
+<h1>Classmates</h1>
 
 <table class="pure-table">
   <thead>
@@ -19,6 +19,7 @@ You are not logged in.
       <th>Period</th>
       <th>Teacher</th>
       <th>Course ID </th>
+      <th>Classmates </th>
     </tr>
   </thead>
 
@@ -28,6 +29,11 @@ You are not logged in.
       <td> {{period}} </td>
       <td> {{user['schedule'][period-1]}} </td>
       <td> {{user['schedule'][period+9]}} </td>
+      <td> 
+	{% for c in classmates[period] %}
+	{{c}},
+	{% endfor %}
+      </td>
     </tr>
     {% endfor %}
   </tbody>
