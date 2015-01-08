@@ -14,6 +14,13 @@ You are not logged in.
 <h1>Account Information</h1>
 Username: {{user['username']}} <br>
 Password: {{user['password']}} <br>
+First Name: {{user['first']}} <br>
+Last Name: {{user['last']}} <br>
+<br><br>
+
+<form method="POST">
+  <input type="submit" class="pure-button pure-button-primary" name="button" value="Change Settings">
+</form>
 
 <!--
 Last logged in at: {{user['last_login_at']}}<br>

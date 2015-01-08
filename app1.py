@@ -20,12 +20,17 @@ def authenticate(func):
 def home():
     return render_template('home.html')
 
-@app.route('/view_schedule')
+@app.route('/view_schedule', methods=['GET', 'POST'])
 @authenticate
 def viewSchedule():
+    if request.method == 'POST':
+        button = request.form['button']
+        if button == 'Change Schedule':
+            return redirect('/edit_schedule')
+        elif button == 'View Classmates':
+            return redirect('/classmates')
     user = db.find_user({'username': session['username']})    
     return render_template('view_schedule.html',user=user)
-
 
 @app.route('/classmates')
 @authenticate
@@ -34,8 +39,10 @@ def classmates():
     periods = [1,2,3,4,5,6,7,8,9,10]
     classmates = {} #a dictionary with indices with the format... period:[classmates]
     for p in periods:
-        l = getClassmates(p) #a list of classmates
-        classmates[p] = l
+        course = user['schedule'][p-1]
+        if course != 'N/A':
+            l = getClassmates(p) #a list of classmates
+            classmates[p] = l
     return render_template('classmates.html',user=user,classmates=classmates)
 
 
@@ -93,23 +100,31 @@ def register():
     button = request.form['button']
     username = request.form['username']
     password = request.form['password']
+    first = request.form['first']
+    last = request.form['last']
     if button == 'cancel':
         return redirect('/')
     else:
+        if not password or not first or not last:
+            return render_template('register.html',error='incomplete')
         criteria = {'username': username}
         if db.find_user(criteria):
-            return render_template('register.html',error=True)
+            return render_template('register.html',error='username taken')
         else:
             initial_Schedule= ["N/A","N/A","N/A","N/A","N/A","N/A","N/A","N/A","N/A","N/A","","","","","","","","","",""]
-            user_params = {'username': username, 'password': password,'schedule':initial_Schedule}
+            user_params = {'username': username, 'password': password, 'first': first, 'last': last, 'schedule':initial_Schedule}
             db.new_user(user_params)
             session['username'] = username
             return redirect('/')
 
 
-@app.route('/display')
+@app.route('/display', methods=['GET', 'POST'])
 @authenticate
 def display():
+    if request.method == 'POST':
+        button = request.form['button']
+        if button == 'Change Settings':
+            return redirect('/change')
     user = db.find_user({'username': session['username']})
     return render_template('display.html', user=user)
 
@@ -136,11 +151,17 @@ def change_account():
 
     username = request.form['username']
     password = request.form['password']
+    first = request.form['first']
+    last = request.form['last']
     changeset = {}
     if username:
         changeset['username'] = username
     if password:
         changeset['password'] = password
+    if first:
+        changeset['first'] = first
+    if last:
+        changeset['last'] = last
 
     if valid_change(username, password)==True:
         db.update_user(criteria, changeset)
@@ -168,7 +189,7 @@ def getClassmates(period):
     index = period - 1
     user = db.find_user({'username': session['username']})    
     course = user['schedule'][index]
-    classmates = db.find_things({ 'schedule.' + str(index) : course },'username')
+    classmates = db.find_classmates({ 'schedule.' + str(index) : course },'username')
     return classmates
 
 if __name__ == '__main__':
