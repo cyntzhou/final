@@ -20,7 +20,7 @@ def find_things(criteria):
     things = users.find(criteria)
     return things
 
-def find_things(criteria, attribute): #item is what you're searching for, e.g. username, password, etc.
+def find_classmates(criteria, attribute): #item is what you're searching for, e.g. username, password, etc.
     things = users.find(criteria)
     print things
     l = []

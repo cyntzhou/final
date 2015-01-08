@@ -11,8 +11,10 @@ You are already logged in.
 
 {% else %}
 
-{% if error %}
-That username as been taken. Please select another username.
+{% if error == "username taken" %}
+That username has been taken. Please select another username.
+{% elif error == "incomplete" %}
+Please complete the required fields.
 {% endif %}
 
 <form method="POST" class="pure-form pure-form-aligned">
@@ -25,6 +27,14 @@ That username as been taken. Please select another username.
     <div class="pure-control-group">
       <label for="password">Desired Password</label>
       <input type="password" name="password" placeholder="Desired Password"><br>
+    </div>
+    <div class="pure-control-group">
+      <label for="first">First Name</label>
+      <input type="text" name="first" placeholder="First Name"><br>
+    </div>
+    <div class="pure-control-group">
+      <label for="last">Last Name</label>
+      <input type="text" name="last" placeholder="Last Name"><br>
     </div>
     <div class="pure-controls">
       <input type="submit" class="pure-button pure-button-primary" name="button" value="register">
