@@ -71,6 +71,31 @@ def editSchedule():
             db.update_schedule(user,sL)
             return redirect('/view_schedule')
 
+        
+@app.route('/post_essay', methods=['GET', 'POST'])
+@authenticate
+def post_essay():
+    user = db.find_user({'username': session['username']})
+    if request.method == 'GET':
+        return render_template('post_essay.html')
+    else:
+        user = db.find_user({'username': session['username']})
+        button = request.form['button']
+        if button == 'Cancel':
+            return redirect('/')
+        elif button == 'Post':
+            title = request.form['title']
+            topic = request.form['topic']
+            essay = request.form['essay']
+#############################################################
+
+def change_user_info(key, value):
+    criteria = {'username': session['username']}
+    changeset[key] = value
+    db.update_user(criteria, changeset)
+            
+        
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'GET':
