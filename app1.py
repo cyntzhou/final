@@ -16,10 +16,19 @@ def authenticate(func):
             return redirect('/login')
     return inner
 
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def home():
-    return render_template('home.html')
-
+    if request.method == 'GET':
+        return render_template('home.html')
+    button = request.form['button']
+    if button == 'Clubs':
+        return redirect('/clubs')
+    if button == 'College':
+        return redirect('/college')
+    if button == 'Calendar':
+        return redirect('/calendar')
+    
+    
 @app.route('/view_schedule', methods=['GET', 'POST'])
 @authenticate
 def viewSchedule():
@@ -71,6 +80,18 @@ def editSchedule():
             db.update_schedule(user,sL)
             return redirect('/view_schedule')
 
+@app.route('/college')
+def college():
+    return render_template('college.html')
+
+@app.route('/clubs')
+def clubs():
+    return render_template('clubs.html')
+
+@app.route('/calendar')
+def calendar():
+    return render_template('calendar.html')
+    
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'GET':
