@@ -6,4 +6,20 @@ Home
 
 {% block body %}
 <h1>Welcome to Stuy Assist{% if session['username'] %}, {{ session['username'] }}{% endif %}</h1>
+
+<form method="POST">
+
+  <table class="pure-table" style="width:100%">
+    <tbody>
+      {% set h = 200 %}
+      <tr>
+	<td height="{{h}}"> <input type="submit" class="pure-button pure-button-primary" name="button" value="Clubs"> </td>
+	<td height="{{h}}"> <input type="submit" class="pure-button pure-button-primary" name="button" value="College">  </td>
+	<td height="{{h}}"> <input type="submit" class="pure-button pure-button-primary" name="button" value="Calendar"> </td>
+      </tr>
+    </tbody>
+  </table>
+
+</form>
+
 {% endblock %}
