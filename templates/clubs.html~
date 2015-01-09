@@ -5,7 +5,6 @@ Home
 {% endblock %}
 
 {% block body %}
-<h1>Welcome to Stuy Assist{% if session['username'] %}, {{ session['username'] }}{% endif %}</h1>
 
 <form method="POST">
 
@@ -21,6 +20,3 @@ Home
   </table>
 
 </form>
-
-{% endblock %}
-
