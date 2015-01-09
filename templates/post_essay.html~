@@ -1,0 +1,46 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Post Your Essay
+{% endblock %}
+
+{% block body %}
+
+{% if 'username' not in session %}
+You are not logged in.
+
+{% else %}
+
+{% if error %}
+{{error}}<br>
+{% endif %}
+
+<form method="POST" class="pure-form pure-form-aligned">
+  <fieldset>
+    <legend>
+Post your essay here so others edit it and give feedback.</legend>
+    <div class="pure-control-group">
+      <label for="title">Title</label>
+      <input type="text" name="title" placeholder="Title">
+    </div>
+    <div class="pure-control-group">
+      <label for="topic">Topic</label>
+      <textarea rows="4" cols="50" name="topic">
+	The question or topic you were assigned to write about.
+      </textarea><br>
+    </div>
+    <div class="pure-control-group">
+      <label for="essay">Essay</label>
+      <textarea rows="100" cols="50" name="topic">
+	Copy your essay and paste it here.
+      </textarea><br>
+    </div>
+    <div class="pure-controls">
+      <input type="submit" class="pure-button pure-button-primary" name="button" value="change">
+      <input type="submit" class="pure-button pure-button-primary" name="button" value="cancel">
+    </div>
+  </fieldset>
+</form>
+{% endif %}
+
+{% endblock %}
