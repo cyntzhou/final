@@ -87,14 +87,21 @@ def post_essay():
             title = request.form['title']
             topic = request.form['topic']
             essay = request.form['essay']
+            if not title or not essay:
+                return render_template('post_essay.html',error='incomplete')
+            else:
+                if not topic:
+                    topic = "None"
+                change_user_info('essays', [title, topic, essay])
+                return redirect('/')
 #############################################################
 
 def change_user_info(key, value):
     criteria = {'username': session['username']}
-    changeset[key] = value
+    changeset = {}
+    changeset[key] = value #a dictionary with the item you want to change
     db.update_user(criteria, changeset)
-            
-        
+                    
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -137,7 +144,7 @@ def register():
             return render_template('register.html',error='username taken')
         else:
             initial_Schedule= ["N/A","N/A","N/A","N/A","N/A","N/A","N/A","N/A","N/A","N/A","","","","","","","","","",""]
-            user_params = {'username': username, 'password': password, 'first': first, 'last': last, 'schedule':initial_Schedule}
+            user_params = {'username': username, 'password': password, 'first': first, 'last': last, 'schedule':initial_Schedule, 'essays':{}}
             db.new_user(user_params)
             session['username'] = username
             return redirect('/')
