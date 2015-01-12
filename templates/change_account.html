@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block title %}
-Change Account Information
+Change Account Settings
 {% endblock %}
 
 {% block body %}
@@ -20,12 +20,12 @@ You are not logged in.
     <legend>
 If you wish to change your settings, please enter them here.</legend>
     <div class="pure-control-group">
-      <label for="username">New Username</label>
-      <input type="text" name="username" placeholder="New Username">
+      <label for="password">New Password</label>
+      <input type="password" name="password"><br>
     </div>
     <div class="pure-control-group">
-      <label for="password">New Password</label>
-      <input type="password" name="password" placeholder="New Password"><br>
+      <label for="password2">Confirm Password</label>
+      <input type="password" name="password2"><br>
     </div>
     <div class="pure-control-group">
       <label for="first">Different First Name</label>
