@@ -36,11 +36,16 @@ def update_user(criteria, changeset):
 
 def update_schedule(user,changeset):
     db.users.update(user,{'$set':{"schedule":changeset}})
-    
+
 def create_club(user,user_params):
-    user_params['admin']='user'
+    user_params['admin']=user
     user_id=db.clubs.insert(user_params)
-    return user_id;
+    return user_id
+
+def view_clubs():
+    clubList = []
+    for club in clubs.find():
+        clubList.append([club['clubname'],club['status'],club['description'],club['admin']])
+    return clubList
     
-    
-                    
+     

@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+
+{% block title %}
+View Clubs
+{% endblock %}
+
+{% block body %}
+
+{% if 'username' not in session %}
+You are not logged in.
+
+{% else %}
+
+<h1>List of Club/Potential clubs</h1>
+<table class="pure-table">
+  <thead>
+    <tr>
+      <th>Club Name</th>
+      <th>Status</th>
+      <th>Description </th>
+      <th>Club Admin</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for clubs in clubList %}
+    <tr>
+      <td>{{clubs[0]}}</td>
+      <td>{{clubs[1]}}</td>
+      <td>{{clubs[2]}}</td>
+      <td>{{clubs[3]}}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+{{% endif %}}
+{% endblock %}

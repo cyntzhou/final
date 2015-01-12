@@ -1,0 +1,59 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Edit Schedule
+{% endblock %}
+
+{% block body %}
+
+{% if 'username' not in session %}
+You are not logged in.
+
+{% else %}
+
+<h1>Change Schedule</h1>
+
+<table class="pure-table">
+  <thead>
+    <tr>
+      <th>Period</th>
+      <th>Teacher</th>
+      <th>Class ID</th>
+    </tr>
+  </thead>
+  <form method="POST">
+    <tbody name="teacherlist">
+      {% for period in ['1','2','3','4','5','6','7','8','9','10'] %}
+      <tr>
+	<td>{{period}}</td>
+	<td>
+	  
+	  <select name="{{'teacher'+period}}">
+	    <option name="teacher" selected="selected">{{user['schedule'][period|int-1]}}</option>
+	    <!-- ^ their current teacher is the default -->
+	    {% for teacher in staff %}
+	    {% if teacher == user['schedule'][period|int-1] %}
+	    <!-- do nothing, cuz it's already the first choice -->
+	    {% else %}
+	    <option name="teacher">{{teacher}}</option>
+	    {% endif %}
+
+	    {% endfor %}
+	  </select>
+	  
+	</td>
+	<td>Course ID(As printed) <input type="text" name="{{'course'+period}}" value="{{user['schedule'][period|int+9]}}"> </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+</table>
+
+
+<input type="submit" class="pure-button pure-button-primary" name="button" value="submit">
+<input type="submit" class="pure-button pure-button-primary" name="button" value="cancel">
+
+</form>
+
+
+{% endif %}
+{% endblock %}

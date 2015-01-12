@@ -95,14 +95,17 @@ def post_essay():
             title = request.form['title']
             topic = request.form['topic']
             essay = request.form['essay']
+            print title+','+topic+','+essay
             if not title or not essay:
-                return render_template('post_essay.html',error='incomplete')
+                return render_template('post_essay.html',error='Please complete all required fields.')
             else:
                 if not topic:
                     topic = "None"
                 change_user_info('essays', [title, topic, essay])
                 return redirect('/')
 #############################################################
+
+
 
 def change_user_info(key, value):
     criteria = {'username': session['username']}
@@ -115,10 +118,35 @@ def change_user_info(key, value):
 def college():
     return render_template('college.html')
 
-@app.route('/clubs')
+@app.route('/clubs',methods=['GET','POST'])
 def clubs():
-    return render_template('clubs.html')
+    if request.method== 'GET':
+        return render_template('clubs.html')
+    button=request.form['button']
+    if button=='View Clubs':
+        return redirect('/view_clubs')
+    if button == 'Add a club/Create a club startup':
+        return redirect('/add_clubs')
+@app.route('/view_clubs')
+def view_club():
+    clubList= db.view_clubs()
+    return render_template('view_clubs.html',clubList=clubList)
 
+@app.route('/add_clubs', methods=['GET', 'POST'])
+@authenticate
+def add_club():
+    if request.method=='GET':
+        return render_template('create_club.html')
+    newClub={}
+    newClub['clubname']=request.form['Club_Name']
+    newClub['status']=request.form['Club_Status']
+    newClub['description']=request.form['Club_Description']
+    db.create_club(session['username'],newClub)
+    return redirect('/clubs')
+    
+    
+
+    
 @app.route('/calendar')
 def calendar():
     return render_template('calendar.html')
@@ -201,27 +229,32 @@ def change_account():
 
     criteria = {'username': session['username']}
 
-    username = request.form['username']
     password = request.form['password']
+    password2 = request.form['password2']
     first = request.form['first']
     last = request.form['last']
     changeset = {}
-    if username:
-        changeset['username'] = username
     if password:
-        changeset['password'] = password
+        if password == password2:
+            changeset['password'] = password            
+            change_user_info('password',password)
+        else:
+            return render_template('change_account.html', error="Passwords must match.")
     if first:
         changeset['first'] = first
+        change_user_info('first',first)
     if last:
         changeset['last'] = last
+        change_user_info('last',last)
+    return redirect('/display')
 
-    if valid_change(username, password)==True:
-        db.update_user(criteria, changeset)
-        if username:
-            session['username'] = username
-        return redirect('/display')
-    else:
-        return render_template('change_account.html', error=valid_change(username, password))
+    #if valid_change(username, password)==True:
+    #    db.update_user(criteria, changeset)
+    #    if username:
+    #        session['username'] = usernam
+    #    return redirect('/display')
+    #else:
+    #    return render_template('change_account.html', error=valid_change(username, password))
 
 #returns True or an error that can be displayed on the webpage
 def valid_change(username, password):
