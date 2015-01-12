@@ -6,6 +6,7 @@ client = MongoClient()
 db = client['account_manager']
 users = db['users']
 clubs= db['clubs']
+essays= db['essays']
 
 def new_user(user_params):
 #    user_params['last_login_at'] = None
@@ -48,4 +49,7 @@ def view_clubs():
         clubList.append([club['clubname'],club['status'],club['description'],club['admin']])
     return clubList
     
-     
+def post_essay(user,user_params):
+    user_params['author']=user
+    user_id=db.essays.insert(user_params)
+    return user_id
