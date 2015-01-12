@@ -5,6 +5,7 @@ from pymongo import MongoClient
 client = MongoClient()
 db = client['account_manager']
 users = db['users']
+clubs= db['clubs']
 
 def new_user(user_params):
 #    user_params['last_login_at'] = None
@@ -35,6 +36,16 @@ def update_user(criteria, changeset):
 
 def update_schedule(user,changeset):
     db.users.update(user,{'$set':{"schedule":changeset}})
+
+def create_club(user,user_params):
+    user_params['admin']=user
+    user_id=db.clubs.insert(user_params)
+    return user_id
+
+def view_clubs():
+    clubList = []
+    for club in clubs.find():
+        clubList.append([club['clubname'],club['status'],club['description'],club['admin']])
+    return clubList
     
-                  
-                    
+     

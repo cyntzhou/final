@@ -118,10 +118,35 @@ def change_user_info(key, value):
 def college():
     return render_template('college.html')
 
-@app.route('/clubs')
+@app.route('/clubs',methods=['GET','POST'])
 def clubs():
-    return render_template('clubs.html')
+    if request.method== 'GET':
+        return render_template('clubs.html')
+    button=request.form['button']
+    if button=='View Clubs':
+        return redirect('/view_clubs')
+    if button == 'Add a club/Create a club startup':
+        return redirect('/add_clubs')
+@app.route('/view_clubs')
+def view_club():
+    clubList= db.view_clubs()
+    return render_template('view_clubs.html',clubList=clubList)
 
+@app.route('/add_clubs', methods=['GET', 'POST'])
+@authenticate
+def add_club():
+    if request.method=='GET':
+        return render_template('create_club.html')
+    newClub={}
+    newClub['clubname']=request.form['Club_Name']
+    newClub['status']=request.form['Club_Status']
+    newClub['description']=request.form['Club_Description']
+    db.create_club(session['username'],newClub)
+    return redirect('/clubs')
+    
+    
+
+    
 @app.route('/calendar')
 def calendar():
     return render_template('calendar.html')
