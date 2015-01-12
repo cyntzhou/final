@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Home
+{% endblock %}
+
+{% block body %}
+
+<form method="POST">
+
+  <table class="pure-table" style="width:100%">
+    <tbody>
+      {% set h = 200 %}
+      <tr>
+	<td height="{{h}}"> <input type="submit" class="pure-button pure-button-primary" name="button" value="View Clubs"> </td>
+	<td height="{{h}}"> <input type="submit" class="pure-button pure-button-primary" name="button" value="Add a club/Create a club startup">  </td>
+	
+      </tr>
+    </tbody>
+  </table>
+
+</form>
+{% endblock %}
