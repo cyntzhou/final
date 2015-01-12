@@ -12,9 +12,9 @@ Home
     <tbody>
       {% set h = 200 %}
       <tr>
-	<td height="{{h}}"> <input type="submit" class="pure-button pure-button-primary" name="button" value="Clubs"> </td>
-	<td height="{{h}}"> <input type="submit" class="pure-button pure-button-primary" name="button" value="College">  </td>
-	<td height="{{h}}"> <input type="submit" class="pure-button pure-button-primary" name="button" value="Calendar"> </td>
+	<td height="{{h}}"> <input type="submit" class="pure-button pure-button-primary" name="button" value="View Clubs"> </td>
+	<td height="{{h}}"> <input type="submit" class="pure-button pure-button-primary" name="button" value="Add a club/Create a club startup">  </td>
+	
       </tr>
     </tbody>
   </table>
