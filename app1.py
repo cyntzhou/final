@@ -41,6 +41,7 @@ def viewSchedule():
     user = db.find_user({'username': session['username']})    
     return render_template('view_schedule.html',user=user)
 
+
 @app.route('/classmates')
 @authenticate
 def classmates():
@@ -80,6 +81,7 @@ def editSchedule():
             db.update_schedule(user,sL)
             return redirect('/view_schedule')
 
+        
 @app.route('/post_essay', methods=['GET', 'POST'])
 @authenticate
 def post_essay():
@@ -87,7 +89,6 @@ def post_essay():
     if request.method == 'GET':
         return render_template('post_essay.html')
     else:
-        user = db.find_user({'username': session['username']})
         button = request.form['button']
         if button == 'Cancel':
             return redirect('/')
@@ -95,17 +96,26 @@ def post_essay():
             title = request.form['title']
             topic = request.form['topic']
             essay = request.form['essay']
-            print title+','+topic+','+essay
             if not title or not essay:
                 return render_template('post_essay.html',error='Please complete all required fields.')
             else:
                 if not topic:
                     topic = "None"
-                change_user_info('essays', [title, topic, essay])
-                return redirect('/')
-#############################################################
+            newEssay={}
+            newEssay['title'] = title
+            newEssay['topic'] = topic
+            newEssay['essay'] = essay
+            db.post_essay(session['username'], newEssay)
+            change_user_info('essays', [title, topic, essay])
+            return redirect('/')
+#############################################################    
 
-
+@app.route('/essays', methods=['GET', 'POST'])
+@authenticate
+def essays():
+    essayList= db.view_essays()
+    return render_template('essays.html', essayList=essayList)
+    
 
 def change_user_info(key, value):
     criteria = {'username': session['username']}

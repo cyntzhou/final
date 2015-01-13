@@ -1,0 +1,34 @@
+{% extends "layout.html" %}
+
+{% block title %}
+View Clubs
+{% endblock %}
+
+{% block body %}
+
+{% if 'username' not in session %}
+You are not logged in.
+
+{% else %}
+
+<h1>List of Essays to Edit</h1>
+<table class="pure-table">
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Topic</th>
+      <th>Author </th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for essay in essayList %}
+    <tr>
+      <td>{{essay[0]}}</td>
+      <td>{{essay[1]}}</td>
+      <td>{{essay[3]}}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+{% endif %}
+{% endblock %}

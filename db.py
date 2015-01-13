@@ -53,3 +53,9 @@ def post_essay(user,user_params):
     user_params['author']=user
     user_id=db.essays.insert(user_params)
     return user_id
+
+def view_essays():
+    essayList = []
+    for essay in essays.find():
+        essayList.append([essay['title'],essay['topic'],essay['essay'],essay['author']])
+    return essayList
