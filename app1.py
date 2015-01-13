@@ -23,8 +23,8 @@ def home():
     button = request.form['button']
     if button == 'Clubs':
         return redirect('/clubs')
-    if button == 'College':
-        return redirect('/college')
+    if button == 'Essays':
+        return redirect('/essays')
     if button == 'Calendar':
         return redirect('/calendar')
     
@@ -96,25 +96,32 @@ def post_essay():
             title = request.form['title']
             topic = request.form['topic']
             essay = request.form['essay']
+            anon = request.form['anon']
             if not title or not essay:
                 return render_template('post_essay.html',error='Please complete all required fields.')
-            else:
-                if not topic:
-                    topic = "None"
+            if not topic:
+                topic = "None"
             newEssay={}
             newEssay['title'] = title
             newEssay['topic'] = topic
             newEssay['essay'] = essay
-            db.post_essay(session['username'], newEssay)
+            if anon == "yes":
+                db.post_essay("Anonymous", newEssay)
+            else:
+                db.post_essay(session['username'], newEssay)
             change_user_info('essays', [title, topic, essay])
-            return redirect('/')
-#############################################################    
+            return redirect('/essays')
 
 @app.route('/essays', methods=['GET', 'POST'])
 @authenticate
 def essays():
-    essayList= db.view_essays()
-    return render_template('essays.html', essayList=essayList)
+    if request.method == 'GET':
+        essayList= db.view_essays()
+        return render_template('essays.html', essayList=essayList)
+    else:
+        button = request.form['button']
+        if button == 'Post Your Own Essay':
+            return redirect('/post_essay')
     
 
 def change_user_info(key, value):
@@ -123,10 +130,6 @@ def change_user_info(key, value):
     changeset[key] = value #a dictionary with the item you want to change
     db.update_user(criteria, changeset)
                     
-
-@app.route('/college')
-def college():
-    return render_template('college.html')
 
 @app.route('/clubs',methods=['GET','POST'])
 def clubs():
@@ -137,6 +140,7 @@ def clubs():
         return redirect('/view_clubs')
     if button == 'Add a club/Create a club startup':
         return redirect('/add_clubs')
+
 @app.route('/view_clubs')
 def view_club():
     clubList= db.view_clubs()

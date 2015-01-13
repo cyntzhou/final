@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block title %}
-View Clubs
+Essays
 {% endblock %}
 
 {% block body %}
@@ -11,7 +11,7 @@ You are not logged in.
 
 {% else %}
 
-<h1>List of Essays to Edit</h1>
+<h1>Essays to Edit</h1>
 <table class="pure-table">
   <thead>
     <tr>
@@ -30,5 +30,13 @@ You are not logged in.
     {% endfor %}
     </tbody>
   </table>
+
+
+<form method="POST">
+
+  <input type="submit" class="pure-button pure-button-primary" name="button" value="Post Your Own Essay">
+
+</form>
+
 {% endif %}
 {% endblock %}
