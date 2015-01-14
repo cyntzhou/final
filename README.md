@@ -18,7 +18,7 @@ Saturday, 12/20/14 - Get basic schedule & form set up & list of teachers
 Monday, 12/22/14 - Make update schedule work  
 Tuesday, 1/6/15 - Able to view classmates  
 Friday, 1/9/15 - Create Club and View Clubs pages work  
-Tuesday, 1/13/15 - Post Essay and View Essyas pages work  
+Tuesday, 1/13/15 - Post Essay and View Essays pages work.Updating clubs also works.  
 
 To Do
 =====
