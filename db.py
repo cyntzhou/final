@@ -43,12 +43,22 @@ def create_club(user,user_params):
     user_id=db.clubs.insert(user_params)
     return user_id
 
+def update_club(clubname,status,description):
+    clubs.update({'clubname':clubname},{"$set":{"status":status,"description":description}})
+    
+    return clubs
 def view_clubs():
     clubList = []
     for club in clubs.find():
         clubList.append([club['clubname'],club['status'],club['description'],club['admin']])
     return clubList
-    
+
+def list_clubs(user):
+    clubList=[]
+    for club in clubs.find({"admin":user}):
+        clubList.append([club['clubname'],club['status'],club['description']])
+    return clubList
+
 def post_essay(user,user_params):
     user_params['author']=user
     user_id=db.essays.insert(user_params)

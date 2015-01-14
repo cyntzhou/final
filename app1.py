@@ -140,6 +140,8 @@ def clubs():
         return redirect('/view_clubs')
     if button == 'Add a club/Create a club startup':
         return redirect('/add_clubs')
+    if button == 'Edit Your Club':
+        return redirect('/edit_club')
 
 @app.route('/view_clubs')
 def view_club():
@@ -158,7 +160,19 @@ def add_club():
     db.create_club(session['username'],newClub)
     return redirect('/clubs')
     
-    
+@app.route('/edit_club', methods=['GET', 'POST'])
+@authenticate
+def edit_clubs():
+    clublist= db.list_clubs(session['username'])
+    if request.method=='GET':
+        
+        return render_template('edit_club.html',clublist=clublist)
+    if request.method=='POST':
+        for club in clublist:
+            status=request.form[str(club[0])+"Club_Status"]
+            description=request.form[str(club[0])+"Club_Description"]
+            db.update_club(club[0],status,description)
+        return redirect('/view_clubs')
 
     
 @app.route('/calendar')
