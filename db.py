@@ -6,6 +6,7 @@ client = MongoClient()
 db = client['account_manager']
 users = db['users']
 clubs= db['clubs']
+essays= db['essays']
 
 def new_user(user_params):
 #    user_params['last_login_at'] = None
@@ -42,10 +43,29 @@ def create_club(user,user_params):
     user_id=db.clubs.insert(user_params)
     return user_id
 
+def update_club(clubname,status,description):
+    clubs.update({'clubname':clubname},{"$set":{"status":status,"description":description}})
+    
+    return clubs
 def view_clubs():
     clubList = []
     for club in clubs.find():
         clubList.append([club['clubname'],club['status'],club['description'],club['admin']])
     return clubList
-    
-     
+
+def list_clubs(user):
+    clubList=[]
+    for club in clubs.find({"admin":user}):
+        clubList.append([club['clubname'],club['status'],club['description']])
+    return clubList
+
+def post_essay(user,user_params):
+    user_params['author']=user
+    user_id=db.essays.insert(user_params)
+    return user_id
+
+def view_essays():
+    essayList = []
+    for essay in essays.find():
+        essayList.append([essay['title'],essay['topic'],essay['essay'],essay['author']])
+    return essayList
