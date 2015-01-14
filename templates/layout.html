@@ -19,6 +19,19 @@
   </head>
 
   <body>
+    <div class="pure-menu pure-menu-open pure-menu-horizontal">
+      <ul>
+	{% if session['username'] %}
+	<li><a href="/display"><br>{{ session['username'] }}'s Settings<br><br></a></li>
+	<li><a href="/view_schedule"><br>View Schedule<br><br></a></li>
+	<li><a href="/logout"><br>Logout<br><br></a></li>
+	{% else %}
+	<li><a href="/login"><br>Login<br><br></a></li>
+	<li><a href="/register"><br>Register<br><br></a></li>
+	{% endif %}
+      </ul>
+    </div>
+
     <div class="pure-g">
       <div class="pure-u-1-6">
 	<div class="1-box">
@@ -27,14 +40,9 @@
 	    <a class="pure-menu-heading">STUY ASSIST</a>
 	    <ul>
 	      <li class="pure-menu-selected"><a href="/"><br>Home<br><br></a></li>
-	      {% if session['username'] %}
-	      <li><a href="/display"><br>{{ session['username'] }}'s Settings<br><br></a></li>
-	      <li><a href="/view_schedule"><br>View Schedule<br><br></a></li>
-	      <li><a href="/logout"><br>Logout<br><br></a></li>
-	      {% else %}
-	      <li><a href="/login"><br>Login<br><br></a></li>
-	      <li><a href="/register"><br>Register<br><br></a></li>
-	      {% endif %}
+	      <li><a href="/clubs"><br>Clubs<br><br></a></li>
+	      <li><a href="/essays"><br>Essays<br><br></a></li>
+	      <li><a href="/calendar"><br>Calendar<br><br></a></li>
             </ul>
 	  </div>
 	</div>
