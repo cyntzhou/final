@@ -10,6 +10,11 @@ Create a Club
 You are not logged in.
 
 {% else %}
+{% if error == "club taken" %}
+That Club Name has been taken. Please select another!
+{% elif error == "incomplete" %}
+Please put a clubname!
+{% endif %}
 <h1>Create your club</h1>
 <form method="POST" id="posting">
 <b>Club Name:</b> <input type="text" name="Club_Name">
