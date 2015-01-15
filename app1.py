@@ -106,10 +106,20 @@ def post_essay():
             newEssay['topic'] = topic
             newEssay['essay'] = essay
             if anon == "yes":
-                db.post_essay("Anonymous", newEssay)
+                newEssay['author'] = "Anonymous"
             else:
-                db.post_essay(session['username'], newEssay)
-            change_user_info('essays', [title, topic, essay])
+                newEssay['author'] = session['username']
+            db.post_essay(session['username'], newEssay)
+            #adds essay id to essays list in user
+            print db.find_classmates({'username': session['username']}, "essays")
+            previous_essays = db.find_classmates({'username': session['username']}, "essays")
+            print previous_essays
+            essay_id = session['username'] + str(len(previous_essays))
+            print str(len(previous_essays))
+            print essay_id
+            new_essays = []
+            new_essays = previous_essays.append(essay_id)
+            change_user_info('essays', new_essays)
             return redirect('/essays')
 
 @app.route('/essays', methods=['GET', 'POST'])
@@ -220,7 +230,7 @@ def register():
             return render_template('register.html',error='username taken')
         else:
             initial_Schedule= ["N/A","N/A","N/A","N/A","N/A","N/A","N/A","N/A","N/A","N/A","","","","","","","","","",""]
-            user_params = {'username': username, 'password': password, 'first': first, 'last': last, 'schedule':initial_Schedule, 'essays':{}}
+            user_params = {'username': username, 'password': password, 'first': first, 'last': last, 'schedule':initial_Schedule, 'essays':[]}
             db.new_user(user_params)
             session['username'] = username
             return redirect('/')

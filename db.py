@@ -60,7 +60,12 @@ def list_clubs(user):
     return clubList
 
 def post_essay(user,user_params):
-    user_params['author']=user
+    user_params['user'] = user
+    #if 
+    #    essay_id = 0
+    #else:
+    #    essay_id += 1
+    #user_params['id'] = essay_id
     user_id=db.essays.insert(user_params)
     return user_id
 
