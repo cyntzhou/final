@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Create a Club
+{% endblock %}
+
+{% block body %}
+
+{% if 'username' not in session %}
+You are not logged in.
+
+{% else %}
+<h1>Edit your club</h1>
+<form method="POST" id="posting">
+{% for club in clublist %}
+<b>Club Name:</b>{{club[0]}}
+
+
+<b>Club Status:</b> <select name="{{club[0]}}Club_Status"> 
+  <option value="Start Up"> Start Up</option>
+  <option value="Active Club">Active Club</option>
+</select>
+<br><br>
+<b>Club Description</b><br> <textarea name= "{{club[0]}}Club_Description" rows="5" cols="30" placeholder="Club Description...." form="posting">{{club[2]}} </textarea>
+<br><br>
+{% endfor %} 
+<input type="submit" class="pure-button pure-button-primary" name="button" value="submit">
+</form>
+
+{% endif %}
+{% endblock %}
