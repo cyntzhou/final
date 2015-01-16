@@ -153,13 +153,18 @@ def view_club():
 def add_club():
     if request.method=='GET':
         return render_template('create_club.html')
-    newClub={}
-    newClub['clubname']=request.form['Club_Name']
-    newClub['status']=request.form['Club_Status']
-    newClub['description']=request.form['Club_Description']
-    db.create_club(session['username'],newClub)
-    return redirect('/clubs')
-    
+    else:
+        if not request.form['Club_Name']:
+            return render_template('create_club.html',error="incomplete")
+        if db.clubs.find_one({"clubname":request.form['Club_Name']}):
+            return render_template('create_club.html',error='club taken')
+        newClub={}
+        newClub['clubname']=request.form['Club_Name']
+        newClub['status']=request.form['Club_Status']
+        newClub['description']=request.form['Club_Description']
+        db.create_club(session['username'],newClub)
+        return redirect('/clubs')
+
 @app.route('/edit_club', methods=['GET', 'POST'])
 @authenticate
 def edit_clubs():
