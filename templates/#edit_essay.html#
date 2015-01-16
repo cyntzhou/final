@@ -10,24 +10,20 @@ Create a Club
 You are not logged in.
 
 {% else %}
-{% if error == "club taken" %}
-That Club Name has been taken. Please select another!
-{% elif error == "incomplete" %}
-Please put a clubname!
-{% endif %}
-<h1>Create your club</h1>
+<h1>Edit your club</h1>
 <form method="POST" id="posting">
-<b>Club Name:</b> <input type="text" name="Club_Name">
-<br> <br>
+{% for club in clublist %}
+<b>Club Name:</b>{{club[0]}}
 
-<b>Club Status:</b> <select name="Club_Status"> 
+
+<b>Club Status:</b> <select name="{{club[0]}}Club_Status"> 
   <option value="Start Up"> Start Up</option>
   <option value="Active Club">Active Club</option>
 </select>
 <br><br>
-<b>Club Description</b><br> <textarea name="Club_Description" rows="5" cols="30" placeholder="Club Description...." form="posting"> </textarea>
+<b>Club Description</b><br> <textarea name= "{{club[0]}}Club_Description" rows="5" cols="30" placeholder="Club Description...." form="posting">{{club[2]}} </textarea>
 <br><br>
-
+{% endfor %} 
 <input type="submit" class="pure-button pure-button-primary" name="button" value="submit">
 </form>
 

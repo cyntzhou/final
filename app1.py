@@ -109,17 +109,13 @@ def post_essay():
                 newEssay['author'] = "Anonymous"
             else:
                 newEssay['author'] = session['username']
-            db.post_essay(session['username'], newEssay)
             #adds essay id to essays list in user
-            print db.find_classmates({'username': session['username']}, "essays")
-            previous_essays = db.find_classmates({'username': session['username']}, "essays")
-            print previous_essays
+            previous_essays = db.find_attribute({'username': session['username']}, "essays")
             essay_id = session['username'] + str(len(previous_essays))
-            print str(len(previous_essays))
-            print essay_id
-            new_essays = []
-            new_essays = previous_essays.append(essay_id)
-            change_user_info('essays', new_essays)
+            previous_essays.append(essay_id)
+            change_user_info('essays', previous_essays)
+            newEssay['id'] = essay_id
+            db.post_essay(session['username'], newEssay)
             return redirect('/essays')
 
 @app.route('/essays', methods=['GET', 'POST'])
@@ -132,7 +128,15 @@ def essays():
         button = request.form['button']
         if button == 'Post Your Own Essay':
             return redirect('/post_essay')
-    
+        else: #button value would be essay_id
+            return redirect('/view_essay/'+button)
+
+@app.route('/view_essay')
+@app.route('/view_essay/<tag>')
+def view_essay(tag='None'):
+    essay_id = tag
+    return essay_id
+    ###########################################################
 
 def change_user_info(key, value):
     criteria = {'username': session['username']}
@@ -163,13 +167,18 @@ def view_club():
 def add_club():
     if request.method=='GET':
         return render_template('create_club.html')
-    newClub={}
-    newClub['clubname']=request.form['Club_Name']
-    newClub['status']=request.form['Club_Status']
-    newClub['description']=request.form['Club_Description']
-    db.create_club(session['username'],newClub)
-    return redirect('/clubs')
-    
+    else:
+        if not request.form['Club_Name']:
+            return render_template('create_club.html',error="incomplete")
+        if db.clubs.find_one({"clubname":request.form['Club_Name']}):
+            return render_template('create_club.html',error='club taken')
+        newClub={}
+        newClub['clubname']=request.form['Club_Name']
+        newClub['status']=request.form['Club_Status']
+        newClub['description']=request.form['Club_Description']
+        db.create_club(session['username'],newClub)
+        return redirect('/clubs')
+
 @app.route('/edit_club', methods=['GET', 'POST'])
 @authenticate
 def edit_clubs():

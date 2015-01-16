@@ -17,7 +17,8 @@ You are not logged in.
     <tr>
       <th>Title</th>
       <th>Topic</th>
-      <th>Author </th>
+      <th>Author</th>
+      <th>View</th>
     </tr>
   </thead>
   <tbody>
@@ -26,6 +27,11 @@ You are not logged in.
       <td>{{essay[0]}}</td>
       <td>{{essay[1]}}</td>
       <td>{{essay[3]}}</td>
+<!-- essay[0]=title, 1=topic, 2=essay, 3=anon or not, 4=id, 5=username -->
+<form method="POST">
+  <td> <input type="submit" class="pure-button pure-button-primary" name="button" value="{{essay[4]}}"> </td>
+</form>
+
     </tr>
     {% endfor %}
     </tbody>
