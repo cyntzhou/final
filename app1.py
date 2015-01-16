@@ -16,6 +16,7 @@ def authenticate(func):
             return redirect('/login')
     return inner
 
+
 @app.route('/', methods=['GET', 'POST'])
 def home():
     if request.method == 'GET':
@@ -27,6 +28,14 @@ def home():
         return redirect('/essays')
     if button == 'Calendar':
         return redirect('/calendar')
+    
+@app.route('/view_profile/<username>')
+@authenticate
+def viewProfile(username):
+    criteria= {"username":username}
+    user=db.find_user(criteria)
+    info=[username,user['first'],user['last'],user['schedule'],user['essays']]
+    
     
     
 @app.route('/view_schedule', methods=['GET', 'POST'])
