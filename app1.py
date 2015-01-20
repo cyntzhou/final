@@ -31,19 +31,22 @@ def home():
         return redirect('/calendar')
 
     
-@app.route('/view_profile/<username>')
+@app.route('/view_profile/<username>',methods=['GET','POST'])
 def viewProfile(username):
-    criteria= {"username":username}
-    user=db.find_user(criteria)
-    
-    clubs=[] 
-    clubList= db.list_clubs(username)
-    for club in clubList:
-        clubs.append(club[0])
-    
-    info=[username,user['first'],user['last'],user['schedule'],user['essays'],clubs]
-    return render_template('profile.html',info=info)   
-    
+    if request.method== 'GET':
+        criteria= {"username":username}
+        user=db.find_user(criteria)
+        
+        clubs=[] 
+        clubList= db.list_clubs(username)
+        for club in clubList:
+            clubs.append(club[0])
+        
+            info=[username,user['first'],user['last'],user['schedule'],user['essays'],clubs]
+        return render_template('profile.html',info=info)   
+    else:
+        message = request.form['User_Message']
+        
 @app.route('/view_schedule', methods=['GET', 'POST'])
 @authenticate
 def viewSchedule():
