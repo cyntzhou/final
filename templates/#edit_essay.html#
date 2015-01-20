@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block title %}
-Edit Your Club
+Create a Club
 {% endblock %}
 
 {% block body %}

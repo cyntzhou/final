@@ -27,13 +27,8 @@ def find_classmates(criteria, attribute): #item is what you're searching for, e.
     print things
     l = []
     for t in things:
-        l.append(t[attribute])
+        l.append(str(t[attribute]))
     return l #doesn't return the users; returns a list of the attributes of each user
-
-def find_attribute(criteria, attribute): #item is what you're searching for, e.g. username, password, etc.
-    user = find_user(criteria)
-    print user[attribute]
-    return user[attribute] #doesn't return the users; returns a list of the attributes of each user
 
 #gotta use $set or else update would repace the entry
 def update_user(criteria, changeset):
@@ -65,17 +60,12 @@ def list_clubs(user):
     return clubList
 
 def post_essay(user,user_params):
-    user_params['user'] = user
+    user_params['author']=user
     user_id=db.essays.insert(user_params)
     return user_id
 
 def view_essays():
     essayList = []
     for essay in essays.find():
-        essayList.append([essay['title'],essay['topic'],essay['essay'],essay['author'],essay['essay_id'],essay['user'],essay['time']])
+        essayList.append([essay['title'],essay['topic'],essay['essay'],essay['author']])
     return essayList
-
-def find_essay(criteria):
-    essay = essays.find_one(criteria)
-    return essay
-    

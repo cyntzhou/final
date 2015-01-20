@@ -17,20 +17,23 @@ You are not logged in.
     <tr>
       <th>Title</th>
       <th>Topic</th>
-      <th>Author </th>
+      <th>Author</th>
+      <th>Time</th>
     </tr>
   </thead>
   <tbody>
     {% for essay in essayList %}
     <tr>
-      <td>{{essay[0]}}</td>
+      <!--link to view_essay page using essay_id-->
+      <td><a href="/view_essay/{{essay[4]}}">{{essay[0]}}</a></td>
       <td>{{essay[1]}}</td>
       <td>{{essay[3]}}</td>
+      <td>{{essay[6]}}</td>
+    </form>
     </tr>
     {% endfor %}
-    </tbody>
-  </table>
-
+  </tbody>
+</table>
 
 <form method="POST">
 
