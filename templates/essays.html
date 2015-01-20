@@ -11,35 +11,23 @@ You are not logged in.
 
 {% else %}
 
-<h1>Essays to Edit</h1>
-<table class="pure-table">
-  <thead>
-    <tr>
-      <th>Title</th>
-      <th>Topic</th>
-      <th>Author</th>
-      <th>Time</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for essay in essayList %}
-    <tr>
-      <!--link to view_essay page using essay_id-->
-      <td><a href="/view_essay/{{essay[4]}}">{{essay[0]}}</a></td>
-      <td>{{essay[1]}}</td>
-      <td>{{essay[3]}}</td>
-      <td>{{essay[6]}}</td>
-    </form>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
+<h1>Essays</h1>
+
 
 <form method="POST">
 
-  <input type="submit" class="pure-button pure-button-primary" name="button" value="Post Your Own Essay">
+  <table class="pure-table" style="width:100%">
+    <tbody>
+      {% set h = 200 %}
+      <tr>
+	<td height="{{h}}"> <input type="submit" class="pure-button pure-button-primary" name="button" value="View All Essays"> </td>
+	<td height="{{h}}"> <input type="submit" class="pure-button pure-button-primary" name="button" value="Your Essays"> </td>	
+      </tr>
+    </tbody>
+  </table>
 
 </form>
 
 {% endif %}
+
 {% endblock %}

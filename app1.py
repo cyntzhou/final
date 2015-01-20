@@ -136,12 +136,38 @@ def post_essay():
             db.post_essay(session['username'], newEssay)
             return redirect('/essays')
 
+        ################################################################
 @app.route('/essays', methods=['GET', 'POST'])
 @authenticate
 def essays():
+    if request.method== 'GET':
+        return render_template('essays.html')
+    else:
+        button=request.form['button']
+        if button=='View All Essays':
+            return redirect('/view_essays')
+        if button == 'Your Essays':
+            return redirect('/your_essays')
+
+
+@app.route('/your_essays', methods=['GET', 'POST'])
+@authenticate
+def your_essays():
+    if request.method== 'GET':
+        essays = db.find_essays({'user':session['username']})
+        return render_template('your_essays.html', essays=essays)
+    #else:
+    #    button=request.form['button']
+    #    if button == '':
+    #        return redirect('/')
+
+
+@app.route('/view_essays', methods=['GET', 'POST'])
+@authenticate
+def view_essays():
     if request.method == 'GET':
         essayList= db.view_essays()
-        return render_template('essays.html', essayList=essayList)
+        return render_template('view_essays.html', essayList=essayList)
     else:
         button = request.form['button']
         if button == 'Post Your Own Essay':
@@ -157,8 +183,14 @@ def view_essay(tag='None'):
         essay = db.find_essay({'essay_id':essay_id})
         return render_template('view_essay.html', essay=essay)
     else:
-        essay = db.find_essay({'essay_id':essay_id})
-        return redirect('/comment_on_essay/'+essay_id)
+        button = request.form['button']
+        if button == 'Comment on Essay':        
+            essay = db.find_essay({'essay_id':essay_id})
+            return redirect('/comment_on_essay/'+essay_id)
+        elif button == 'Cancel':
+            return redirect('/your_essays')
+        elif button == 'Edit Essay':
+            return redirect('/edit_essay')
     ###########################################################
 
 def change_user_info(key, value):

@@ -75,7 +75,12 @@ def view_essays():
         essayList.append([essay['title'],essay['topic'],essay['essay'],essay['author'],essay['essay_id'],essay['user'],essay['time']])
     return essayList
 
+#used to find one essay using its unique essay_id
 def find_essay(criteria):
     essay = essays.find_one(criteria)
     return essay
     
+#used to find your essays using {'user': ____}
+def find_essays(criteria):
+    essayList = essays.find(criteria)
+    return essayList
