@@ -1,6 +1,7 @@
 from flask import Flask, request, render_template, redirect, session
 from functools import wraps
 import db
+import time
 
 app = Flask(__name__)
 
@@ -114,7 +115,10 @@ def post_essay():
             essay_id = session['username'] + str(len(previous_essays))
             previous_essays.append(essay_id)
             change_user_info('essays', previous_essays)
-            newEssay['id'] = essay_id
+            newEssay['essay_id'] = essay_id
+            localtime = time.strftime("%B %d, %Y, %I:%M %p") 
+            #Time in formate of Full month name, day, full year, hour:minute AM/PM  https://docs.python.org/3.0/library/time.html
+            newEssay['time'] = localtime
             db.post_essay(session['username'], newEssay)
             return redirect('/essays')
 
@@ -128,14 +132,19 @@ def essays():
         button = request.form['button']
         if button == 'Post Your Own Essay':
             return redirect('/post_essay')
-        else: #button value would be essay_id
-            return redirect('/view_essay/'+button)
 
 @app.route('/view_essay')
-@app.route('/view_essay/<tag>')
+@app.route('/view_essay/<tag>', methods=['GET', 'POST'])
 def view_essay(tag='None'):
+    if tag=='None':
+        return redirect('/essays')
     essay_id = tag
-    return essay_id
+    if request.method == 'GET':
+        essay = db.find_essay({'essay_id':essay_id})
+        return render_template('view_essay.html', essay=essay)
+    else:
+        essay = db.find_essay({'essay_id':essay_id})
+        return redirect('/comment_on_essay/'+essay_id)
     ###########################################################
 
 def change_user_info(key, value):
