@@ -1,6 +1,7 @@
 from flask import Flask, request, render_template, redirect, session
 from functools import wraps
 import db
+import time
 
 app = Flask(__name__)
 
@@ -16,6 +17,7 @@ def authenticate(func):
             return redirect('/login')
     return inner
 
+
 @app.route('/', methods=['GET', 'POST'])
 def home():
     if request.method == 'GET':
@@ -27,7 +29,20 @@ def home():
         return redirect('/essays')
     if button == 'Calendar':
         return redirect('/calendar')
+
     
+@app.route('/view_profile/<username>')
+def viewProfile(username):
+    criteria= {"username":username}
+    user=db.find_user(criteria)
+    
+    clubs=[] 
+    clubList= db.list_clubs(username)
+    for club in clubList:
+        clubs.append(club[0])
+    
+    info=[username,user['first'],user['last'],user['schedule'],user['essays'],clubs]
+    return render_template('profile.html',info=info)   
     
 @app.route('/view_schedule', methods=['GET', 'POST'])
 @authenticate
@@ -106,10 +121,19 @@ def post_essay():
             newEssay['topic'] = topic
             newEssay['essay'] = essay
             if anon == "yes":
-                db.post_essay("Anonymous", newEssay)
+                newEssay['author'] = "Anonymous"
             else:
-                db.post_essay(session['username'], newEssay)
-            change_user_info('essays', [title, topic, essay])
+                newEssay['author'] = session['username']
+            #adds essay id to essays list in user
+            previous_essays = db.find_attribute({'username': session['username']}, "essays")
+            essay_id = session['username'] + str(len(previous_essays))
+            previous_essays.append(essay_id)
+            change_user_info('essays', previous_essays)
+            newEssay['essay_id'] = essay_id
+            localtime = time.strftime("%B %d, %Y, %I:%M %p") 
+            #Time in formate of Full month name, day, full year, hour:minute AM/PM  https://docs.python.org/3.0/library/time.html
+            newEssay['time'] = localtime
+            db.post_essay(session['username'], newEssay)
             return redirect('/essays')
 
 @app.route('/essays', methods=['GET', 'POST'])
@@ -122,7 +146,20 @@ def essays():
         button = request.form['button']
         if button == 'Post Your Own Essay':
             return redirect('/post_essay')
-    
+
+@app.route('/view_essay')
+@app.route('/view_essay/<tag>', methods=['GET', 'POST'])
+def view_essay(tag='None'):
+    if tag=='None':
+        return redirect('/essays')
+    essay_id = tag
+    if request.method == 'GET':
+        essay = db.find_essay({'essay_id':essay_id})
+        return render_template('view_essay.html', essay=essay)
+    else:
+        essay = db.find_essay({'essay_id':essay_id})
+        return redirect('/comment_on_essay/'+essay_id)
+    ###########################################################
 
 def change_user_info(key, value):
     criteria = {'username': session['username']}
@@ -225,7 +262,7 @@ def register():
             return render_template('register.html',error='username taken')
         else:
             initial_Schedule= ["N/A","N/A","N/A","N/A","N/A","N/A","N/A","N/A","N/A","N/A","","","","","","","","","",""]
-            user_params = {'username': username, 'password': password, 'first': first, 'last': last, 'schedule':initial_Schedule, 'essays':{}}
+            user_params = {'username': username, 'password': password, 'first': first, 'last': last, 'schedule':initial_Schedule, 'essays':[]}
             db.new_user(user_params)
             session['username'] = username
             return redirect('/')
