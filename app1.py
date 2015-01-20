@@ -29,15 +29,20 @@ def home():
         return redirect('/essays')
     if button == 'Calendar':
         return redirect('/calendar')
+
     
 @app.route('/view_profile/<username>')
-@authenticate
 def viewProfile(username):
     criteria= {"username":username}
     user=db.find_user(criteria)
-    info=[username,user['first'],user['last'],user['schedule'],user['essays']]
     
+    clubs=[] 
+    clubList= db.list_clubs(username)
+    for club in clubList:
+        clubs.append(club[0])
     
+    info=[username,user['first'],user['last'],user['schedule'],user['essays'],clubs]
+    return render_template('profile.html',info=info)   
     
 @app.route('/view_schedule', methods=['GET', 'POST'])
 @authenticate

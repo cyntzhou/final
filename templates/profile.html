@@ -1,16 +1,16 @@
 {% extends "layout.html" %}
 
 {% block title %}
-Home
+Profile
 {% endblock %}
 
 {% block body %}
 
-<h1>Welcome to {% info[0] %}'s Profile</h1>
+<h1>Welcome to {{ info[0] }}'s Profile</h1>
 
-Name: {% info[1] %} {% info[2] %}
+Name: {{ info[1] }} {{ info[2] }}
 <br><br>
-Club admin of: {% for club in info[5] %} {{club}} {% endfor %}
+Club admin of: {% for club in info[5] %}{% if club==info[5][0] %}{{club}}{%else %},{{club}}{% endif %}{% endfor %}
 <br><br>
 <!--Put essay links here -->
 

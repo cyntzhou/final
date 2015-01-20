@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Home
+{% endblock %}
+
+{% block body %}
+
+<h1>Welcome to {% info[0] %}'s Profile</h1>
+
+Name: {% info[1] %} {% info[2] %}
+<br><br>
+Club admin of: {% for club in info[5] %} {{club}} {% endfor %}
+<br><br>
+<!--Put essay links here -->
+
+{% endblock %}
+
