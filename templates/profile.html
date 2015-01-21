@@ -13,6 +13,12 @@ Name: {{ info[1] }} {{ info[2] }}
 Club admin of: {% for club in info[5] %}{% if club==info[5][0] %}{{club}}{%else %},{{club}}{% endif %}{% endfor %}
 <br><br>
 <!--Put essay links here -->
-
+<br><br>
+Send User a message: <form method="POST" id="posting"> <input type="text" name="User_Message"><br>
+  <br> <input type="submit" class="pure-button pure-button-primary" name="button" value="submit">
+  </form>
+{% if counter== True %}
+<br> Your Message has been sent! 
+{% endif %}
 {% endblock %}
 

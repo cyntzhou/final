@@ -31,8 +31,9 @@ def home():
         return redirect('/calendar')
 
     
-@app.route('/view_profile/<username>')
+@app.route('/view_profile/<username>',methods=['GET','POST'])
 def viewProfile(username):
+    
     criteria= {"username":username}
     user=db.find_user(criteria)
     
@@ -40,10 +41,21 @@ def viewProfile(username):
     clubList= db.list_clubs(username)
     for club in clubList:
         clubs.append(club[0])
-    
-    info=[username,user['first'],user['last'],user['schedule'],user['essays'],clubs]
-    return render_template('profile.html',info=info)   
-    
+        
+        info=[username,user['first'],user['last'],user['schedule'],user['essays'],clubs]
+    if request.method== 'GET':
+        return render_template('profile.html',info=info,counter=False)   
+    else:
+        print db.find_user({'username':username})['schedule']
+        ## if not userMessage:
+          ##  db.update_user({'username':username},{"$set":{"Message":[]}})
+       ## userMessage= db.find_user({'username':username}['Message'])
+        ##message = request.form['User_Message']
+        ##userMessage = userMessage.append(message)
+        ##db.update_user({'username':username},{"$set":{"Message":userMessage}})
+        return render_template('profile.html',info=info,counter=True)
+                       
+        
 @app.route('/view_schedule', methods=['GET', 'POST'])
 @authenticate
 def viewSchedule():
@@ -315,7 +327,7 @@ def register():
             return render_template('register.html',error='username taken')
         else:
             initial_Schedule= ["N/A","N/A","N/A","N/A","N/A","N/A","N/A","N/A","N/A","N/A","","","","","","","","","",""]
-            user_params = {'username': username, 'password': password, 'first': first, 'last': last, 'schedule':initial_Schedule, 'essays':[]}
+            user_params = {'username': username, 'password': password, 'first': first, 'last': last, 'schedule':initial_Schedule, 'essays':[],'Message':[]}
             db.new_user(user_params)
             session['username'] = username
             return redirect('/')
