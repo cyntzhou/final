@@ -1,10 +1,49 @@
-{% extends "layout.html" %}
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>Calendar of Events</title>
+<style type="text/css">
 
-{% block title %}
-Home
-{% endblock %}
+#evtcal a:link {font: normal 12pt "Arial", "Helvetica", "Sans Serif"; color: #004400; text-decoration: none;}		/* unvisited link */
+#evtcal a:visited {font: normal 12pt "Arial", "Helvetica", "Sans Serif"; color: #004400; text-decoration: none;}	/* visited link */
+#evtcal a:hover {font: normal 12pt "Arial", "Helvetica", "Sans Serif"; color: #004400; text-decoration: underline;}	/* mouse over link */
+#evtcal a:active {font: normal 12pt "Arial", "Helvetica", "Sans Serif"; color: #004400; text-decoration: none;}		/* selected link */
 
-{% block body %}
-THIS IS CALENDAR
-<script src="../static/calendar.js"></script>
-{% endblock %}
+</style>
+
+<script language="JavaScript" type="text/javascript" src="../static/events.js"></script>
+<script type="text/JavaScript" language="JavaScript" src="../static/calendar.js"></script>
+
+</head>
+
+<body style="background-color: transparent;" onload="changedate('return')">
+  
+<p align="center">Calendar of Events</p>
+
+<center>
+<table id="calendar" border="0" cellpadding="0" cellspacing="0" width="584">
+	<tbody>
+		<tr>
+			<td style="padding: 3px;" align="center" bgcolor="#aaddff" valign="top" width="314">
+				<div id="calendar"><!--  Dynamically Filled --></div>
+				You can move to a different month or year by clicking on the buttons or return to today's date by clicking "Show Current Date".</td>
+			<td width="10">&nbsp;</td>
+			<td style="padding: 3px;" align="center" bgcolor="#ffffc8" valign="top" width="260"><b>Intructions:</b><br />Click a highlighted date on the calendar to see a list of events on that day in the box below.<br /><br />
+				<center><b><u>Events</u></b>
+				<form id="eventform" name="eventform" action="#" method="get">
+					<textarea name="eventlist" cols="25" rows="11" wrap="soft">Auto filled when clicking on date.</textarea>
+				</form>
+				</center>
+			</td>
+		</tr>
+	</tbody>
+</table>
+</center>
+
+<br />
+
+<p style="font: normal 11px Arial" align="center">This free script provided by<br />
+<a href="http://www.javascriptkit.com">JavaScript Kit</a></p>
+
+</body>
+</html>
