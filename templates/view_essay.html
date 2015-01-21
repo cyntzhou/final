@@ -11,28 +11,6 @@ You are not logged in.
 
 {% else %}
 
-{% if session['username'] == essay['user'] %} <!-- if this is your essay-->
-
-<h1>{{essay['title']}}</h1>
-Posted by {{essay['author']}} on {{essay['time']}}
-<br><br>
-Topic: {{essay['topic']}}
-<br><br>
-
-<form>
-
-  <textarea name="essay" rows="50" cols="50">
-    {{essay['essay']}}
-  </textarea>
-  <br><br>
-
-  <input type="submit" class="pure-button pure-button-primary" name="button" value="Edit Essay">
-  <input type="submit" class="pure-button pure-button-primary" name="button" value="Cancel">
-
-</form>
-
-{% else %} <!-- if this isn't your essay ... -->
-
 <h1>{{essay['title']}}</h1>
 Posted by {{essay['author']}} on {{essay['time']}}
 <br><br>
@@ -43,13 +21,11 @@ Topic: {{essay['topic']}}
 </textarea>
 <br><br>
 
-<form>
+<form method="POST">
 
-<input type="submit" class="pure-button pure-button-primary" name="button" value="Comment On Essay">
+  <input type="submit" class="pure-button pure-button-primary" name="button" value="Comment On Essay">
 
 </form>
-
-{% endif %}
 
 {% endif %}
 {% endblock %}

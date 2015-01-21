@@ -156,10 +156,10 @@ def your_essays():
     if request.method== 'GET':
         essays = db.find_essays({'user':session['username']})
         return render_template('your_essays.html', essays=essays)
-    #else:
-    #    button=request.form['button']
-    #    if button == '':
-    #        return redirect('/')
+    else:
+        button=request.form['button']
+        if button == 'Post Your Own Essay':
+            return redirect('/post_essay')
 
 
 @app.route('/view_essays', methods=['GET', 'POST'])
@@ -173,25 +173,46 @@ def view_essays():
         if button == 'Post Your Own Essay':
             return redirect('/post_essay')
 
-@app.route('/view_essay')
+@app.route('/view_essay', methods=['GET', 'POST'])
 @app.route('/view_essay/<tag>', methods=['GET', 'POST'])
 def view_essay(tag='None'):
     if tag=='None':
         return redirect('/essays')
     essay_id = tag
+    essay = db.find_essay({'essay_id':essay_id})
     if request.method == 'GET':
-        essay = db.find_essay({'essay_id':essay_id})
-        return render_template('view_essay.html', essay=essay)
+        if essay['user'] == session['username']: #if it's your essay
+            return redirect('/view_your_essay/'+essay_id)
+        else: #if it's someone else's essay
+            return render_template('view_essay.html', essay=essay)
     else:
         button = request.form['button']
-        if button == 'Comment on Essay':        
-            essay = db.find_essay({'essay_id':essay_id})
+        if button == 'Comment on Essay':   
             return redirect('/comment_on_essay/'+essay_id)
-        elif button == 'Cancel':
-            return redirect('/your_essays')
-        elif button == 'Edit Essay':
-            return redirect('/edit_essay')
     ###########################################################
+    
+@app.route('/view_your_essay', methods=['GET', 'POST'])
+@app.route('/view_your_essay/<tag>', methods=['GET', 'POST'])
+def view_your_essay(tag='None'):
+    if tag=='None':
+        return redirect('/essays')
+    essay_id = tag
+    essay = db.find_essay({'essay_id':essay_id})
+    if request.method == 'GET':
+        if essay['user'] == session['username']: #if it's your essay
+            return render_template('view_your_essay.html', essay=essay)
+        else: #if it's someone else's essay
+            return redirect('/view_essay/'+essay_id)
+    else:
+        button = request.form['button']
+        if button == 'Cancel':
+            return redirect('/your_essays')
+        elif button == 'Post Edits':
+            new_title = request.form['title']
+            new_topic = request.form['topic']
+            new_essay = request.form['essay']
+            db.update_essay(essay_id, new_title, new_topic, new_essay)
+            return redirect('/view_your_essay/'+essay_id)
 
 def change_user_info(key, value):
     criteria = {'username': session['username']}

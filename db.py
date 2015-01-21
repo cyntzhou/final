@@ -84,3 +84,7 @@ def find_essay(criteria):
 def find_essays(criteria):
     essayList = essays.find(criteria)
     return essayList
+
+def update_essay(essay_id, title, topic, essay):
+    essays.update({'essay_id':essay_id},{"$set":{"title":title,"topic":topic,"essay":essay}})
+    
