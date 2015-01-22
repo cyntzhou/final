@@ -36,23 +36,27 @@ def viewProfile(username):
     
     criteria= {"username":username}
     user=db.find_user(criteria)
-    
     clubs=[] 
     clubList= db.list_clubs(username)
     for club in clubList:
         clubs.append(club[0])
         
-        info=[username,user['first'],user['last'],user['schedule'],user['essays'],clubs]
+    info=[username,user['first'],user['last'],user['schedule'],user['essays'],clubs]
     if request.method== 'GET':
         return render_template('profile.html',info=info,counter=False)   
     else:
-        print db.find_user({'username':username})['schedule']
-        ## if not userMessage:
-          ##  db.update_user({'username':username},{"$set":{"Message":[]}})
-       ## userMessage= db.find_user({'username':username}['Message'])
-        ##message = request.form['User_Message']
-        ##userMessage = userMessage.append(message)
-        ##db.update_user({'username':username},{"$set":{"Message":userMessage}})
+        localtime = time.strftime("%B %d, %Y, %I:%M %p")
+        
+        userMessage= user['Message']
+        
+        message = request.form['User_Message']
+        message = {"Message":message,"Sender":session['username'],"Time":localtime}
+        if userMessage== None:
+            userMessage=[]
+        db.update_user(criteria,{"Message":userMessage})    
+        userMessage = userMessage.append(message)
+        
+        print userMessage
         return render_template('profile.html',info=info,counter=True)
                        
         
