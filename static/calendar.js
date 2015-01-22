@@ -9,7 +9,7 @@ function preloadimages(){
 }
 
 /* The path of images to be preloaded inside parenthesis: (Extend list as desired.) */
-preloadimages("../static/images/PrevYrOff40x40.jpg","../static/images/PrevYrOn40x40.jpg","../static/images/PrevMoOff40x40.jpg","../static/imagesPrevMoOn40x40.jpg","../static/images/NextYrOff40x40.jpg","../static/images/NextYrOn40x40.jpg","../static/images/NextMoOff40x40.jpg","../static/images/NextMoOn40x40.jpg");
+preloadimages("../static/images/PrevYrOff40x40.jpg","../static/images/PrevYrOn40x40.jpg","../static/images/PrevMoOff40x40.jpg","../static/images/PrevMoOn40x40.jpg","../static/images/NextYrOff40x40.jpg","../static/images/NextYrOn40x40.jpg","../static/images/NextMoOff40x40.jpg","../static/images/NextMoOn40x40.jpg");
 
 var thisDate = 1;							// Tracks current date being written in calendar
 var wordMonth = new Array("January","February","March","April","May","June","July","August","September","October","November","December");
@@ -77,17 +77,18 @@ eastermonth = month;
 easterday = day;
 }
 
-var defString = "../static/images/";
+var defString = "\"/static/images";
+//var defString = "\.\.\/static\/images";
 function createCalendar() {
-	calendarString = '';
-	var daycounter = 0;
-	calendarString += '<table width="312" border="1" cellpadding="0" cellspacing="1">';
-	calendarString += '<tr>';
-	calendarString += '<td align=\"center\" valign=\"center\" width=\"40\" height=\"40\"><a href=\"#\" onMouseOver=\"document.PrevYr.src=' + defString + '\/PrevYrOn40x40\.jpg\';\" onMouseOut=\"document.PrevYr.src=' + defString + '\/PrevYrOff40x40\.jpg\';\" onClick=\"changedate(\'prevyr\')\"><img name=\"PrevYr\" src=\"../static/../static/images\/PrevYrOff40x40\.jpg\" width=\"40\" height=\"40\" border=\"0\" alt=\"Prev Yr\"\/><\/a><\/td>';
-	calendarString += '<td align=\"center\" valign=\"center\" width=\"40\" height=\"40\"><a href=\"#\" onMouseOver=\"document.PrevMo.src=' + defString + '\/PrevMoOn40x40\.jpg\';\" onMouseOut=\"document.PrevMo.src=' + defString + '\/PrevMoOff40x40\.jpg\';\" onClick=\"changedate(\'prevmo\')\"><img name=\"PrevMo\" src=\"../static/images\/PrevMoOff40x40\.jpg\" width=\"40\" height=\"40\" border=\"0\" alt=\"Prev Mo\"\/><\/a><\/td>';
-	calendarString += '<td bgcolor=\"#C8C896\" align=\"center\" valign=\"center\" width=\"128\" height=\"40\" colspan=\"3\"><b>' + wordMonth[monthNum-1] + '&nbsp;&nbsp;' + yearNum + '<\/b><\/td>';
-	calendarString += '<td align=\"center\" valign=\"center\" width=\"40\" height=\"40\"><a href=\"#\" onMouseOver=\"document.NextMo.src=' + defString + '\/NextMoOn40x40\.jpg\';\" onMouseOut=\"document.NextMo.src=' + defString + '\/NextMoOff40x40\.jpg\';\" onClick=\"changedate(\'nextmo\')\"><img name=\"NextMo\" src=\"../static/images\/NextMoOff40x40\.jpg\" width=\"40\" height=\"40\" border=\"0\" alt=\"Next Mo\"\/><\/a><\/td>';
-    calendarString += '<td align=\"center\" valign=\"center\" width=\"40\" height=\"40\"><a href=\"#\" onMouseOver=\"document.NextYr.src=' + defString + '\/NextYrOn40x40\.jpg\';\" onMouseOut=\"document.NextYr.src=' + defString + '\/NextYrOff40x40\.jpg\';\" onClick=\"changedate(\'nextyr\')\"><img name=\"NextYr\" src=\"../static/images\/NextYrOff40x40\.jpg\" width=\"40\" height=\"40\" border=\"0\" alt=\"Next Yr\"\/><\/a><\/td>';
+    calendarString = '';
+    var daycounter = 0;
+    calendarString += '<table width="312" border="1" cellpadding="0" cellspacing="1">';
+    calendarString += '<tr>';
+    calendarString += '<td align=\"center\" valign=\"center\" width=\"40\" height=\"40\"><a href=\"#\" onMouseOver=\"document.PrevYr.src=' + defString + '\/PrevYrOn40x40\.jpg\';\" onMouseOut=\"document.PrevYr.src=' + defString + '\/PrevYrOff40x40\.jpg\';\" onClick=\"changedate(\'prevyr\')\"><img name=\"PrevYr\" src=' + defString + '\/PrevYrOff40x40\.jpg\" width=\"40\" height=\"40\" border=\"0\" alt=\"Prev Yr\"\/><\/a><\/td>';
+    calendarString += '<td align=\"center\" valign=\"center\" width=\"40\" height=\"40\"><a href=\"#\" onMouseOver=\"document.PrevMo.src=' + defString + '\/PrevMoOn40x40\.jpg\';\" onMouseOut=\"document.PrevMo.src=' + defString + '\/PrevMoOff40x40\.jpg\';\" onClick=\"changedate(\'prevmo\')\"><img name=\"PrevMo\" src=' + defString + '\/PrevMoOff40x40\.jpg\" width=\"40\" height=\"40\" border=\"0\" alt=\"Prev Mo\"\/><\/a><\/td>';
+    calendarString += '<td bgcolor=\"#C8C896\" align=\"center\" valign=\"center\" width=\"128\" height=\"40\" colspan=\"3\"><b>' + wordMonth[monthNum-1] + '&nbsp;&nbsp;' + yearNum + '<\/b><\/td>';
+    calendarString += '<td align=\"center\" valign=\"center\" width=\"40\" height=\"40\"><a href=\"#\" onMouseOver=\"document.NextMo.src=' + defString + '\/NextMoOn40x40\.jpg\';\" onMouseOut=\"document.NextMo.src=' + defString + '\/NextMoOff40x40\.jpg\';\" onClick=\"changedate(\'nextmo\')\"><img name=\"NextMo\" src=' + defString + '\/NextMoOff40x40\.jpg\" width=\"40\" height=\"40\" border=\"0\" alt=\"Next Mo\"\/><\/a><\/td>';
+    calendarString += '<td align=\"center\" valign=\"center\" width=\"40\" height=\"40\"><a href=\"#\" onMouseOver=\"document.NextYr.src=' + defString + '\/NextYrOn40x40\.jpg\';\" onMouseOut=\"document.NextYr.src=' + defString + '\/NextYrOff40x40\.jpg\';\" onClick=\"changedate(\'nextyr\')\"><img name=\"NextYr\" src=' + defString + '\/NextYrOff40x40\.jpg\" width=\"40\" height=\"40\" border=\"0\" alt=\"Next Yr\"\/><\/a><\/td>';
 	calendarString += '<\/tr>';
 	calendarString += '<tr>';
 	calendarString += '<td bgcolor=\"#DDDDDD\" align=\"center\" valign=\"center\" width=\"40\" height=\"22\">Sun<\/td>';
@@ -122,9 +123,10 @@ function createCalendar() {
 		calendarString += '<\/tr>';
 	}
 
-	calendarString += '<tr><td colspan=\"7\" nowrap align=\"center\" valign=\"center\" bgcolor=\"#C8C896\" width=\"280\" height=\"22\"><a href=\"javascript:changedate(\'return\')\"><b>Show Current Date<\/b><\/a><\/td><\/tr><\/table>';
+    calendarString += '<tr><td colspan=\"7\" nowrap align=\"center\" valign=\"center\" bgcolor=\"#C8C896\" width=\"280\" height=\"22\"><a href=\"javascript:changedate(\'return\')\"><b>Show Current Date<\/b><\/a><\/td><\/tr><\/table>';
 
-	var object=document.getElementById('calendar');
+    var object=document.getElementById('calendar');
+    //console.log(calendarString);
 	object.innerHTML= calendarString;
 	thisDate = 1;
 }
