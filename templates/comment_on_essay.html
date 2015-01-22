@@ -1,0 +1,75 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Comment on Essay
+{% endblock %}
+
+{% block head %}
+<style>
+  .red {color: #ff0000;}
+  .yellow {color: #ffff00;}
+</style>
+{% endblock %}
+
+{% block body %}
+
+{% if 'username' not in session %}
+You are not logged in.
+
+{% else %}
+
+<h1 id="title">{{essay['title']}}</h1>
+Posted by {{essay['author']}} on {{essay['time']}}
+<br><br>
+Topic: <div id="topic">{{essay['topic']}}</div>
+<br><br>
+{% set paragraphs = essay['essay'].split('\n') %}
+{% set i = 0 %}
+{% for p in paragraphs %}
+<div id="{{i}}">{{p}}</div>
+<br>
+{% set i = i + 1 %}
+{% endfor %}
+{{essay['essay']}}
+<br><br>
+
+<form method="POST">
+
+  <input type="submit" class="pure-button pure-button-primary" name="button" value="Submit Comments">
+
+</form>
+
+<!-- 
+<script src="comment_on_essay.js"></script>
+-->
+<script>
+var title = document.getElementById("title");
+var topic = document.getElementById("topic");
+var essay = document.getElementById("essay");
+var contents = [title, topic, essay];
+
+var highlight = function (e){
+this.classList.toggle('red');
+};
+
+var unhighlight = function (e){
+this.style.color = 'black';
+};
+
+
+console.log(document.getElementById("1"));
+document.getElementById("1").addEventListener('mouseover', highlight);
+document.getElementById("1").addEventListener('mouseout', unhighlight);
+
+for (var i = 0 ; i < title.textContent.length; i++){
+    console.log(i);
+};
+for (var i = 0; i < contents.length ; i++){
+    contents[i].addEventListener('mouseover', function(e){
+	this.classList.toggle('red');
+    });
+};
+</script>
+
+{% endif %}
+{% endblock %}
