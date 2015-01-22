@@ -6,8 +6,8 @@ Comment on Essay
 
 {% block head %}
 <style>
-  .red {color: #ff0000;}
-  .yellow {color: #ffff00;}
+  .highlight {background-color: yellow;}
+  .unhighlight {background-color: white;}
 </style>
 {% endblock %}
 
@@ -26,11 +26,10 @@ Topic: <div id="topic">{{essay['topic']}}</div>
 {% set paragraphs = essay['essay'].split('\n') %}
 {% set i = 0 %}
 {% for p in paragraphs %}
-<div id="{{i}}">{{p}}</div>
+<p name="paragraph" id="{{i}}">{{p}}</p>
 <br>
 {% set i = i + 1 %}
 {% endfor %}
-{{essay['essay']}}
 <br><br>
 
 <form method="POST">
@@ -43,31 +42,40 @@ Topic: <div id="topic">{{essay['topic']}}</div>
 <script src="comment_on_essay.js"></script>
 -->
 <script>
-var title = document.getElementById("title");
-var topic = document.getElementById("topic");
-var essay = document.getElementById("essay");
-var contents = [title, topic, essay];
+  var title = document.getElementById("title");
+  var topic = document.getElementById("topic");
+  var paragraphs = document.getElementsByName("paragraph");
+  var contents = [title, topic];
+  for (var p = 0; p < paragraphs.length; p++){
+    contents.push(paragraphs[p])
+  };
 
-var highlight = function (e){
-this.classList.toggle('red');
-};
+  var highlight = function (e){
+  this.classList.toggle('highlight');
+  };
 
-var unhighlight = function (e){
-this.style.color = 'black';
-};
+  var unhighlight = function (e){
+  this.classList.toggle('unhighlight');
+  };
 
+  var comment;
 
-console.log(document.getElementById("1"));
-document.getElementById("1").addEventListener('mouseover', highlight);
-document.getElementById("1").addEventListener('mouseout', unhighlight);
+  var ask = function (p){
+    comment = "Paragraph " + p +":";
+    var answer = prompt("Enter your comment here");
+    if (answer != null){
+      comment += answer;
+      newComment = document.createElement("p");
+      document.appendChild(newComment);
+    }else{
+      return;
+    }	      
+  };
 
-for (var i = 0 ; i < title.textContent.length; i++){
-    console.log(i);
-};
 for (var i = 0; i < contents.length ; i++){
-    contents[i].addEventListener('mouseover', function(e){
-	this.classList.toggle('red');
-    });
+    contents[i].addEventListener('mouseover', highlight);
+    contents[i].addEventListener('mouseout', unhighlight);
+    contents[i].addEventListener('click', ask);
 };
 </script>
 
