@@ -33,7 +33,7 @@ def home():
     
 @app.route('/view_profile/<username>',methods=['GET','POST'])
 def viewProfile(username):
-    
+    viewer=session['username']
     criteria= {"username":username}
     user=db.find_user(criteria)
     clubs=[] 
@@ -43,7 +43,8 @@ def viewProfile(username):
         
     info=[username,user['first'],user['last'],user['schedule'],user['essays'],clubs]
     if request.method== 'GET':
-        return render_template('profile.html',info=info,counter=False)   
+        
+        return render_template('profile.html',viewer=viewer,info=info,counter=False)   
     else:
         localtime = time.strftime("%B %d, %Y, %I:%M %p")
         
@@ -51,14 +52,25 @@ def viewProfile(username):
         
         message = request.form['User_Message']
         message = {"Message":message,"Sender":session['username'],"Time":localtime}
+        
         if userMessage== None:
             userMessage=[]
-        db.update_user(criteria,{"Message":userMessage})    
-        userMessage = userMessage.append(message)
+        userMessage.append(message)
+        db.update_user(criteria,{"Message":userMessage})
         
-        print userMessage
-        return render_template('profile.html',info=info,counter=True)
+        
+        return render_template('profile.html',info=info,viewer=viewer,counter=True)
+        
                        
+@app.route('/view_message',methods=['GET','POST'])
+@authenticate
+def viewMessage():
+    if request.method=='GET':
+        user= db.find_user({'username':session['username']})
+        print user
+        Message=user["Message"]
+        return render_template('view_message.html',Message=Message)
+    
         
 @app.route('/view_schedule', methods=['GET', 'POST'])
 @authenticate
@@ -69,7 +81,8 @@ def viewSchedule():
             return redirect('/edit_schedule')
         elif button == 'View Classmates':
             return redirect('/classmates')
-    user = db.find_user({'username': session['username']})    
+    user = db.find_user({'username': session['username']})
+    
     return render_template('view_schedule.html',user=user)
 
 

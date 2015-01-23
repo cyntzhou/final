@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+
+{% block title %}
+View Schedule
+{% endblock %}
+
+{% block body %}
+
+{% if 'username' not in session %}
+You are not logged in.
+
+{% else %}
+
+<h1>Messages</h1>
+
+<table class="pure-table">
+  <thead>
+    <tr>
+      <th>Sender</th>
+      <th>Message</th>
+      <th>Time Sent </th>
+    </tr>
+  </thead>
+
+  <tbody>
+    {% for messages in Message %}
+    <tr>
+      <td> {{messages['Sender']}} </td>
+      <td> {{messages['Message']}} </td>
+      <td> {{messages['Time']}} </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+
+
+{% endif %}
+{% endblock %}

@@ -14,9 +14,11 @@ Club admin of: {% for club in info[5] %}{% if club==info[5][0] %}{{club}}{%else 
 <br><br>
 <!--Put essay links here -->
 <br><br>
-Send User a message: <form method="POST" id="posting"> <input type="text" name="User_Message"><br>
+{% if viewer!= info[0] %}
+Send User a message: <form method="POST" id="posting"> <textarea name="User_Message" rows="5" cols="30" form="posting"></textarea><br>
   <br> <input type="submit" class="pure-button pure-button-primary" name="button" value="submit">
-  </form>
+</form>
+{% endif %}
 {% if counter== True %}
 <br> Your Message has been sent! 
 {% endif %}
