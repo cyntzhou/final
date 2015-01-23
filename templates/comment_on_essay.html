@@ -29,6 +29,10 @@ Topic: <div id="topic">{{essay['topic']}}</div>
 <p name="paragraph" id="{{i}}">{{p}}</p>
 <br>
 {% set i = i + 1 %}
+Comments: <br>
+<ol id="{{i}}comments">
+</ol>
+<br>
 {% endfor %}
 <br><br>
 
@@ -49,24 +53,34 @@ Topic: <div id="topic">{{essay['topic']}}</div>
   for (var p = 0; p < paragraphs.length; p++){
     contents.push(paragraphs[p])
   };
+  var current_p;
 
   var highlight = function (e){
   this.classList.toggle('highlight');
+  current_p = this;
+  console.log(current_p);
   };
 
   var unhighlight = function (e){
   this.classList.toggle('unhighlight');
+  current_p = null;
   };
 
   var comment;
 
-  var ask = function (p){
-    comment = "Paragraph " + p +":";
+  var ask = function (){
+    
+    comment = "Paragraph " + current_p.id +": <br>";
     var answer = prompt("Enter your comment here");
     if (answer != null){
       comment += answer;
-      newComment = document.createElement("p");
-      document.appendChild(newComment);
+      newComment = document.createElement("li");
+		      console.log(comment);
+      newComment.innerHTML = comment;
+		      console.log(newComment);
+      console.log(current_p.id);
+      var comments = document.getElementsByTagName("ol")[current_p.id-1];
+      comments.appendChild(newComment);
     }else{
       return;
     }	      
