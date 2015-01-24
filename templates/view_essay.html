@@ -12,7 +12,7 @@ You are not logged in.
 {% else %}
 
 <h1>{{essay['title']}}</h1>
-Posted by {{essay['author']}} on {{essay['time']}}
+Posted by <a href="/view_profile/{{essay['author']}}">{{essay['author']}}</a> on {{essay['time']}}
 <br><br>
 Topic: {{essay['topic']}}
 <br><br>

@@ -25,7 +25,7 @@ You are not logged in.
   <tbody>
     {% for messages in Message %}
     <tr>
-      <td> {{messages['Sender']}} </td>
+      <td> <a href="/view_profile/{{messages['Sender']}}">{{messages['Sender']}}</a> </td>
       <td> {{messages['Message']}} </td>
       <td> {{messages['Time']}} </td>
     </tr>

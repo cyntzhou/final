@@ -22,26 +22,27 @@ You are not logged in.
 
   To write a comment, click on the paragraph you wish to comment on and write the comment in the box when prompted.<br>
   <h1 id="title">{{essay['title']}}</h1>
-  Posted by {{essay['author']}} on {{essay['time']}}
+  Posted by <a href="/view_profile/{{essay['author']}}">{{essay['author']}}</a> on {{essay['time']}}
   <br><br>
   Topic: <div id="topic">{{essay['topic']}}</div>
   <br>
   {% set paragraphs = essay['essay'].split('\n') %}
   {% set i = 1 %}
   {% for p in paragraphs %}
+  <br>
   <fieldset id="{{i}}">
     <p name="paragraph" id="{{i}}">{{p}}</p>
-    <div style="font-size:80%">
-    <br>Comments:<br>
+  </fieldset>
+  <div style="font-size:80%">
+    Comments:<br>
     {% for c in essay['comments'][i|string] %}
-    {{c[0]}} wrote on {{c[1]}}:<br>
+    <a href="/view_profile/{{c[0]}}">{{c[0]}}</a> wrote on {{c[1]}}:<br>
     <div class="comments">
-    {{c[2]}}
+      {{c[2]}}
     </div>
     <br>
-    {% endfor %}
-    </div>
-  </fieldset>
+  {% endfor %}
+  </div>
   {% set i = i + 1 %}
   {% endfor %}
   <br><br>

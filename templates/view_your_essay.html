@@ -21,7 +21,7 @@ You are not logged in.
 {% else %}
 
 <h1 id="title">{{essay['title']}}</h1>
-Posted by {{essay['author']}} on {{essay['time']}}
+Posted by <a href="/view_profile/{{essay['author']}}">{{essay['author']}}</a> on {{essay['time']}}
 <br><br>
 Topic: <div id="topic">{{essay['topic']}}</div>
 <br>
@@ -33,7 +33,7 @@ Topic: <div id="topic">{{essay['topic']}}</div>
   <div style="font-size:80%">
     <br>Comments:<br>
     {% for c in essay['comments'][i|string] %}
-    {{c[0]}} wrote on {{c[1]}}:<br>
+    <a href="/view_profile/{{c[0]}}">{{c[0]}}</a> wrote on {{c[1]}}:<br>
     <div class="comments">
       {{c[2]}}
     </div>
