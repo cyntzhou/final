@@ -1,0 +1,86 @@
+var title = document.getElementById("1");
+var topic = document.getElementById("2");
+var paragraphs = document.getElementsByName("paragraph");
+var contents = [title, topic];
+for (var p = 0; p < paragraphs.length; p++){
+    contents.push(paragraphs[p])
+};
+var current_p;
+
+var highlight = function (e){
+    this.classList.toggle('highlight');
+    current_p = this;
+    console.log(current_p);
+};
+
+var unhighlight = function (e){
+    this.classList.toggle('unhighlight');
+    current_p = null;
+};
+
+var red = function (e){
+    this.classList.toggle('red');
+    current_p = null;
+};
+
+var black = function (e){
+    this.classList.toggle('black');
+    current_p = null;
+};
+
+var comment;
+var comments = document.getElementsByTagName("ul");
+
+//var removeComment = function(li_id){
+//var nums = li_id.split(",");
+//ul_id = 
+
+var remove = function (){
+    var r = confirm("Would you like to remove this comment?");
+    if (r == true){
+	this.remove();
+    }
+};
+
+var submitform = function (){
+    document.comment_form.submit();
+};
+
+var ask = function (){
+    num = current_p.id;
+    var answer = confirm("Would you like to comment on this paragraph?");
+    if (answer == true){
+	paragraph = paragraphs[num-1];
+	var comment = document.createElement('input');
+	comment.name="comment";
+	comment.type="text";
+	paragraph.appendChild(comment);
+	var subm = document.createElement('input');
+	comment.name="button";
+	comment.type="submit";
+	comment.class="pure-button pure-button-primary";
+	comment.value="Submit Comment";
+	paragraph.appendChild(subm);
+	    //<input type="submit" class="pure-button pure-button-primary" name="button" value="Submit Comment">"');
+	//commentList = comments[parseInt(num)];
+	//newComment = document.createElement("li");
+	//newComment.id = num + "," + commentList.childNodes.length;
+	//newComment.innerHTML = "<input type='text' name='"+newComment.id+"' value='"+answer+"'>";
+	//newComment.innerHTML = "<input type='text' name='comment' id='"+newComment.id+"' value='"+answer+"'>";
+	//newComment.innerHTML += '<input type="submit" class="pure-button pure-button-primary" name="button" value="Submit Comment">';
+	//newComment.innerHTML += '<a href="javascript: submitform()">Submit</a>';
+	//newComment.addEventListener('click', remove);
+	//newComment.addEventListener('mouseover', red);
+	//newComment.addEventListener('mouseout', black);
+	//commentList.appendChild(newComment);
+    }else{
+	return;
+    }	      
+};
+
+
+for (var i = 0; i < contents.length ; i++){
+    contents[i].addEventListener('mouseover', highlight);
+    contents[i].addEventListener('mouseout', unhighlight);
+    contents[i].addEventListener('click', ask);
+};
