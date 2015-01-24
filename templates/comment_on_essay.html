@@ -6,8 +6,10 @@ Comment on Essay
 
 {% block head %}
 <style>
-  .red {color: #ff0000;}
-  .yellow {color: #ffff00;}
+  p {font-size: 120%; font-family:verdana;}
+  .highlight {background-color: yellow;}
+  .unhighlight {background-color: white;}
+  .comments {font-size: 90%; font-family:courier}
 </style>
 {% endblock %}
 
@@ -18,58 +20,38 @@ You are not logged in.
 
 {% else %}
 
-<h1 id="title">{{essay['title']}}</h1>
-Posted by {{essay['author']}} on {{essay['time']}}
-<br><br>
-Topic: <div id="topic">{{essay['topic']}}</div>
-<br><br>
-{% set paragraphs = essay['essay'].split('\n') %}
-{% set i = 0 %}
-{% for p in paragraphs %}
-<div id="{{i}}">{{p}}</div>
-<br>
-{% set i = i + 1 %}
-{% endfor %}
-{{essay['essay']}}
-<br><br>
+  To write a comment, click on the paragraph you wish to comment on and write the comment in the box when prompted.<br>
+  <h1 id="title">{{essay['title']}}</h1>
+  Posted by {{essay['author']}} on {{essay['time']}}
+  <br><br>
+  Topic: <div id="topic">{{essay['topic']}}</div>
+  <br>
+  {% set paragraphs = essay['essay'].split('\n') %}
+  {% set i = 1 %}
+  {% for p in paragraphs %}
+  <fieldset id="{{i}}">
+    <p name="paragraph" id="{{i}}">{{p}}</p>
+    <div style="font-size:80%">
+    <br>Comments:<br>
+    {% for c in essay['comments'][i|string] %}
+    {{c[0]}} wrote on {{c[1]}}:<br>
+    <div class="comments">
+    {{c[2]}}
+    </div>
+    <br>
+    {% endfor %}
+    </div>
+  </fieldset>
+  {% set i = i + 1 %}
+  {% endfor %}
+  <br><br>
 
-<form method="POST">
+    <!--
+  <form method="POST" name="comment_form">
+	<input type="submit" class="pure-button pure-button-primary" name="button" value="Submit Comments">
+  </form>
+	-->
 
-  <input type="submit" class="pure-button pure-button-primary" name="button" value="Submit Comments">
-
-</form>
-
-<!-- 
-<script src="comment_on_essay.js"></script>
--->
-<script>
-var title = document.getElementById("title");
-var topic = document.getElementById("topic");
-var essay = document.getElementById("essay");
-var contents = [title, topic, essay];
-
-var highlight = function (e){
-this.classList.toggle('red');
-};
-
-var unhighlight = function (e){
-this.style.color = 'black';
-};
-
-
-console.log(document.getElementById("1"));
-document.getElementById("1").addEventListener('mouseover', highlight);
-document.getElementById("1").addEventListener('mouseout', unhighlight);
-
-for (var i = 0 ; i < title.textContent.length; i++){
-    console.log(i);
-};
-for (var i = 0; i < contents.length ; i++){
-    contents[i].addEventListener('mouseover', function(e){
-	this.classList.toggle('red');
-    });
-};
-</script>
-
+<script src="/comment_on_essay.js"></script>
 {% endif %}
 {% endblock %}

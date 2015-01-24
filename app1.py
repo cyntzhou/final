@@ -216,8 +216,7 @@ def view_essay(tag='None'):
             return render_template('view_essay.html', essay=essay)
     else:
         button = request.form['button']
-        print button
-        if button == 'Comment on Essay':   
+        if button == 'Comment On Essay':   
             return redirect('/comment_on_essay/'+essay_id)
     
 @app.route('/view_your_essay', methods=['GET', 'POST'])
@@ -234,16 +233,9 @@ def view_your_essay(tag='None'):
             return redirect('/view_essay/'+essay_id)
     else:
         button = request.form['button']
-        if button == 'Cancel':
+        if button == 'Go Back To Your Essays':
             return redirect('/your_essays')
-        elif button == 'Post Edits':
-            new_title = request.form['title']
-            new_topic = request.form['topic']
-            new_essay = request.form['essay']
-            db.update_essay(essay_id, new_title, new_topic, new_essay)
-            return redirect('/view_your_essay/'+essay_id)
 
-    ###########################################################
 @app.route('/comment_on_essay', methods=['GET', 'POST'])
 @app.route('/comment_on_essay/<tag>', methods=['GET', 'POST'])
 def comment_on_essay(tag='None'):
@@ -257,10 +249,21 @@ def comment_on_essay(tag='None'):
         else: #if it's someone else's essay
             return render_template('comment_on_essay.html', essay=essay)
     else:
+        print request.form
         button = request.form['button']
-        if button == 'Submit Comments':  
-            ######stuff#########
-            return redirect('/view_essay/'+essay_id)
+        if button == 'Submit Comment':  
+            paragraph_id = request.form['id']
+            comment = request.form['comment']
+            localtime = time.strftime("%B %d, %Y, %I:%M %p") 
+            if comment:
+                db.add_essay_comment(essay_id, paragraph_id, comment, session['username'], localtime)
+                return redirect('/comment_on_essay/'+essay_id)
+        elif button == 'Cancel':            
+            return redirect('/comment_on_essay/'+essay_id)
+
+@app.route('/comment_on_essay.js')
+def js():
+    return render_template("comment_on_essay.js")
 
 def change_user_info(key, value):
     criteria = {'username': session['username']}

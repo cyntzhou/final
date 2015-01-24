@@ -88,3 +88,22 @@ def find_essays(criteria):
 def update_essay(essay_id, title, topic, essay):
     essays.update({'essay_id':essay_id},{"$set":{"title":title,"topic":topic,"essay":essay}})
     
+def add_essay_comment(essay_id, paragraph_id, comment, user, time):
+    essay = essays.find_one({'essay_id':essay_id})
+    l = [user, time, comment]
+    if essay.has_key('comments'):
+        comment_dict = essay['comments']
+        if comment_dict.has_key(paragraph_id):
+            comments = comment_dict[paragraph_id]
+            comments.append(l)
+        else:  
+            comments = [l]
+        comment_dict[paragraph_id] = comments
+        essays.update({'essay_id':essay_id},{"$set":{"comments":comment_dict}})      
+    else:
+        essays.update({'essay_id':essay_id},
+                      {"$set":
+                       {"comments":
+                        {paragraph_id:[l]}}})
+            
+    
