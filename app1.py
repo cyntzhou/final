@@ -177,6 +177,8 @@ def essays():
             return redirect('/view_essays')
         if button == 'Your Essays':
             return redirect('/your_essays')
+        if button == 'Post an Essay':
+            return redirect('/post_essay')
 
 
 @app.route('/your_essays', methods=['GET', 'POST'])
@@ -234,6 +236,9 @@ def view_your_essay(tag='None'):
     else:
         button = request.form['button']
         if button == 'Go Back To Your Essays':
+            return redirect('/your_essays')
+        elif button == 'Delete This Essay':
+            db.delete_essay(essay_id)
             return redirect('/your_essays')
 
 @app.route('/comment_on_essay', methods=['GET', 'POST'])
@@ -319,6 +324,26 @@ def edit_clubs():
             description=request.form[str(club[0])+"Club_Description"]
             db.update_club(club[0],status,description)
         return redirect('/view_clubs')
+
+
+@app.route('/view_teachers')
+def view_teachers():
+    teachers = db.find_teachers()
+    return render_template('view_teachers.html', teachers=teachers)
+
+@app.route('/view_teacher', methods=['GET', 'POST'])
+@app.route('/view_teacher/<tag>', methods=['GET', 'POST'])
+def view_teacher(tag='None'):
+    if tag=='None':
+        return redirect('/teachers')
+    name = tag
+    teacher = db.find_teacher({'name':name})
+    if request.method == 'GET':
+        return render_template('view_teacher.html', teacher=teacher)
+    else:
+        button = request.form['button']
+        if button == 'View All Teachers':   
+            return redirect('/view_teachers')
 
     
 @app.route('/calendar')

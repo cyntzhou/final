@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block title %}
-Your Classmates
+Teachers
 {% endblock %}
 
 {% block body %}
@@ -11,32 +11,22 @@ You are not logged in.
 
 {% else %}
 
-<h1>Classmates</h1>
-
+<h1>Teachers</h1>
 <table class="pure-table">
   <thead>
     <tr>
-      <th>Period </th>
-      <th>Classmates </th>
+      <th>Title</th>
     </tr>
   </thead>
-
   <tbody>
-    {% for period in [1,2,3,4,5,6,7,8,9,10] %}
+    {% for teacher in teachers %}
     <tr>
-      <td>
-	{{period}}
-      </td>
-      <td> 
-	{% for c in classmates[period] %}
-	<a href="/view_profile/{{c}}">{{c}}</a>,
-	{% endfor %}
-      </td>
+      <!--link to view_teacher page using teacher's name w/o the "." -->
+      <td><a href="/view_teacher/{{teacher['name']}}">{{teacher['name']}}</a></td>
     </tr>
     {% endfor %}
   </tbody>
 </table>
-
 
 {% endif %}
 {% endblock %}
