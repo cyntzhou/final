@@ -4,6 +4,10 @@
 Essays
 {% endblock %}
 
+
+{% block style %}
+{% endblock %}
+
 {% block body %}
 
 {% if 'username' not in session %}
@@ -13,15 +17,17 @@ You are not logged in.
 
 <h1>Essays</h1>
 
+<p>Feel free to give feedback on essays, or post your own essay! If you're a little shy, don't worry because we give you the option to remain anonymous.
+</p>
 
 <form method="POST">
 
   <table class="pure-table" style="width:100%">
     <tbody>
-      {% set h = 200 %}
+      {% set h = 100 %}
       <tr>
 	<td height="{{h}}"> <input type="submit" class="pure-button pure-button-primary" name="button" value="View All Essays"> </td>
-	<td height="{{h}}"> <input type="submit" class="pure-button pure-button-primary" name="button" value="Your Essays"> </td>	
+	<td height="{{h}}"> <input type="submit" class="pure-button pure-button-primary" name="button" value="Your Essays"> </td>
       </tr>
     </tbody>
   </table>

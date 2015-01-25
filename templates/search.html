@@ -1,0 +1,34 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Searching for {{tag}}
+{% endblock %}
+
+{% block body %}
+
+{% if 'username' not in session %}
+You are not logged in.
+
+{% else %}
+
+<h1>Search Results for: {{tag}}</h1>
+<b>Users:</b>
+<br>
+{% for u in resultDict['users'] %}
+<a href="/view_profile/{{u}}">{{u}}</a><br>
+{% endfor %}
+
+{% for u in resultDict['teachers'] %}
+<a href="/view_teacher/{{u}}">{{u}}</a><br>
+{% endfor %}
+
+{% for u in resultDict['clubs'] %}
+{{u}}<br>
+{% endfor %}
+
+{% for u in resultDict['essays'] %}
+<a href="/view_essay/{{u}}">{{u}}</a><br>
+{% endfor %}
+
+{% endif %}
+{% endblock %}

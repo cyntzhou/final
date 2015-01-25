@@ -144,3 +144,24 @@ def find_teachers():
     teacherList = teachers.find({})
     return teacherList
     
+def search(query):
+    queries = query.split(" ") #query.lower()?
+    print queries
+    results = {'users':[], 'teachers':[], 'clubs':[], 'essays':[]}
+    for q in queries:
+        addToResultList({'username':q}, 'username', results, users, 'users')
+        addToResultList({'first':q}, 'username', results, users, 'users')
+        addToResultList({'last':q}, 'username', results, users, 'users')
+        addToResultList({'name':q}, 'name', results, teachers, 'teachers')
+        addToResultList({'clubname':q}, 'clubname', results, clubs, 'clubs')
+        addToResultList({'title':q}, 'title', results, essays, 'essays')
+        addToResultList({'topic':q}, 'title', results, essays, 'essays')
+    print results
+    return results
+
+def addToResultList(queryDict, collection_key, results, collection, results_key):
+    if collection.find(queryDict):
+        for i in collection.find(queryDict):
+            if i[collection_key] not in results[results_key]:
+                results[results_key].append(i[collection_key])
+

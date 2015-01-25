@@ -17,8 +17,17 @@
     <link rel="stylesheet" href="/static/main.css">
 -->
 
-{% block head %}
+<style>
+.b {
+background-color: #000000;
+color: #FFFFFF;
+border-radius: 10px;
+width: 90px
+height: 100px
+}
+{% block style %}
 {% endblock %}
+</style>
 
   </head>
 
@@ -65,9 +74,16 @@
 	</div>
       </div>
       
-      <div class="pure-u-2-3">
-	<div style="width:65%; margin: 0px auto;">
+      <div class="pure-u-3-4">
+	<div style="width:75%; margin: 0px auto;">
 	  <div class="1-box">
+	    
+	    <br>
+	    <form name="search" id="search" method="POST">
+	      <input type="text" name="query" placeholder="Bunnies">
+<!--	      <a href="javascript: submitform()">Search</a>  -->
+	      <input type="submit" name="button" value="Search">
+	    </form>
 
 	    <br>
 	    
@@ -92,4 +108,5 @@
 
     </div>
   </body>
+
 </html>

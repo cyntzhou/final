@@ -4,21 +4,42 @@
 Home
 {% endblock %}
 
+{% block style %}
+.box {
+background-color: purple;
+width:200px;
+border: 10px solid black;
+margin: 25px
+}
+.button{
+position: absolute:
+top: 50%;
+vertical-align: middle;
+}
+{% endblock %}
+
 {% block body %}
+
+<h1>Clubs</h1>
+
+<p>This is where you can look at information about existing clubs and apply for a club to see how many people would be interested in your club.
+</p>
 
 <form method="POST">
 
   <table class="pure-table" style="width:100%">
     <tbody>
-      {% set h = 200 %}
+      {% set h = 100 %}
       <tr>
+	<div alight="center">
 	<td height="{{h}}"> <input type="submit" class="pure-button pure-button-primary" name="button" value="View Clubs"> </td>
 	<td height="{{h}}"> <input type="submit" class="pure-button pure-button-primary" name="button" value="Add a club/Create a club startup">  </td>
 	<td height="{{h}}"> <input type="submit" class="pure-button pure-button-primary" name="button" value="Edit Your Club">  </td>
-	
+	</div>
       </tr>
     </tbody>
   </table>
+
 
 </form>
 {% endblock %}
