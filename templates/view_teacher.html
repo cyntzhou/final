@@ -1,0 +1,47 @@
+{% extends "layout.html" %}
+
+{% block title %}
+{{teacher["name"]}}
+{% endblock %}
+
+{% block body %}
+
+{% if 'username' not in session %}
+You are not logged in.
+
+{% else %}
+
+<h1>{{teacher['name']}}'s Schedule</h1>
+
+<table class="pure-table">
+  <thead>
+    <tr>
+      <th>Period</th>
+      <th>Students </th>
+    </tr>
+  </thead>
+
+  <tbody>
+    {% for period in [1,2,3,4,5,6,7,8,9,10] %}
+    <tr>
+      <td> {{period}} </td>
+      <td> 
+	{% if teacher[period|string] %}
+	{% for student in teacher[period|string] %}
+	<a href="/view_profile/{{student}}">{{student}}</a>, 
+	{% endfor %}
+	{% else %}
+	None
+	{% endif %}
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<form method="POST">
+  <input type="submit" class="pure-button pure-button-primary" name="button" value="View All Teachers">
+</form>
+
+{% endif %}
+{% endblock %}

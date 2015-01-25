@@ -30,6 +30,7 @@ Topic: <div id="topic">{{essay['topic']}}</div>
 {% for p in paragraphs %}
 <fieldset id="{{i}}">
   <p name="paragraph" id="{{i}}">{{p}}</p>
+  {% if essay.has_key('comments') %}
   <div style="font-size:80%">
     <br>Comments:<br>
     {% for c in essay['comments'][i|string] %}
@@ -40,6 +41,7 @@ Topic: <div id="topic">{{essay['topic']}}</div>
     <br>
     {% endfor %}
   </div>
+  {% endif %}
 </fieldset>
 {% set i = i + 1 %}
 {% endfor %}
@@ -47,6 +49,7 @@ Topic: <div id="topic">{{essay['topic']}}</div>
 
 <form method="POST">
   <input type="submit" class="pure-button pure-button-primary" name="button" value="Go Back To Your Essays">
+  <input type="submit" class="pure-button pure-button-primary" name="button" value="Delete This Essay">
 </form>
 
 {% endif %}

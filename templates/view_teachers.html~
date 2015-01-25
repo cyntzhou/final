@@ -29,6 +29,7 @@ You are not logged in.
       <td>{{essay[1]}}</td>
       <td><a href="/view_profile/{{essay[3]}}">{{essay[3]}}</a></td>
       <td>{{essay[6]}}</td>
+    </form>
     </tr>
     {% endfor %}
   </tbody>

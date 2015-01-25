@@ -15,34 +15,29 @@ You are not logged in.
 {{error}}<br>
 {% endif %}
 
-<form method="POST" class="pure-form pure-form-aligned">
+<form method="POST" class="pure-form pure-form-stacked">
   <fieldset>
     <legend>
-Post your essay here so others edit it and give feedback.</legend>
-    <div class="pure-control-group">
-      <label for="title">Title</label>
+Post your essay here so others can give you feedback.</legend>
+      <label for="title"><b>Title</b></label>
       <input type="text" name="title" placeholder="Title">
-    </div>
-    <div class="pure-control-group">
-      <label for="topic">Topic</label>
-      <br>"The question or topic you were assigned to write about."
-      <textarea rows="4" cols="50" name="topic"></textarea><br>
-    </div>
-    <div class="pure-control-group">
-      <label for="essay">Essay</label>
-      <br>Copy your essay and paste it here.
-      <textarea rows="50" cols="50" name="essay"></textarea><br>
-    </div>
-    <div class="pure-control-group">
+      <br>
+      <label for="topic"><b>Topic</b></label>
+      The question or topic you are writing about.
+      <textarea rows="4" cols="50" name="topic"></textarea>
+      <br>
+      <label for="essay"><b>Essay</b></label>
+      Copy your essay and paste it here.
+      <textarea rows="50" cols="50" name="essay"></textarea>
+      <br>
       <label for="anon">Would you like to be anonymous?</label>
       <input type="radio" name="anon" value="yes">Yes, I would like to be anonymous.<br>
-      <input type="radio" name="anon" value="no">No, I don't mind having my name shown.<br>
-    </div>
-    <div class="pure-controls">
+      <input type="radio" name="anon" value="no">No, I don't mind having my name shown.
+      <br><br>
+
       <input type="submit" class="pure-button pure-button-primary" name="button" value="Post">
       <input type="submit" class="pure-button pure-button-primary" name="button" value="Cancel">
       <!-- Save draft option -->
-    </div>
   </fieldset>
 </form>
 {% endif %}

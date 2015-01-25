@@ -27,14 +27,30 @@
     <div class="pure-g">
       <div class="pure-u-1-6">
 	<div class="1-box">
-	  <div class="pure-menu pure-menu-open">
+	  <div class="pure-menu pure-menu-open" style="background-color:#E6E6E6">
             <br>
 	    <a class="pure-menu-heading">STUY ASSIST</a>
 	    <ul>
 	      <li class="pure-menu-selected"><a href="/"><br>Home<br><br></a></li>
-	      <li><a href="/view_message"<br><br>Messages<br><br></a></li>
-	      <li><a href="/clubs"><br>Clubs<br><br></a></li>
-	      <li><a href="/essays"><br>Essays<br><br></a></li>
+	      <li><a href="/view_message"><br>Messages<br><br></a></li>
+	      <li><a href="/clubs"><br>Clubs<br><br></a>
+		<div class="pure-menu pure-menu-open">
+		<ul>
+		  <li><a href="/view_clubs">&nbsp;&nbsp;&nbsp;&nbsp;View All Clubs</a></li>
+		  <li><a href="/edit_club">&nbsp;&nbsp;&nbsp;&nbsp;Edit Your Club</a></li>
+		  <li><a href="/add_clubs">&nbsp;&nbsp;&nbsp;&nbsp;Add a Club</a></li>
+		</ul>
+		</div>
+	      </li>
+	      <li><a href="/essays"><br>Essays<br><br></a>
+		<div class="pure-menu pure-menu-open">
+		<ul>
+		  <li><a href="/view_essays">&nbsp;&nbsp;&nbsp;&nbsp;View All Essays</a></li>
+		  <li><a href="/your_essays">&nbsp;&nbsp;&nbsp;&nbsp;Your Essays</a></li>
+		  <li><a href="/post_essay">&nbsp;&nbsp;&nbsp;&nbsp;Post an Essay</a></li>
+		</ul>
+		</div>
+	      </li>
 	      <li><a href="/calendar"><br>Calendar<br><br></a></li>
 	      {% if session['username'] %}
 	      <li><a href="/view_schedule"><br>View Schedule<br><br></a></li>

@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+
+{% block title %}
+View Essay
+{% endblock %}
+
+{% block body %}
+
+{% if 'username' not in session %}
+You are not logged in.
+
+{% else %}
+
+<h1>{{essay['title']}}</h1>
+Posted by <a href="/view_profile/{{essay['author']}}">{{essay['author']}}</a> on {{essay['time']}}
+<br><br>
+Topic: {{essay['topic']}}
+<br><br>
+<textarea rows="50" cols="50" readonly>
+  {{essay['essay']}}
+</textarea>
+<br><br>
+
+<form method="POST">
+
+  <input type="submit" class="pure-button pure-button-primary" name="button" value="Comment On Essay">
+
+</form>
+
+{% endif %}
+{% endblock %}
