@@ -23,7 +23,7 @@ Friday, 1/9/15 - Create Club and View Clubs pages work
 Tuesday, 1/13/15 - Post Essay and View Essays pages work. Updating clubs also works  
 Monday 1/19/15 - Can now view Essay Content, User Profile works  
 Friday, 1/23/15 - User Messaging works  
-Saturday, 1/24/15 - Can now comment on Essays  
+Saturday, 1/24/15 - Can now comment on Essays, Teacher's Schedules are up  
 To Do
 =====
 Food API  
