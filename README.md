@@ -9,9 +9,9 @@ User Messaging
 Club Organizing  
 Roles
 =====
-Michael - Clubs  
+Michael - Clubs, User Messaging  
 Oliver - Calendar  
-Cynthia - Essays  
+Cynthia - Essays, Teachers  
 Progress Calendar
 =====
 Thursday, 12/18/14 - Make sure we know how to use branches  
