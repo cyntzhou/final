@@ -24,6 +24,7 @@ Tuesday, 1/13/15 - Post Essay and View Essays pages work. Updating clubs also wo
 Monday 1/19/15 - Can now view Essay Content, User Profile works  
 Friday, 1/23/15 - User Messaging works  
 Saturday, 1/24/15 - Can now comment on Essays, Teacher's Schedules are up  
+Sunday, 1/25/15 - Search Bar works  
 To Do
 =====
 Food API  
