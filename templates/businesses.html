@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Business Results for {{keyword}}
+{% endblock %}
+
+{% block body %}
+
+{% if 'username' not in session %}
+You are not logged in.
+
+{% else %}
+
+{% for b in results['businesses'] %}
+{{b['name']}}
+{% endfor %}
+
+<h1>{{results['total']}} Results for {{keyword}}:</h1>
+<table class="pure-table">
+  <thead>
+    <tr>
+      <th>Business Name</th>
+      <th>Rating</th>
+      <th>Number of Reviews</th>
+      <th>Address</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for b in results['businesses'] %}
+    <tr>
+      <td><a href="{{b['url']}}">{{b['name']}}</a></td>
+      <td>{{b['rating']}}</td>
+      <td>{{b['review_count']}}</td>
+      <td>
+	{% for i in b['location']['display_address'] %}
+	{{i}}, 
+	{% endfor %}
+      </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+
+{% endif %}
+{% endblock %}

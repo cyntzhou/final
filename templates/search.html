@@ -17,18 +17,28 @@ You are not logged in.
 {% for u in resultDict['users'] %}
 <a href="/view_profile/{{u}}">{{u}}</a><br>
 {% endfor %}
+<br>
 
+<b>Teachers:</b>
+<br>
 {% for u in resultDict['teachers'] %}
 <a href="/view_teacher/{{u}}">{{u}}</a><br>
 {% endfor %}
+<br>
 
+<b>Clubs:</b>
+<br>
 {% for u in resultDict['clubs'] %}
 {{u}}<br>
 {% endfor %}
+<br>
 
+<b>Essays:</b>
+<br>
 {% for u in resultDict['essays'] %}
 <a href="/view_essay/{{u}}">{{u}}</a><br>
 {% endfor %}
+<br>
 
 {% endif %}
 {% endblock %}

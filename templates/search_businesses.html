@@ -1,0 +1,30 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+Places Near Stuy
+{% endblock %}
+
+{% block body %}
+
+{% if error == "incomplete" %}
+Please complete the required fields.
+{% endif %}
+
+<form method="POST" class="pure-form pure-form-aligned">
+  <fieldset>
+    <legend>Look up businesses near Stuy.</legend>
+    <div class="pure-control-group">
+      <label for="keyword">Find...</label>
+      <input type="text" name="keyword" placeholder="tacos">
+    </div>
+    <div class="pure-control-group">
+      <label for="limit">How many results?</label>
+      <input type="text" name="limit" placeholder="10"><br>
+    </div>
+    <div class="pure-controls">
+      <input type="submit" class="pure-button pure-button-primary" name="button" value="Take Me There!">
+    </div>
+  </fieldset>
+</form>
+
+{% endblock %}

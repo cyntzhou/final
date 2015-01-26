@@ -1,0 +1,47 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+Register
+{% endblock %}
+
+{% block body %}
+
+{% if session['username'] %}
+You are already logged in.
+
+{% else %}
+
+{% if error == "username taken" %}
+That username has been taken. Please select another username.
+{% elif error == "incomplete" %}
+Please complete the required fields.
+{% endif %}
+
+<form method="POST" class="pure-form pure-form-aligned">
+  <fieldset>
+    <legend>Register for an account</legend>
+    <div class="pure-control-group">
+      <label for="username">Desired Username</label>
+      <input type="text" name="username" placeholder="Desired Username">
+    </div>
+    <div class="pure-control-group">
+      <label for="password">Desired Password</label>
+      <input type="password" name="password" placeholder="Desired Password"><br>
+    </div>
+    <div class="pure-control-group">
+      <label for="first">First Name</label>
+      <input type="text" name="first" placeholder="First Name"><br>
+    </div>
+    <div class="pure-control-group">
+      <label for="last">Last Name</label>
+      <input type="text" name="last" placeholder="Last Name"><br>
+    </div>
+    <div class="pure-controls">
+      <input type="submit" class="pure-button pure-button-primary" name="button" value="register">
+      <input type="submit" class="pure-button pure-button-primary" name="button" value="cancel">
+    </div>
+  </fieldset>
+</form>
+{% endif %}
+
+{% endblock %}
