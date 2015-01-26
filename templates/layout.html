@@ -36,13 +36,19 @@ height: 100px
     <div class="pure-g">
       <div class="pure-u-1-6">
 	<div class="1-box">
-	  <div class="pure-menu pure-menu-open" style="background-color:#E6E6E6">
+	  <div class="pure-menu pure-menu-open" style="background-color:#D8D8D8">
             <br>
 	    <a class="pure-menu-heading">STUY ASSIST</a>
 	    <ul>
 	      <li class="pure-menu-selected"><a href="/"><br>Home<br><br></a></li>
 	      <li><a href="/view_message"><br>Messages<br><br></a></li>
-	      <li><a href="/view_schedule"><br>Schedule<br><br></a></li>
+	      <li><a href="/view_schedule"><br>Schedule<br><br></a>
+		<div class="pure-menu pure-menu-open">
+		<ul>
+		  <li><a href="/classmates">&nbsp;&nbsp;&nbsp;&nbsp;Classmates</a></li>
+		</ul>
+		</div>
+	      </li>
 	      <li><a href="/clubs"><br>Clubs<br><br></a>
 		<div class="pure-menu pure-menu-open">
 		<ul>
@@ -79,10 +85,11 @@ height: 100px
 	<div style="width:75%; margin: 0px auto;">
 	  <div class="1-box">
 	    
+
+	    <!-- SEARCH BAR -->
 	    <br>
 	    <form name="search" id="search" method="POST">
 	      <input type="text" name="query" placeholder="Bunnies">
-<!--	      <a href="javascript: submitform()">Search</a>  -->
 	      <input type="submit" name="button" value="Search">
 	    </form>
 
