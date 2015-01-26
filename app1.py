@@ -397,12 +397,23 @@ def search_businesses():
         button = request.form['button']
         keyword = request.form['keyword']
         limit = request.form['limit']
-        if not keyword:
-            return render_template('search_businesses.html', error='incomplete')
+        sort = request.form['sort']
+        query = ""
         if button == 'Take Me There!':
-            query = "&keyword="+keyword
+            if not keyword:
+                return render_template('search_businesses.html', error='incomplete')
+            else:
+                query = "&keyword="+keyword
             if limit:
                 query += "&limit="+limit
+            else:
+                query += "&limit=5"
+            if sort == "Best Matched":
+                query += "&sort=0"
+            elif sort == "Distance":
+                query += "&sort=1"
+            elif sort == "Highest Rated":
+                query += "&sort=2"                
             return redirect('/businesses/'+query)
 
 @app.route('/businesses', methods=['GET','POST'])
@@ -418,7 +429,7 @@ def businesses(tag='None'):
             a = q.split('=')
             if len(a) == 2:
                 qDict[a[0]] = a[1]
-        results = yelp.search(qDict['keyword'], qDict['limit']) #a dict
+        results = yelp.search(qDict['keyword'], qDict['limit'], qDict['sort']) #a dict
         return render_template('businesses.html', results=results, keyword=qDict['keyword'])
     else:
         button = request.form['button']

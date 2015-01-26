@@ -12,18 +12,29 @@ Please complete the required fields.
 
 <form method="POST" class="pure-form pure-form-aligned">
   <fieldset>
-    <legend>Look up businesses near Stuy.</legend>
+    <legend>Tired of eating Ferries every day for lunch?
+      <br>Craving for some tacos?
+      <br>If yes, then you are in the right place! Here, you can look up businesses near Stuy.</legend>
     <div class="pure-control-group">
       <label for="keyword">Find...</label>
       <input type="text" name="keyword" placeholder="tacos">
     </div>
     <div class="pure-control-group">
       <label for="limit">How many results?</label>
-      <input type="text" name="limit" placeholder="10"><br>
+      <input type="text" name="limit" placeholder="5"><br>
+    </div>
+    <div class="pure-control-group">
+      <label for="sort">Sort By...</label>
+      <select name="sort">
+	<option name="sort" selected="selected">Best Matched</option>
+	<option name="sort">Distance</option>
+	<option name="sort">Highest Rated</option>
+      </select>
     </div>
     <div class="pure-controls">
       <input type="submit" class="pure-button pure-button-primary" name="button" value="Take Me There!">
-    </div>
+    </div>	  
+
   </fieldset>
 </form>
 

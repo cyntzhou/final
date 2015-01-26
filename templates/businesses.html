@@ -11,11 +11,7 @@ You are not logged in.
 
 {% else %}
 
-{% for b in results['businesses'] %}
-{{b['name']}}
-{% endfor %}
-
-<h1>{{results['total']}} Results for {{keyword}}:</h1>
+<h1>Business Results for {{keyword}}:</h1>
 <table class="pure-table">
   <thead>
     <tr>
@@ -23,18 +19,27 @@ You are not logged in.
       <th>Rating</th>
       <th>Number of Reviews</th>
       <th>Address</th>
+      <th>Directions</th>
     </tr>
   </thead>
   <tbody>
     {% for b in results['businesses'] %}
     <tr>
-      <td><a href="{{b['url']}}">{{b['name']}}</a></td>
+      <td><a href="{{b['url']}}" target="_blank">{{b['name']}}</a></td>
       <td>{{b['rating']}}</td>
       <td>{{b['review_count']}}</td>
       <td>
 	{% for i in b['location']['display_address'] %}
 	{{i}}, 
 	{% endfor %}
+      </td>
+      <td>
+	{% set s = 'https://www.google.com/maps/dir/345+Chambers+St,+New+York,+NY+10282/' %}
+	<a href="{{s}}
+	{% for i in b['location']['display_address'] %}
+	{{i|replace(' ','+')}}+
+	{% endfor %}
+	" target="_blank"><img src="/static/images/google_maps.png" alt="Click for Directions" width="42" height="42"></a>
       </td>
     </tr>
     {% endfor %}

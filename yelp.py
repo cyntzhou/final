@@ -2,14 +2,11 @@
 """
 Yelp API v2.0 code sample.
 This program demonstrates the capability of the Yelp API version 2.0
-by using the Search API to query for businesses by a search term and location,
-and the Business API to query additional information about the top result
-from the search query.
+by using the Search API to query for businesses and the Business API 
+to query additional information about the results from the search query.
 Please refer to http://www.yelp.com/developers/documentation for the API documentation.
 This program requires the Python oauth2 library, which you can install via:
-`pip install -r requirements.txt`.
-Sample usage of the program:
-`python sample.py --term="bars" --location="San Francisco, CA"`
+`pip install oauth2==1.0`.
 """
 
 import argparse
@@ -69,7 +66,7 @@ def request(host, path, url_params=None):
     return response
 
 
-def search(term, limit):
+def search(term, limit, sort):
     """Query the Search API by a search term and location.
     Args:
     term (str): The search term passed to the API.
@@ -80,7 +77,8 @@ def search(term, limit):
     url_params = {
         'term': term.replace(' ', '+'),
         'location': DEFAULT_LOCATION, #.replace(' ', '+'),
-        'limit': limit
+        'limit': limit,
+        'sort': sort #a number from 0 to 2
     }
     return request(API_HOST, SEARCH_PATH, url_params=url_params)
 
@@ -94,3 +92,5 @@ def get_business(business_id):
     """
     business_path = BUSINESS_PATH + business_id
     return request(API_HOST, business_path)
+
+#TAKEN AND MODIFIED FROM https://github.com/Yelp/yelp-api/blob/master/v2/python/sample.py
