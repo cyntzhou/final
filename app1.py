@@ -1,6 +1,6 @@
 from flask import Flask, request, render_template, redirect, session
 from functools import wraps
-import db
+import db, yelp
 import time
 
 app = Flask(__name__)
@@ -373,10 +373,9 @@ def view_teachers():
 
 @app.route('/view_teacher', methods=['GET', 'POST'])
 @app.route('/view_teacher/<tag>', methods=['GET', 'POST'])
-###############################################################
 def view_teacher(tag='None'):
     if tag=='None':
-        return redirect('/teachers')
+        return redirect('/view_teachers')
     name = tag
     teacher = db.find_teacher({'name':name})
     if request.method == 'GET':
@@ -385,6 +384,46 @@ def view_teacher(tag='None'):
         button = request.form['button']
         if button == 'View All Teachers':   
             return redirect('/view_teachers')
+        elif button == 'Search':        
+            return redirect('/search/'+request.form['query'])
+
+
+@app.route('/search_businesses', methods=['GET','POST'])
+@searchBar
+def search_businesses():
+    if request.method == 'GET':
+        return render_template('search_businesses.html')
+    else:
+        button = request.form['button']
+        keyword = request.form['keyword']
+        limit = request.form['limit']
+        if not keyword:
+            return render_template('search_businesses.html', error='incomplete')
+        if button == 'Take Me There!':
+            query = "&keyword="+keyword
+            if limit:
+                query += "&limit="+limit
+            return redirect('/businesses/'+query)
+
+@app.route('/businesses', methods=['GET','POST'])
+@app.route('/businesses/<tag>', methods=['GET','POST'])
+##################################################@searchBar
+def businesses(tag='None'):
+    if request.method == 'GET':
+        if tag=='None':
+            return redirect('/search_businesses')
+        queries = tag.split('&')
+        qDict = {}
+        for q in queries:
+            a = q.split('=')
+            if len(a) == 2:
+                qDict[a[0]] = a[1]
+        results = yelp.search(qDict['keyword'], qDict['limit']) #a dict
+        return render_template('businesses.html', results=results, keyword=qDict['keyword'])
+    else:
+        button = request.form['button']
+        if button == 'Search':        
+            return redirect('/search/'+request.form['query'])
 
     
 @app.route('/calendar', methods=['GET','POST'])
