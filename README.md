@@ -11,7 +11,7 @@ Roles
 =====
 Michael - Clubs, User Messaging  
 Oliver - Calendar  
-Cynthia - Essays, Teachers  
+Cynthia - Essays, Places Near Stuy (using Yelp)  
 Progress Calendar
 =====
 Thursday, 12/18/14 - Make sure we know how to use branches  
@@ -24,10 +24,9 @@ Tuesday, 1/13/15 - Post Essay and View Essays pages work. Updating clubs also wo
 Monday 1/19/15 - Can now view Essay Content, User Profile works  
 Friday, 1/23/15 - User Messaging works  
 Saturday, 1/24/15 - Can now comment on Essays, Teacher's Schedules are up  
-Sunday, 1/25/15 - Search Bar works  
+Sunday, 1/25/15 - Search Bar for StuyAssist works, Searching for Places Near Stuy using Yelp API works   
 To Do
 =====
-Food API  
 Course Advice  
 School Calendar  
 Optional Stuff
