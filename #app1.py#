@@ -92,7 +92,8 @@ def viewProfile(username):
 @app.route('/view_message',methods=['GET','POST'])
 @searchBar
 @authenticate
-def viewMessage():    
+def viewMessage():
+    
     user= db.find_user({'username':session['username']})
     Message=user["Message"]
     if request.method=='GET':
@@ -131,7 +132,9 @@ def viewSchedule():
             return redirect('/edit_schedule')
         elif button == 'View Classmates':
             return redirect('/classmates')
-    user = db.find_user({'username': session['username']})    
+    user = db.find_user({'username': session['username']})
+    
+    
     return render_template('view_schedule.html',user=user)
 
 
@@ -165,6 +168,7 @@ def editSchedule():
             user = db.find_user({'username': session['username']})
             sL=[]
             xd = 1
+            
             while xd !=11:
               sL.append( request.form['teacher'+str(xd)])
               xd+= 1
@@ -230,6 +234,7 @@ def essays():
             return redirect('/your_essays')
         if button == 'Post an Essay':
             return redirect('/post_essay')
+
 
 @app.route('/your_essays', methods=['GET', 'POST'])
 @searchBar  
@@ -420,24 +425,13 @@ def search_businesses():
         button = request.form['button']
         keyword = request.form['keyword']
         limit = request.form['limit']
-        sort = request.form['sort']
-        query = ""
+        if not keyword:
+            return render_template('search_businesses.html', error='incomplete')
         if button == 'Take Me There!':
-            if not keyword:
-                return render_template('search_businesses.html', error='incomplete')
-            else:
-                query = "&keyword="+keyword
-                if limit:
-                    query += "&limit="+limit
-                else:
-                    query += "&limit=5"
-                if sort == "Best Matched":
-                    query += "&sort=0"
-                elif sort == "Distance":
-                    query += "&sort=1"
-                elif sort == "Highest Rated":
-                    query += "&sort=2"
-                return redirect('/businesses/'+query)
+            query = "&keyword="+keyword
+            if limit:
+                query += "&limit="+limit
+            return redirect('/businesses/'+query)
 
 @app.route('/businesses', methods=['GET','POST'])
 @app.route('/businesses/<tag>', methods=['GET','POST'])
@@ -456,7 +450,7 @@ def businesses(tag='None'):
         return render_template('businesses.html', results=results, keyword=qDict['keyword'])
     else:
         button = request.form['button']
-        if button == 'Search':
+        if button == 'Search':        
             return redirect('/search/'+request.form['query'])
 
     
