@@ -37,19 +37,20 @@ height: 100px
       <div class="pure-u-1-6">
 	<div class="1-box">
 	  <div class="pure-menu pure-menu-open" style="background-color:#D8D8D8">
-            <br>
-	    <a class="pure-menu-heading">STUY ASSIST</a>
+	    <a class="pure-menu-heading" href="/">STUY ASSIST</a>
 	    <ul>
-	      <li class="pure-menu-selected"><a href="/"><br>Home<br><br></a></li>
-	      <li><a href="/view_message"><br>Messages<br><br></a></li>
-	      <li><a href="/view_schedule"><br>Schedule<br><br></a>
+	      {% if 'username' not in session %}
+	      <li><a href="/login">Login</a></li>
+	      <li><a href="/register">Register</a></li>
+	      {% endif %}
+	      <li><a href="/view_schedule">Schedule</a>
 		<div class="pure-menu pure-menu-open">
 		<ul>
 		  <li><a href="/classmates">&nbsp;&nbsp;&nbsp;&nbsp;Classmates</a></li>
 		</ul>
 		</div>
 	      </li>
-	      <li><a href="/clubs"><br>Clubs<br><br></a>
+	      <li><a href="/clubs">Clubs</a>
 		<div class="pure-menu pure-menu-open">
 		<ul>
 		  <li><a href="/view_clubs">&nbsp;&nbsp;&nbsp;&nbsp;View All Clubs</a></li>
@@ -58,7 +59,7 @@ height: 100px
 		</ul>
 		</div>
 	      </li>
-	      <li><a href="/essays"><br>Essays<br><br></a>
+	      <li><a href="/essays">Essays</a>
 		<div class="pure-menu pure-menu-open">
 		<ul>
 		  <li><a href="/view_essays">&nbsp;&nbsp;&nbsp;&nbsp;View All Essays</a></li>
@@ -67,14 +68,12 @@ height: 100px
 		</ul>
 		</div>
 	      </li>
-	      <li><a href="/calendar"><br>Calendar<br><br></a></li>
+	      <li><a href="/calendar">Calendar</a></li>
+	      <li><a href="/search_businesses">Places Around Stuy</a></li>
+	      <li><a href="/view_message">Messages</a></li>
 	      {% if session['username'] %}
-	      <li><a href="/search_businesses"><br>Places Around Stuy<br><br></a></li>
-	      <li><a href="/display"><br>{{ session['username'] }}'s Settings<br><br></a></li>
-	      <li><a href="/logout"><br>Logout<br><br></a></li>
-	      {% else %}
-	      <li><a href="/login"><br>Login<br><br></a></li>
-	      <li><a href="/register"><br>Register<br><br></a></li>
+	      <li><a href="/display">{{ session['username'] }}'s Settings</a></li>
+	      <li><a href="/logout">Logout</a></li>
 	      {% endif %}
             </ul>
 	  </div>
