@@ -19,28 +19,20 @@ You are not logged in.
       <th>Sender</th>
       <th>Message</th>
       <th>Time Sent </th>
-      <th>Clear Message</th>
     </tr>
   </thead>
-  <form method = "POST" id="posting">
+
   <tbody>
-    {% set cake=0 %}
     {% for messages in Message %}
-    
     <tr>
       <td> <a href="/view_profile/{{messages['Sender']}}">{{messages['Sender']}}</a> </td>
       <td> {{messages['Message']}} </td>
       <td> {{messages['Time']}} </td>
-      <td> <input type="checkbox" name="{{cake}}message" value="checked"> Clear this Message</td>
     </tr>
-    {% set cake=cake+1 %}
     {% endfor %}
-   
   </tbody>
 </table>
-<br>
-<input type="submit" class="pure-button pure-button-primary" name="button" value="Submit Changes" form="posting">
-</form>
+
 
 
 {% endif %}

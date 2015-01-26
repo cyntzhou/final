@@ -10,19 +10,20 @@ Edit Your Club
 You are not logged in.
 
 {% else %}
-<h1>Edit your club</h1>
+<h1>Edit your club(s)</h1>
 <form method="POST" id="posting">
 {% for club in clublist %}
 <b>Club Name:</b>{{club[0]}}
-
-
-<b>Club Status:</b> <select name="{{club[0]}}Club_Status"> 
+<b> Club Status:</b> <select name="{{club[0]}}Club_Status"> 
   <option value="Start Up"> Start Up</option>
-  <option value="Active Club">Active Club</option>
+  <option value="Active Club-Full">Active Club-Full</option>
+  <option value="Active Club-Recruiting">Active Club-Recruiting</option>
 </select>
 <br><br>
-<b>Club Description</b><br> <textarea name= "{{club[0]}}Club_Description" rows="5" cols="30" placeholder="Club Description...." form="posting">{{club[2]}} </textarea>
-<br><br>
+<b>Club Description/Updates/Schedule</b><br> <textarea name= "{{club[0]}}Club_Description" rows="5" cols="30" placeholder="Club Description...." form="posting">{{club[2]}} </textarea>
+<br>
+ <input type="checkbox" name="{{club[0]}}Removeclub"  value="Checked" >Remove this Club
+ <br><br>
 {% endfor %} 
 <input type="submit" class="pure-button pure-button-primary" name="button" value="submit">
 </form>

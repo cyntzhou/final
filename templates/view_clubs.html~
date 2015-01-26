@@ -27,10 +27,10 @@ You are not logged in.
       <td>{{clubs[0]}}</td>
       <td>{{clubs[1]}}</td>
       <td>{{clubs[2]}}</td>
-      <td>{{clubs[3]}}</td>
+      <td><a href="/view_profile/{{clubs[3]}}">{{clubs[3]}}</a></td>
     </tr>
     {% endfor %}
     </tbody>
   </table>
-{{% endif %}}
+{% endif %}
 {% endblock %}

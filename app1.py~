@@ -1,6 +1,6 @@
 from flask import Flask, request, render_template, redirect, session
 from functools import wraps
-import db
+import db, yelp
 import time
 
 app = Flask(__name__)
@@ -17,8 +17,22 @@ def authenticate(func):
             return redirect('/login')
     return inner
 
-
+def searchBar(func): #doesnt work if function takes in an argument?
+    @wraps(func)
+    def inner():
+        if request.method == 'POST':
+            button = request.form['button']
+            if button == 'Search':        
+                print '/search/'+request.form['query']
+                return redirect('/search/'+request.form['query'])
+            else:
+                return func()
+        else:
+            return func()
+    return inner
+            
 @app.route('/', methods=['GET', 'POST'])
+@searchBar
 def home():
     if request.method == 'GET':
         return render_template('home.html')
@@ -29,17 +43,68 @@ def home():
         return redirect('/essays')
     if button == 'Calendar':
         return redirect('/calendar')
+
+@app.route('/search/<tag>', methods=['GET','POST'])
+def search(tag):
+    if request.method == 'GET':
+        resultDict = db.search(tag)
+        return render_template('search.html', resultDict = resultDict, tag=tag)
+    else:
+        button = request.form['button']
+        if button == 'Search':        
+            return redirect('/search/'+request.form['query'])
+        
     
-@app.route('/view_profile/<username>')
-@authenticate
+@app.route('/view_profile/<username>',methods=['GET','POST'])
 def viewProfile(username):
+    viewer=session['username']
     criteria= {"username":username}
     user=db.find_user(criteria)
-    info=[username,user['first'],user['last'],user['schedule'],user['essays']]
-    
-    
-    
+    clubs=[] 
+    clubList= db.list_clubs(username)
+    for club in clubList:
+        clubs.append(club[0])
+        
+    info=[username,user['first'],user['last'],user['schedule'],user['essays'],clubs]
+    if request.method== 'GET':
+        
+        return render_template('profile.html',viewer=viewer,info=info,counter=False)   
+    else:
+        button = request.form['button']
+        if button == 'Search':        
+            return redirect('/search/'+request.form['query'])
+        localtime = time.strftime("%B %d, %Y, %I:%M %p")
+        
+        userMessage= user['Message']
+        
+        message = request.form['User_Message']
+        message = {"Message":message,"Sender":session['username'],"Time":localtime}
+        
+        if userMessage== None:
+            userMessage=[]
+        userMessage.append(message)
+        db.update_user(criteria,{"Message":userMessage})
+        
+        
+        return render_template('profile.html',info=info,viewer=viewer,counter=True)
+        
+                       
+@app.route('/view_message',methods=['GET','POST'])
+@searchBar
+@authenticate
+def viewMessage():
+    if request.method=='GET':
+        user= db.find_user({'username':session['username']})
+        print user
+        Message=user["Message"]
+        return render_template('view_message.html',Message=Message)
+    else:        
+        button = request.form['button']
+        if button == 'Search':        
+            return redirect('/search/'+request.form['query'])
+
 @app.route('/view_schedule', methods=['GET', 'POST'])
+@searchBar  
 @authenticate
 def viewSchedule():
     if request.method == 'POST':
@@ -48,11 +113,13 @@ def viewSchedule():
             return redirect('/edit_schedule')
         elif button == 'View Classmates':
             return redirect('/classmates')
-    user = db.find_user({'username': session['username']})    
+    user = db.find_user({'username': session['username']})
+    
     return render_template('view_schedule.html',user=user)
 
 
 @app.route('/classmates')
+@searchBar  
 @authenticate
 def classmates():
     user = db.find_user({'username': session['username']})
@@ -67,6 +134,7 @@ def classmates():
 
 
 @app.route('/edit_schedule', methods=['GET', 'POST'])
+@searchBar  
 @authenticate
 def editSchedule():
     user = db.find_user({'username': session['username']})
@@ -93,6 +161,7 @@ def editSchedule():
 
         
 @app.route('/post_essay', methods=['GET', 'POST'])
+@searchBar  
 @authenticate
 def post_essay():
     user = db.find_user({'username': session['username']})
@@ -132,38 +201,119 @@ def post_essay():
             return redirect('/essays')
 
 @app.route('/essays', methods=['GET', 'POST'])
+@searchBar
 @authenticate
 def essays():
+    if request.method== 'GET':
+        return render_template('essays.html')
+    else:
+        button=request.form['button']
+        if button=='View All Essays':
+            return redirect('/view_essays')
+        if button == 'Your Essays':
+            return redirect('/your_essays')
+        if button == 'Post an Essay':
+            return redirect('/post_essay')
+
+
+@app.route('/your_essays', methods=['GET', 'POST'])
+@searchBar  
+@authenticate
+def your_essays():
+    if request.method== 'GET':
+        essays = db.find_essays({'user':session['username']})
+        return render_template('your_essays.html', essays=essays)
+    else:
+        button=request.form['button']
+        if button == 'Post Your Own Essay':
+            return redirect('/post_essay')
+
+
+@app.route('/view_essays', methods=['GET', 'POST'])
+@searchBar  
+def view_essays():
     if request.method == 'GET':
         essayList= db.view_essays()
-        return render_template('essays.html', essayList=essayList)
+        return render_template('view_essays.html', essayList=essayList)
     else:
         button = request.form['button']
         if button == 'Post Your Own Essay':
             return redirect('/post_essay')
 
-@app.route('/view_essay')
+@app.route('/view_essay', methods=['GET', 'POST'])
 @app.route('/view_essay/<tag>', methods=['GET', 'POST'])
 def view_essay(tag='None'):
     if tag=='None':
         return redirect('/essays')
     essay_id = tag
+    essay = db.find_essay({'essay_id':essay_id})
     if request.method == 'GET':
-        essay = db.find_essay({'essay_id':essay_id})
-        return render_template('view_essay.html', essay=essay)
+        if essay['user'] == session['username']: #if it's your essay
+            return redirect('/view_your_essay/'+essay_id)
+        else: #if it's someone else's essay
+            return render_template('view_essay.html', essay=essay)
     else:
-        essay = db.find_essay({'essay_id':essay_id})
-        return redirect('/comment_on_essay/'+essay_id)
-    ###########################################################
+        button = request.form['button']
+        if button == 'Comment On Essay':   
+            return redirect('/comment_on_essay/'+essay_id)
+        if button == 'Search':        
+            return redirect('/search/'+request.form['query'])
+    
+@app.route('/view_your_essay', methods=['GET', 'POST'])
+@app.route('/view_your_essay/<tag>', methods=['GET', 'POST'])
+def view_your_essay(tag='None'):
+    if tag=='None':
+        return redirect('/essays')
+    essay_id = tag
+    essay = db.find_essay({'essay_id':essay_id})
+    if request.method == 'GET':
+        if essay['user'] == session['username']: #if it's your essay
+            return render_template('view_your_essay.html', essay=essay)
+        else: #if it's someone else's essay
+            return redirect('/view_essay/'+essay_id)
+    else:
+        button = request.form['button']
+        if button == 'Go Back To Your Essays':
+            return redirect('/your_essays')
+        elif button == 'Delete This Essay':
+            db.delete_essay(essay_id)
+            return redirect('/your_essays')
+        elif button == 'Search':        
+            return redirect('/search/'+request.form['query'])
 
-def change_user_info(key, value):
-    criteria = {'username': session['username']}
-    changeset = {}
-    changeset[key] = value #a dictionary with the item you want to change
-    db.update_user(criteria, changeset)
-                    
+@app.route('/comment_on_essay', methods=['GET', 'POST'])
+@app.route('/comment_on_essay/<tag>', methods=['GET', 'POST'])
+def comment_on_essay(tag='None'):
+    if tag=='None':
+        return redirect('/essays')
+    essay_id = tag
+    essay = db.find_essay({'essay_id':essay_id})
+    if request.method == 'GET':
+        if essay['user'] == session['username']: #if it's your essay
+            return redirect('/view_your_essay/'+essay_id)
+        else: #if it's someone else's essay
+            return render_template('comment_on_essay.html', essay=essay)
+    else:
+        button = request.form['button']
+        if button == 'Submit Comment':  
+            paragraph_id = request.form['id']
+            comment = request.form['comment']
+            localtime = time.strftime("%B %d, %Y, %I:%M %p") 
+            if comment:
+                db.add_essay_comment(essay_id, paragraph_id, comment, session['username'], localtime)
+                return redirect('/comment_on_essay/'+essay_id)
+        elif button == 'Cancel':            
+            return redirect('/comment_on_essay/'+essay_id)
+        elif button == 'Search':        
+            return redirect('/search/'+request.form['query'])
+
+@app.route('/comment_on_essay.js')
+def js():
+    return render_template("comment_on_essay.js")
+
 
 @app.route('/clubs',methods=['GET','POST'])
+@searchBar
 def clubs():
     if request.method== 'GET':
         return render_template('clubs.html')
@@ -175,12 +325,14 @@ def clubs():
     if button == 'Edit Your Club':
         return redirect('/edit_club')
 
-@app.route('/view_clubs')
+@app.route('/view_clubs', methods=['GET','POST'])
+@searchBar
 def view_club():
     clubList= db.view_clubs()
     return render_template('view_clubs.html',clubList=clubList)
 
 @app.route('/add_clubs', methods=['GET', 'POST'])
+@searchBar
 @authenticate
 def add_club():
     if request.method=='GET':
@@ -198,6 +350,7 @@ def add_club():
         return redirect('/clubs')
 
 @app.route('/edit_club', methods=['GET', 'POST'])
+@searchBar
 @authenticate
 def edit_clubs():
     clublist= db.list_clubs(session['username'])
@@ -211,12 +364,86 @@ def edit_clubs():
             db.update_club(club[0],status,description)
         return redirect('/view_clubs')
 
+
+@app.route('/view_teachers', methods=['GET','POST'])
+@searchBar
+def view_teachers():
+    teachers = db.find_teachers()
+    return render_template('view_teachers.html', teachers=teachers)
+
+@app.route('/view_teacher', methods=['GET', 'POST'])
+@app.route('/view_teacher/<tag>', methods=['GET', 'POST'])
+def view_teacher(tag='None'):
+    if tag=='None':
+        return redirect('/view_teachers')
+    name = tag
+    teacher = db.find_teacher({'name':name})
+    if request.method == 'GET':
+        return render_template('view_teacher.html', teacher=teacher)
+    else:
+        button = request.form['button']
+        if button == 'View All Teachers':   
+            return redirect('/view_teachers')
+        elif button == 'Search':        
+            return redirect('/search/'+request.form['query'])
+
+
+@app.route('/search_businesses', methods=['GET','POST'])
+@searchBar
+def search_businesses():
+    if request.method == 'GET':
+        return render_template('search_businesses.html')
+    else:
+        button = request.form['button']
+        keyword = request.form['keyword']
+        limit = request.form['limit']
+        sort = request.form['sort']
+        query = ""
+        if button == 'Take Me There!':
+            if not keyword:
+                return render_template('search_businesses.html', error='incomplete')
+            else:
+                query = "&keyword="+keyword
+            if limit:
+                query += "&limit="+limit
+            else:
+                query += "&limit=5"
+            if sort == "Best Matched":
+                query += "&sort=0"
+            elif sort == "Distance":
+                query += "&sort=1"
+            elif sort == "Highest Rated":
+                query += "&sort=2"                
+            return redirect('/businesses/'+query)
+
+@app.route('/businesses', methods=['GET','POST'])
+@app.route('/businesses/<tag>', methods=['GET','POST'])
+##################################################@searchBar
+def businesses(tag='None'):
+    if request.method == 'GET':
+        if tag=='None':
+            return redirect('/search_businesses')
+        queries = tag.split('&')
+        qDict = {}
+        for q in queries:
+            a = q.split('=')
+            if len(a) == 2:
+                qDict[a[0]] = a[1]
+        results = yelp.search(qDict['keyword'], qDict['limit'], qDict['sort']) #a dict
+        return render_template('businesses.html', results=results, keyword=qDict['keyword'])
+    else:
+        button = request.form['button']
+        if button == 'Search':        
+            return redirect('/search/'+request.form['query'])
+
     
-@app.route('/calendar')
+@app.route('/calendar', methods=['GET','POST'])
+@searchBar
 def calendar():
     return render_template('calendar.html')
     
 @app.route('/login', methods=['GET', 'POST'])
+@searchBar
 def login():
     if request.method == 'GET':
         return render_template('login.html')
@@ -239,6 +466,7 @@ def login():
 
 
 @app.route('/register', methods=['GET', 'POST'])
+@searchBar
 def register():
     if request.method == 'GET':
         return render_template('register.html')
@@ -257,13 +485,14 @@ def register():
             return render_template('register.html',error='username taken')
         else:
             initial_Schedule= ["N/A","N/A","N/A","N/A","N/A","N/A","N/A","N/A","N/A","N/A","","","","","","","","","",""]
-            user_params = {'username': username, 'password': password, 'first': first, 'last': last, 'schedule':initial_Schedule, 'essays':[]}
+            user_params = {'username': username, 'password': password, 'first': first, 'last': last, 'schedule':initial_Schedule, 'essays':[],'Message':[]}
             db.new_user(user_params)
             session['username'] = username
             return redirect('/')
 
 
 @app.route('/display', methods=['GET', 'POST'])
+@searchBar
 @authenticate
 def display():
     if request.method == 'POST':
@@ -274,7 +503,8 @@ def display():
     return render_template('display.html', user=user)
 
 
-@app.route('/logout')
+@app.route('/logout', methods=['GET','POST'])
+@searchBar
 @authenticate
 def logout():
     criteria = {'username': session['username']}
@@ -284,6 +514,7 @@ def logout():
 
 
 @app.route('/change', methods=['GET', 'POST'])
+@searchBar
 @authenticate
 def change_account():
     if request.method == 'GET':
@@ -342,6 +573,12 @@ def getClassmates(period):
     classmates = db.find_classmates({ 'schedule.' + str(index) : course },'username')
     return classmates
 
+def change_user_info(key, value):
+    criteria = {'username': session['username']}
+    changeset = {}
+    changeset[key] = value #a dictionary with the item you want to change
+    db.update_user(criteria, changeset)
+                    
 if __name__ == '__main__':
     app.secret_key = 'Happy Halloween'
     app.debug = True

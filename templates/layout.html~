@@ -41,10 +41,8 @@ height: 100px
 	    <ul>
 	      {% if 'username' not in session %}
 	      <li><a href="/login">Login</a></li>
-	      <br>
 	      <li><a href="/register">Register</a></li>
 	      {% endif %}
-	      {% if session['username'] %}
 	      <li><a href="/view_schedule">Schedule</a>
 		<div class="pure-menu pure-menu-open">
 		<ul>
@@ -73,7 +71,7 @@ height: 100px
 	      <li><a href="/calendar">Calendar</a></li>
 	      <li><a href="/search_businesses">Places Around Stuy</a></li>
 	      <li><a href="/view_message">Messages</a></li>
-	      
+	      {% if session['username'] %}
 	      <li><a href="/display">{{ session['username'] }}'s Settings</a></li>
 	      <li><a href="/logout">Logout</a></li>
 	      {% endif %}
@@ -86,15 +84,14 @@ height: 100px
 	<div style="width:75%; margin: 0px auto;">
 	  <div class="1-box">
 	    
-	    {% if session['username'] %}
+
 	    <!-- SEARCH BAR -->
 	    <br>
-
 	    <form name="search" id="search" method="POST">
 	      <input type="text" name="query" placeholder="Bunnies">
 	      <input type="submit" name="button" value="Search">
 	    </form>
-	    {% endif %}
+
 	    <br>
 	    
 	    {% block body %}

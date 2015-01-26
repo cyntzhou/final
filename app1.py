@@ -93,15 +93,34 @@ def viewProfile(username):
 @searchBar
 @authenticate
 def viewMessage():
+    
+    user= db.find_user({'username':session['username']})
+    Message=user["Message"]
     if request.method=='GET':
-        user= db.find_user({'username':session['username']})
-        print user
-        Message=user["Message"]
         return render_template('view_message.html',Message=Message)
     else:        
         button = request.form['button']
         if button == 'Search':        
             return redirect('/search/'+request.form['query'])
+        if button== "Submit Changes":
+            counter=0
+            toBeRemoved=[]
+            for message in Message:
+                try:
+                    request.form[str(counter)+"message"]
+                    removal=True
+                except:
+                    removal= False
+                if removal==True:
+                    toBeRemoved.append(counter)
+                counter= counter+1
+            for number in toBeRemoved:
+                Message.pop(number)
+            criteria= {"username":session['username']}
+            db.update_user(criteria,{"Message":Message})
+            Message= user["Message"]
+        return render_template('view_message.html',Message=Message)
+                    
 
 @app.route('/view_schedule', methods=['GET', 'POST'])
 @searchBar  
@@ -114,6 +133,7 @@ def viewSchedule():
         elif button == 'View Classmates':
             return redirect('/classmates')
     user = db.find_user({'username': session['username']})
+    
     
     return render_template('view_schedule.html',user=user)
 
@@ -361,7 +381,15 @@ def edit_clubs():
         for club in clublist:
             status=request.form[str(club[0])+"Club_Status"]
             description=request.form[str(club[0])+"Club_Description"]
-            db.update_club(club[0],status,description)
+            try:
+                request.form[str(club[0])+"Removeclub"]
+                removal=True
+            except:
+                removal= False
+            if removal==True:
+                db.clubs.remove({"clubname":club[0]})
+            else:
+                db.update_club(club[0],status,description)      
         return redirect('/view_clubs')
 
 
@@ -397,23 +425,12 @@ def search_businesses():
         button = request.form['button']
         keyword = request.form['keyword']
         limit = request.form['limit']
-        sort = request.form['sort']
-        query = ""
+        if not keyword:
+            return render_template('search_businesses.html', error='incomplete')
         if button == 'Take Me There!':
-            if not keyword:
-                return render_template('search_businesses.html', error='incomplete')
-            else:
-                query = "&keyword="+keyword
+            query = "&keyword="+keyword
             if limit:
                 query += "&limit="+limit
-            else:
-                query += "&limit=5"
-            if sort == "Best Matched":
-                query += "&sort=0"
-            elif sort == "Distance":
-                query += "&sort=1"
-            elif sort == "Highest Rated":
-                query += "&sort=2"                
             return redirect('/businesses/'+query)
 
 @app.route('/businesses', methods=['GET','POST'])
@@ -429,7 +446,7 @@ def businesses(tag='None'):
             a = q.split('=')
             if len(a) == 2:
                 qDict[a[0]] = a[1]
-        results = yelp.search(qDict['keyword'], qDict['limit'], qDict['sort']) #a dict
+        results = yelp.search(qDict['keyword'], qDict['limit']) #a dict
         return render_template('businesses.html', results=results, keyword=qDict['keyword'])
     else:
         button = request.form['button']
