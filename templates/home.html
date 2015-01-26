@@ -7,22 +7,31 @@ Home
 {% block body %}
 
 
-<h1>Welcome to Stuy Assist{% if session['username'] %}, {{ session['username'] }}{% endif %}</h1>
+<h1>Welcome to StuyAssist{% if session['username'] %}, {{ session['username'] }}{% endif %}</h1>
+
+Are you struggling amid Stuyvesant's narrow hallways?<br>
+Were you absent and need to message someone in your class?<br>
+Do you need some help on that English essay due in 2 hours?<br>
+Are you searching for the best cheese fries near Stuy?<br>
+StuyAssist is here to help Stuy students survive, whether you're a new freshie looking for an interesting club, or a first-term senior needing feedback on your college essay.<br>
 
 {% if 'username' not in session %}
-Please log in.
+<br>
+<a href="/login">Log in</a> to your account. If you don't have one, then 
+<a href="/register">Sign up today!</a>
 
 {% else %}
 
 <form method="POST">
-
+<br><br>
   <table class="pure-table" style="width:100%">
     <tbody>
-      {% set h = 200 %}
+      {% set h = 100 %}
       <tr>
 	<td height="{{h}}"> <input type="submit" class="pure-button pure-button-primary" name="button" value="Clubs"> </td>
 	<td height="{{h}}"> <input type="submit" class="pure-button pure-button-primary" name="button" value="Essays">  </td>
 	<td height="{{h}}"> <input type="submit" class="pure-button pure-button-primary" name="button" value="Calendar"> </td>
+	<td height="{{h}}"> <input type="submit" class="pure-button pure-button-primary" name="button" value="Places Around Stuy"> </td>
       </tr>
     </tbody>
   </table>

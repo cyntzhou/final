@@ -43,6 +43,8 @@ def home():
         return redirect('/essays')
     if button == 'Calendar':
         return redirect('/calendar')
+    if button == 'Places Around Stuy':
+        return redirect('/search_businesses')
 
 @app.route('/search/<tag>', methods=['GET','POST'])
 def search(tag):
@@ -54,9 +56,12 @@ def search(tag):
         if button == 'Search':        
             return redirect('/search/'+request.form['query'])
         
-    
+
+@app.route('/view_profile')
 @app.route('/view_profile/<username>',methods=['GET','POST'])
-def viewProfile(username):
+def viewProfile(username='None'):
+    if username == 'None':
+        return redirect('/')
     viewer=session['username']
     criteria= {"username":username}
     user=db.find_user(criteria)
@@ -228,7 +233,7 @@ def essays():
             return redirect('/view_essays')
         if button == 'Your Essays':
             return redirect('/your_essays')
-        if button == 'Post an Essay':
+        if button == 'Post An Essay':
             return redirect('/post_essay')
 
 @app.route('/your_essays', methods=['GET', 'POST'])

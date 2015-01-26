@@ -27,7 +27,13 @@ You are not logged in.
       <!--link to view_essay page using essay_id-->
       <td><a href="/view_essay/{{essay[4]}}">{{essay[0]}}</a></td>
       <td>{{essay[1]}}</td>
-      <td><a href="/view_profile/{{essay[3]}}">{{essay[3]}}</a></td>
+      <td>
+	{% if essay[3] == 'Anonymous' %}
+	{{essay[3]}}
+	{% else %}
+	<a href="/view_profile/{{essay[3]}}">{{essay[3]}}</a>
+	{% endif %}
+      </td>
       <td>{{essay[6]}}</td>
     </tr>
     {% endfor %}

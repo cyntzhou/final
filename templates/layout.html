@@ -40,9 +40,8 @@ height: 100px
 	    <a class="pure-menu-heading" href="/">STUY ASSIST</a>
 	    <ul>
 	      {% if 'username' not in session %}
-	      <li><a href="/login">Login</a></li>
-	      <br>
-	      <li><a href="/register">Register</a></li>
+	      <li><a href="/login"><br>Login<br><br></a></li>
+	      <li><a href="/register"><br>Register<br><br></a></li>
 	      {% endif %}
 	      {% if session['username'] %}
 	      <li><a href="/view_schedule">Schedule</a>
@@ -91,7 +90,7 @@ height: 100px
 	    <br>
 
 	    <form name="search" id="search" method="POST">
-	      <input type="text" name="query" placeholder="Bunnies">
+	      <input type="text" name="query" placeholder="Bunnies (case sensitive)">
 	      <input type="submit" name="button" value="Search">
 	    </form>
 	    {% endif %}

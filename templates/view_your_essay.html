@@ -21,7 +21,13 @@ You are not logged in.
 {% else %}
 
 <h1 id="title">{{essay['title']}}</h1>
-Posted by <a href="/view_profile/{{essay['author']}}">{{essay['author']}}</a> on {{essay['time']}}
+Posted by 
+{% if essay['author'] == 'Anonymous' %}
+{{essay['author']}}
+{% else %}
+<a href="/view_profile/{{essay['author']}}">{{essay['author']}}</a>
+{% endif %}
+on {{essay['time']}}
 <br><br>
 Topic: <div id="topic">{{essay['topic']}}</div>
 <br>
