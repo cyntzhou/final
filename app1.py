@@ -172,12 +172,11 @@ def editSchedule():
             sL=[]
             xd = 1
             while xd !=11:
-              sL.append( request.form['teacher'+str(xd)])
-              xd+= 1
+                sL.append( request.form['teacher'+str(xd)])
+                xd+= 1
             while xd !=21:
-              sL.append(request.form['course'+str(xd-10)])
-              xd+=1
-            
+                sL.append(request.form['course'+str(xd-10)])
+                xd+=1
             db.update_schedule(user,sL)
             return redirect('/view_schedule')
 
@@ -432,12 +431,12 @@ def search_businesses():
             if not keyword:
                 return render_template('search_businesses.html', error='incomplete')
             else:
-                try:
-                    int(limit)
-                except ValueError:
-                    return render_template('search_businesses.html', error='int')
                 query = "&keyword="+keyword
                 if limit:
+                    try:
+                        int(limit)
+                    except:
+                        return render_template('search_businesses.html', error='int')
                     query += "&limit="+limit
                 else:
                     query += "&limit=5"

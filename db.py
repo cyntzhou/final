@@ -25,7 +25,6 @@ def find_things(criteria):
 
 def find_classmates(criteria, attribute): #item is what you're searching for, e.g. username, password, etc.
     things = users.find(criteria)
-    print things
     l = []
     for t in things:
         l.append(t[attribute])
@@ -33,7 +32,6 @@ def find_classmates(criteria, attribute): #item is what you're searching for, e.
 
 def find_attribute(criteria, attribute): #item is what you're searching for, e.g. username, password, etc.
     user = find_user(criteria)
-    print user[attribute]
     return user[attribute] #doesn't return the users; returns a list of the attributes of each user
 
 #gotta use $set or else update would repace the entry
@@ -42,7 +40,7 @@ def update_user(criteria, changeset):
 
 def update_schedule(user,changeset): #changeset is new schedule list with items 0-9 being teachers and 10-19 being the respective Course IDs
     old_schedule = user['schedule']
-    for i in range(0,9):
+    for i in range(0,10):
         old_teacher_name = old_schedule[i].replace(".", "") #keys can't have periods
         period = str(i+1)
         if old_teacher_name != "N/A": #if the old schedule had a valid teacher
@@ -146,7 +144,6 @@ def find_teachers():
     
 def search(query):
     queries = query.split(" ") #query.lower()?
-    print queries
     results = {'users':[], 'teachers':[], 'clubs':[], 'essays':[]}
     for q in queries:
         addToResultList({'username':q}, 'username', results, users, 'users')
@@ -156,7 +153,6 @@ def search(query):
         addToResultList({'clubname':q}, 'clubname', results, clubs, 'clubs')
         addToResultList({'title':q}, 'title', results, essays, 'essays')
         addToResultList({'topic':q}, 'title', results, essays, 'essays')
-    print results
     return results
 
 def addToResultList(queryDict, collection_key, results, collection, results_key):
