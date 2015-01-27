@@ -78,17 +78,17 @@ easterday = day;
 }
 
 var defString = "\"/static/images";
-//var defString = "\.\.\/static\/images";
+var defString2 = "\'/static\/images";
 function createCalendar() {
     calendarString = '';
     var daycounter = 0;
     calendarString += '<table width="312" border="1" cellpadding="0" cellspacing="1">';
     calendarString += '<tr>';
-    calendarString += '<td align=\"center\" valign=\"center\" width=\"40\" height=\"40\"><a href=\"#\" onMouseOver=\"document.PrevYr.src=' + defString + '\/PrevYrOn40x40\.jpg\';\" onMouseOut=\"document.PrevYr.src=' + defString + '\/PrevYrOff40x40\.jpg\';\" onClick=\"changedate(\'prevyr\')\"><img name=\"PrevYr\" src=' + defString + '\/PrevYrOff40x40\.jpg\" width=\"40\" height=\"40\" border=\"0\" alt=\"Prev Yr\"\/><\/a><\/td>';
-    calendarString += '<td align=\"center\" valign=\"center\" width=\"40\" height=\"40\"><a href=\"#\" onMouseOver=\"document.PrevMo.src=' + defString + '\/PrevMoOn40x40\.jpg\';\" onMouseOut=\"document.PrevMo.src=' + defString + '\/PrevMoOff40x40\.jpg\';\" onClick=\"changedate(\'prevmo\')\"><img name=\"PrevMo\" src=' + defString + '\/PrevMoOff40x40\.jpg\" width=\"40\" height=\"40\" border=\"0\" alt=\"Prev Mo\"\/><\/a><\/td>';
+    calendarString += '<td align=\"center\" valign=\"center\" width=\"40\" height=\"40\"><a href=\"#\" onMouseOver=\"document.PrevYr.src=' + defString2 + '\/PrevYrOn40x40\.jpg\'\;\" onMouseOut=\"document.PrevYr.src=' + defString2 + '\/PrevYrOff40x40\.jpg\'\;\" onClick=\"changedate(\'prevyr\')\"><img name=\"PrevYr\" src=' + defString + '\/PrevYrOff40x40\.jpg\" width=\"40\" height=\"40\" border=\"0\" alt=\"Prev Yr\"\/><\/a><\/td>';
+    calendarString += '<td align=\"center\" valign=\"center\" width=\"40\" height=\"40\"><a href=\"#\" onMouseOver=\"document.PrevMo.src=' + defString2 + '\/PrevMoOn40x40\.jpg\'\;\" onMouseOut=\"document.PrevMo.src=' + defString2 + '\/PrevMoOff40x40\.jpg\'\;\" onClick=\"changedate(\'prevmo\')\"><img name=\"PrevMo\" src=' + defString + '\/PrevMoOff40x40\.jpg\" width=\"40\" height=\"40\" border=\"0\" alt=\"Prev Mo\"\/><\/a><\/td>';
     calendarString += '<td bgcolor=\"#C8C896\" align=\"center\" valign=\"center\" width=\"128\" height=\"40\" colspan=\"3\"><b>' + wordMonth[monthNum-1] + '&nbsp;&nbsp;' + yearNum + '<\/b><\/td>';
-    calendarString += '<td align=\"center\" valign=\"center\" width=\"40\" height=\"40\"><a href=\"#\" onMouseOver=\"document.NextMo.src=' + defString + '\/NextMoOn40x40\.jpg\';\" onMouseOut=\"document.NextMo.src=' + defString + '\/NextMoOff40x40\.jpg\';\" onClick=\"changedate(\'nextmo\')\"><img name=\"NextMo\" src=' + defString + '\/NextMoOff40x40\.jpg\" width=\"40\" height=\"40\" border=\"0\" alt=\"Next Mo\"\/><\/a><\/td>';
-    calendarString += '<td align=\"center\" valign=\"center\" width=\"40\" height=\"40\"><a href=\"#\" onMouseOver=\"document.NextYr.src=' + defString + '\/NextYrOn40x40\.jpg\';\" onMouseOut=\"document.NextYr.src=' + defString + '\/NextYrOff40x40\.jpg\';\" onClick=\"changedate(\'nextyr\')\"><img name=\"NextYr\" src=' + defString + '\/NextYrOff40x40\.jpg\" width=\"40\" height=\"40\" border=\"0\" alt=\"Next Yr\"\/><\/a><\/td>';
+    calendarString += '<td align=\"center\" valign=\"center\" width=\"40\" height=\"40\"><a href=\"#\" onMouseOver=\"document.NextMo.src=' + defString2 + '\/NextMoOn40x40\.jpg\'\;\" onMouseOut=\"document.NextMo.src=' + defString2 + '\/NextMoOff40x40\.jpg\'\;\" onClick=\"changedate(\'nextmo\')\"><img name=\"NextMo\" src=' + defString + '\/NextMoOff40x40\.jpg\" width=\"40\" height=\"40\" border=\"0\" alt=\"Next Mo\"\/><\/a><\/td>';
+    calendarString += '<td align=\"center\" valign=\"center\" width=\"40\" height=\"40\"><a href=\"#\" onMouseOver=\"document.NextYr.src=' + defString2 + '\/NextYrOn40x40\.jpg\';\" onMouseOut=\"document.NextYr.src=' + defString2 + '\/NextYrOff40x40\.jpg\'\;\" onClick=\"changedate(\'nextyr\')\"><img name=\"NextYr\" src=' + defString + '\/NextYrOff40x40\.jpg\" width=\"40\" height=\"40\" border=\"0\" alt=\"Next Yr\"\/><\/a><\/td>';
 	calendarString += '<\/tr>';
 	calendarString += '<tr>';
 	calendarString += '<td bgcolor=\"#DDDDDD\" align=\"center\" valign=\"center\" width=\"40\" height=\"22\">Sun<\/td>';
