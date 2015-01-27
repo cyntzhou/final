@@ -87,8 +87,11 @@ def viewProfile(username='None'):
         if userMessage== None:
             userMessage=[]
         userMessage.append(message)
+        user=db.find_user(criteria)
         db.update_user(criteria,{"Message":userMessage})
-        return render_template('profile.html',info=info,viewer=viewer,counter=True)
+        essays = db.find_essays({'user':username})
+        
+        return render_template('profile.html',info=info,viewer=viewer,counter=True,user=user, essays=essays)
         
                        
 @app.route('/view_message',methods=['GET','POST'])
