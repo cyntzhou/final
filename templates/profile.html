@@ -10,10 +10,18 @@ Profile
 
 Name: {{ info[1] }} {{ info[2] }}
 <br><br>
+
 Club admin of: {% for club in info[5] %}{% if club==info[5][0] %}{{club}}{%else %},{{club}}{% endif %}{% endfor %}
 <br><br>
-<!--Put essay links here -->
+
+Essays: 
+{% for essay in essays %}
+{% if essay['author'] != 'Anonymous' %}
+<br><a href="/view_essay/{{essay['essay_id']}}">{{essay['title']}}</a>
+{% endif %}
+{% endfor %}
 <br><br>
+
 {% if viewer!= info[0] %}
 Send User a message: <form method="POST" id="posting"> <textarea name="User_Message" rows="5" cols="30" form="posting"></textarea><br>
   <br> <input type="submit" class="pure-button pure-button-primary" name="button" value="submit">
@@ -22,5 +30,33 @@ Send User a message: <form method="POST" id="posting"> <textarea name="User_Mess
 {% if counter== True %}
 <br> Your Message has been sent! 
 {% endif %}
+
+<br><br>
+<b>{{info[0]}}'s Schedule</b>
+
+<table class="pure-table">
+  <thead>
+    <tr>
+      <th>Period</th>
+      <th>Teacher</th>
+      <th>Course ID </th>
+    </tr>
+  </thead>
+
+  <tbody>
+    {% for period in [1,2,3,4,5,6,7,8,9,10] %}
+    <tr>
+      <td> {{period}} </td>
+      {% if user['schedule'][period-1]!= "N/A" %}
+      <td> <a href="/view_teacher/{{user['schedule'][period-1]|replace('.', '')}}">{{user['schedule'][period-1]}}</a> </td>
+      {% else %}
+      <td> {{user['schedule'][period-1]}} </td>
+      {% endif %}
+      <td> {{user['schedule'][period+9]}} </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
 {% endblock %}
 

@@ -73,9 +73,9 @@ def viewProfile(username='None'):
         clubs.append(club[0])
         
     info=[username,user['first'],user['last'],user['schedule'],user['essays'],clubs]
+    essays = db.find_essays({'user':username})
     if request.method== 'GET':
-        
-        return render_template('profile.html',viewer=viewer,info=info,counter=False)   
+        return render_template('profile.html',viewer=viewer,info=info,counter=False,user=user, essays=essays)   
     else:
         button = request.form['button']
         if button == 'Search':        
