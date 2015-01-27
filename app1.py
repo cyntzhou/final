@@ -432,6 +432,10 @@ def search_businesses():
             if not keyword:
                 return render_template('search_businesses.html', error='incomplete')
             else:
+                try:
+                    int(limit)
+                except ValueError:
+                    return render_template('search_businesses.html', error='int')
                 query = "&keyword="+keyword
                 if limit:
                     query += "&limit="+limit
@@ -548,18 +552,18 @@ def logout():
 def change_account():
     if request.method == 'GET':
         return render_template('change_account.html')
-
     if request.form['button'] == 'cancel':
         return redirect('/')
-
     criteria = {'username': session['username']}
-
+    old_password = request.form['old_password']
     password = request.form['password']
     password2 = request.form['password2']
     first = request.form['first']
     last = request.form['last']
     changeset = {}
     if password:
+        if old_password != db.find_user(criteria)['password']:
+            return render_template('change_account.html', error="Incorrect old password entered.")            
         if password == password2:
             changeset['password'] = password            
             change_user_info('password',password)
