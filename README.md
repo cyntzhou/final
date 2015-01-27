@@ -1,6 +1,7 @@
 Stuy Assist  
 =====
 Helping Stuy students survive.  
+https://www.youtube.com/watch?v=OTiQt29H6uc&feature=youtu.be  
 Schedule Comparison  
 Essay Editing  
 User Messaging  
