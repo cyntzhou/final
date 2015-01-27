@@ -1,5 +1,3 @@
-final
-=====
 Stuy Assist  
 =====
 Helping Stuy students survive.  
@@ -7,6 +5,8 @@ Schedule Comparison
 Essay Editing  
 User Messaging  
 Club Organizing  
+Places Around Stuy  
+Holiday Calendar  
 Roles
 =====
 Michael - Clubs, User Messaging  
@@ -25,11 +25,5 @@ Monday 1/19/15 - Can now view Essay Content, User Profile works
 Friday, 1/23/15 - User Messaging works  
 Saturday, 1/24/15 - Can now comment on Essays, Teacher's Schedules are up  
 Sunday, 1/25/15 - Search Bar for StuyAssist works, Searching for Places Near Stuy using Yelp API works   
-To Do
-=====
-Course Advice  
-School Calendar  
-Optional Stuff
-=====
-OAuth  
-Forget Password  
+Monday, 1/26/15 - Launched stuyassist.mooo.com, Calendar is up and running  
+Tuesday morning, 1/27/15 - Polishing the website  
