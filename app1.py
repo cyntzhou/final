@@ -4,6 +4,7 @@ import db, yelp
 import time
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = 'Happy Halloween'
 
 staff = open("./templates/staff.txt",'r').read().splitlines()
 #a list of all teachers
