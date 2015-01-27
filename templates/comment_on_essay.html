@@ -32,6 +32,7 @@ You are not logged in.
     <p name="paragraph" id="{{i}}">{{p}}</p>
   </fieldset>
   {% if essay.has_key('comments') %}
+  {% if essay['comments'][i|string] %}
   <div style="font-size:80%">
     Comments:<br>
     {% for c in essay['comments'][i|string] %}
@@ -40,8 +41,9 @@ You are not logged in.
       {{c[2]}}
     </div>
     <br>
-  {% endfor %}
+    {% endfor %}
   </div>
+  {% endif %}
   {% endif %}
   {% set i = i + 1 %}
   {% endfor %}

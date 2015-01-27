@@ -5,6 +5,7 @@ import time
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'Happy Halloween'
+app.config['DEBUG'] = True
 
 staff = open("./templates/staff.txt",'r').read().splitlines()
 #a list of all teachers
@@ -80,18 +81,13 @@ def viewProfile(username='None'):
         if button == 'Search':        
             return redirect('/search/'+request.form['query'])
         localtime = time.strftime("%B %d, %Y, %I:%M %p")
-        
-        userMessage= user['Message']
-        
+        userMessage= user['Message']        
         message = request.form['User_Message']
-        message = {"Message":message,"Sender":session['username'],"Time":localtime}
-        
+        message = {"Message":message,"Sender":session['username'],"Time":localtime}        
         if userMessage== None:
             userMessage=[]
         userMessage.append(message)
         db.update_user(criteria,{"Message":userMessage})
-        
-        
         return render_template('profile.html',info=info,viewer=viewer,counter=True)
         
                        
@@ -137,6 +133,8 @@ def viewSchedule():
             return redirect('/edit_schedule')
         elif button == 'View Classmates':
             return redirect('/classmates')
+        elif button == 'View Teachers':
+            return redirect('/view_teachers')
     user = db.find_user({'username': session['username']})    
     return render_template('view_schedule.html',user=user)
 
