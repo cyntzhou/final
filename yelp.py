@@ -13,8 +13,8 @@ import argparse
 import json
 import pprint
 import sys
-import urllib
-import urllib2
+import urllib.request
+#import urllib2
 
 import oauth2
 
@@ -57,10 +57,11 @@ def request(host, path, url_params=None):
     token = oauth2.Token(TOKEN, TOKEN_SECRET)
     oauth_request.sign_request(oauth2.SignatureMethod_HMAC_SHA1(), consumer, token)
     signed_url = oauth_request.to_url()
-    print 'Querying {0} ...'.format(url)
-    conn = urllib2.urlopen(signed_url, None)
+    print( 'Querying {0} ...'.format(url))
+    #conn = urllib2.urlopen(signed_url, None)
+    conn = urllib.request.urlopen(signed_url, None)
     try:
-        response = json.loads(conn.read())
+        response = json.loads(conn.read().decode('utf8'))
     finally:
         conn.close()
     return response

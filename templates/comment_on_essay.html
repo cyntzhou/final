@@ -31,7 +31,7 @@ You are not logged in.
   <fieldset id="{{i}}">
     <p name="paragraph" id="{{i}}">{{p}}</p>
   </fieldset>
-  {% if essay.has_key('comments') %}
+  {% if 'comments' in essay %}
   <div style="font-size:80%">
     Comments:<br>
     {% for c in essay['comments'][i|string] %}

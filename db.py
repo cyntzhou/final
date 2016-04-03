@@ -25,7 +25,7 @@ def find_things(criteria):
 
 def find_classmates(criteria, attribute): #item is what you're searching for, e.g. username, password, etc.
     things = users.find(criteria)
-    print things
+    print( things)
     l = []
     for t in things:
         l.append(t[attribute])
@@ -33,7 +33,7 @@ def find_classmates(criteria, attribute): #item is what you're searching for, e.
 
 def find_attribute(criteria, attribute): #item is what you're searching for, e.g. username, password, etc.
     user = find_user(criteria)
-    print user[attribute]
+    print( user[attribute])
     return user[attribute] #doesn't return the users; returns a list of the attributes of each user
 
 #gotta use $set or else update would repace the entry
@@ -48,7 +48,7 @@ def update_schedule(user,changeset): #changeset is new schedule list with items 
         if old_teacher_name != "N/A": #if the old schedule had a valid teacher
             old_teacher = teachers.find_one({'name':old_teacher_name})
             if old_teacher: #if old_teacher exists in teachers collection
-                if old_teacher.has_key(period):
+                if period in old_teacher:
                     if user['username'] in old_teacher[period]:
                         old_teacher[period].remove(user["username"])
                         teachers.update({'name':old_teacher_name}, {"$set":{period:old_teacher[period]}})
@@ -57,7 +57,7 @@ def update_schedule(user,changeset): #changeset is new schedule list with items 
             new_teacher = teachers.find_one({'name':new_teacher_name})
             students = []
             if new_teacher:
-                if new_teacher.has_key(period):
+                if period in new_teacher:
                     new_teacher[period].append(user["username"]) 
                 else:
                     new_teacher[period] = [user["username"]]
@@ -119,9 +119,9 @@ def delete_essay(essay_id):
 def add_essay_comment(essay_id, paragraph_id, comment, user, time):
     essay = essays.find_one({'essay_id':essay_id})
     l = [user, time, comment]
-    if essay.has_key('comments'):
+    if 'comments' in essay:
         comment_dict = essay['comments']
-        if comment_dict.has_key(paragraph_id):
+        if paragraph_id in comment_dict:
             comments = comment_dict[paragraph_id]
             comments.append(l)
         else:  
@@ -146,7 +146,7 @@ def find_teachers():
     
 def search(query):
     queries = query.split(" ") #query.lower()?
-    print queries
+    print( queries)
     results = {'users':[], 'teachers':[], 'clubs':[], 'essays':[]}
     for q in queries:
         addToResultList({'username':q}, 'username', results, users, 'users')
@@ -156,7 +156,7 @@ def search(query):
         addToResultList({'clubname':q}, 'clubname', results, clubs, 'clubs')
         addToResultList({'title':q}, 'title', results, essays, 'essays')
         addToResultList({'topic':q}, 'title', results, essays, 'essays')
-    print results
+    print( results)
     return results
 
 def addToResultList(queryDict, collection_key, results, collection, results_key):
