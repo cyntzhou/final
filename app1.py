@@ -25,7 +25,7 @@ def searchBar(func): #doesnt work if function takes in an argument?
         if request.method == 'POST':
             button = request.form['button']
             if button == 'Search':        
-                print '/search/'+request.form['query']
+                print( '/search/'+request.form['query'])
                 return redirect('/search/'+request.form['query'])
             else:
                 return func()

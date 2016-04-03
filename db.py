@@ -46,7 +46,7 @@ def update_schedule(user,changeset): #changeset is new schedule list with items 
         if old_teacher_name != "N/A": #if the old schedule had a valid teacher
             old_teacher = teachers.find_one({'name':old_teacher_name})
             if old_teacher: #if old_teacher exists in teachers collection
-                if old_teacher.has_key(period):
+                if period in old_teacher:
                     if user['username'] in old_teacher[period]:
                         old_teacher[period].remove(user["username"])
                         teachers.update({'name':old_teacher_name}, {"$set":{period:old_teacher[period]}})
@@ -55,7 +55,7 @@ def update_schedule(user,changeset): #changeset is new schedule list with items 
             new_teacher = teachers.find_one({'name':new_teacher_name})
             students = []
             if new_teacher:
-                if new_teacher.has_key(period):
+                if period in new_teacher:
                     new_teacher[period].append(user["username"]) 
                 else:
                     new_teacher[period] = [user["username"]]
@@ -117,9 +117,9 @@ def delete_essay(essay_id):
 def add_essay_comment(essay_id, paragraph_id, comment, user, time):
     essay = essays.find_one({'essay_id':essay_id})
     l = [user, time, comment]
-    if essay.has_key('comments'):
+    if 'comments' in essay:
         comment_dict = essay['comments']
-        if comment_dict.has_key(paragraph_id):
+        if paragraph_id in comment_dict:
             comments = comment_dict[paragraph_id]
             comments.append(l)
         else:  

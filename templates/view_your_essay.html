@@ -36,8 +36,7 @@ Topic: <div id="topic">{{essay['topic']}}</div>
 {% for p in paragraphs %}
 <fieldset id="{{i}}">
   <p name="paragraph" id="{{i}}">{{p}}</p>
-  {% if essay.has_key('comments') %}
-  {% if essay['comments'][i|string] %}
+  {% if comments in essay %}
   <div style="font-size:80%">
     <br>Comments:<br>
     {% for c in essay['comments'][i|string] %}
@@ -48,7 +47,6 @@ Topic: <div id="topic">{{essay['topic']}}</div>
     <br>
     {% endfor %}
   </div>
-  {% endif %}
   {% endif %}
 </fieldset>
 {% set i = i + 1 %}
