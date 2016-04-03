@@ -1,17 +1,26 @@
-final
-=====
 Stuy Assist  
 =====
 Helping Stuy students survive.  
+stuyassist.mooo.com  
+https://www.youtube.com/watch?v=OTiQt29H6uc&feature=youtu.be  
+Are you struggling amid Stuyvesant's narrow hallways?  
+Were you absent and need to message someone in your class?  
+Do you need some help on that English essay due in 2 hours?  
+Are you searching for the best cheese fries near Stuy?  
+StuyAssist is here to help Stuy students survive, whether you're a new freshie looking for an interesting club, or a first-term senior needing feedback on your college essay.  
+Features
+=====
 Schedule Comparison  
 Essay Editing  
 User Messaging  
 Club Organizing  
+Places Around Stuy  
+Holiday Calendar  
 Roles
 =====
 Michael - Clubs, User Messaging  
-Oliver - Calendar  
-Cynthia - Essays, Places Near Stuy (using Yelp)  
+Oliver - Calendar (javascript)  
+Cynthia - Essays, Places Near Stuy (Yelp API)  
 Progress Calendar
 =====
 Thursday, 12/18/14 - Make sure we know how to use branches  
@@ -25,11 +34,5 @@ Monday 1/19/15 - Can now view Essay Content, User Profile works
 Friday, 1/23/15 - User Messaging works  
 Saturday, 1/24/15 - Can now comment on Essays, Teacher's Schedules are up  
 Sunday, 1/25/15 - Search Bar for StuyAssist works, Searching for Places Near Stuy using Yelp API works   
-To Do
-=====
-Course Advice  
-School Calendar  
-Optional Stuff
-=====
-OAuth  
-Forget Password  
+Monday, 1/26/15 - Launched stuyassist.mooo.com, Calendar is up and running  
+Tuesday morning, 1/27/15 - Polishing the website, making the video  https://www.youtube.com/watch?v=OTiQt29H6uc&feature=youtu.be  

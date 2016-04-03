@@ -1,0 +1,143 @@
+{% extends "layout.html" %}
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+  <head>
+    <title>StuyAssist - Calendar of Events</title>
+
+    <link rel="stylesheet" href="//yui.yahooapis.com/pure/0.5.0/pure-min.css">
+
+    <style type="text/css">
+
+      #evtcal a:link {font: normal 12pt "Arial", "Helvetica", "Sans Serif"; color: #004400; text-decoration: none;}		/* unvisited link */
+      #evtcal a:visited {font: normal 12pt "Arial", "Helvetica", "Sans Serif"; color: #004400; text-decoration: none;}	/* visited link */
+      #evtcal a:hover {font: normal 12pt "Arial", "Helvetica", "Sans Serif"; color: #004400; text-decoration: underline;}	/* mouse over link */
+      #evtcal a:active {font: normal 12pt "Arial", "Helvetica", "Sans Serif"; color: #004400; text-decoration: none;}		/* selected link */
+
+    </style>
+
+    <script language="JavaScript" type="text/javascript" src="../static/events.js"></script>
+    <script type="text/JavaScript" language="JavaScript" src="../static/calendar.js"></script>
+
+  </head>
+
+
+  <div class="pure-g">
+    <div class="pure-u-1-6">
+      <div class="1-box">
+	<div class="pure-menu pure-menu-open" style="background-color:#D8D8D8">
+	  <a class="pure-menu-heading" href="/">STUY ASSIST</a>
+	  <ul>
+	    {% if 'username' not in session %}
+	    <li><a href="/login"><br>Login<br><br></a></li>
+	    <li><a href="/register"><br>Register<br><br></a></li>
+	    {% endif %}
+	    {% if session['username'] %}
+	    <li><a href="/view_schedule">Schedule</a>
+	      <div class="pure-menu pure-menu-open">
+		<ul>
+		  <li><a href="/classmates">&nbsp;&nbsp;&nbsp;&nbsp;Classmates</a></li>
+		  <li><a href="/view_teachers">&nbsp;&nbsp;&nbsp;&nbsp;Teachers</a></li>
+		</ul>
+	      </div>
+	    </li>
+	    <li><a href="/clubs">Clubs</a>
+	      <div class="pure-menu pure-menu-open">
+		<ul>
+		  <li><a href="/view_clubs">&nbsp;&nbsp;&nbsp;&nbsp;View All Clubs</a></li>
+		  <li><a href="/edit_club">&nbsp;&nbsp;&nbsp;&nbsp;Edit Your Club</a></li>
+		  <li><a href="/add_clubs">&nbsp;&nbsp;&nbsp;&nbsp;Add a Club</a></li>
+		</ul>
+	      </div>
+	    </li>
+	    <li><a href="/essays">Essays</a>
+	      <div class="pure-menu pure-menu-open">
+		<ul>
+		  <li><a href="/view_essays">&nbsp;&nbsp;&nbsp;&nbsp;View All Essays</a></li>
+		  <li><a href="/your_essays">&nbsp;&nbsp;&nbsp;&nbsp;Your Essays</a></li>
+		  <li><a href="/post_essay">&nbsp;&nbsp;&nbsp;&nbsp;Post an Essay</a></li>
+		</ul>
+	      </div>
+	    </li>
+	    <li><a href="/calendar">Calendar</a></li>
+	    <li><a href="/search_businesses">Places Around Stuy</a></li>
+	    <li><a href="/view_message">Messages</a></li>	      
+	    <li><a href="/display">{{ session['username'] }}'s Settings</a></li>
+	    <li><a href="/logout">Logout</a></li>
+	    {% endif %}
+          </ul>
+	</div>
+      </div>
+    </div>
+    
+    <div class="pure-u-3-4">
+      <div style="width:75%; margin: 0px auto;">
+	  
+	  {% if session['username'] %}
+	  <!-- SEARCH BAR -->
+	  <br>
+
+	  <form name="search" id="search" method="POST">
+	    <input type="text" name="query" placeholder="Bunnies (case sensitive)">
+	    <input type="submit" name="button" value="Search">
+	  </form>
+	  {% endif %}
+	  <br>
+	  
+
+
+
+	  <body style="background-color: transparent;" onload="changedate('return')">
+	    
+
+	    <p align="center">Calendar of Events</p>
+
+	    <center>
+	      <table id="evtcal" border="0" cellpadding="0" cellspacing="0" width="584">
+		<tbody>
+		  <tr>
+		    <td style="padding: 3px;" align="center" bgcolor="#aaddff" valign="top" width="314">
+		      <div id="calendar"><!--  Dynamically Filled --></div>
+		      You can move to a different month or year by clicking on the buttons or return to today's date by clicking "Show Current Date".</td>
+		    <td width="10">&nbsp;</td>
+		    <td style="padding: 3px;" align="center" bgcolor="#ffffc8" valign="top" width="260"><b>Intructions:</b><br />Click a highlighted date on the calendar to see a list of events on that day in the box below.<br /><br />
+		      <center><b><u>Events</u></b>
+			<form id="eventform" name="eventform" action="#" method="get">
+			  <textarea name="eventlist" cols="25" rows="11" wrap="soft">Auto filled when clicking on date.</textarea>
+			</form>
+		      </center>
+		    </td>
+		  </tr>
+		</tbody>
+	      </table>
+	    </center>
+
+	    <br />
+
+	    <p style="font: normal 11px Arial" align="center">This free script provided by<br />
+	      <a href="http://www.javascriptkit.com">JavaScript Kit</a></p>
+
+	  <body style="background-color: transparent;" onload="changedate('return')">
+	    
+	    
+	v>
+      </div>
+    </div>
+
+    <div class="footer">
+      <div class="legal pure-g">
+	<div class="pure-u-1 u-sm-1-2">
+          <p class="legal-license">
+	    <div align="right">
+	      Created by Michael Huang, Oliver Zhang, and Cynthia Zhou. SoftDev period 6.
+	    </div>
+          </p>
+	</div>
+      </div>
+    </div>
+
+  </div>
+  
+</body>
+
+</html>

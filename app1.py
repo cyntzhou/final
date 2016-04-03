@@ -4,6 +4,8 @@ import db, yelp
 import time
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = 'Happy Halloween'
+app.config['DEBUG'] = True
 
 staff = open("./templates/staff.txt",'r').read().splitlines()
 #a list of all teachers
@@ -43,6 +45,8 @@ def home():
         return redirect('/essays')
     if button == 'Calendar':
         return redirect('/calendar')
+    if button == 'Places Around Stuy':
+        return redirect('/search_businesses')
 
 @app.route('/search/<tag>', methods=['GET','POST'])
 def search(tag):
@@ -54,9 +58,12 @@ def search(tag):
         if button == 'Search':        
             return redirect('/search/'+request.form['query'])
         
-    
+
+@app.route('/view_profile')
 @app.route('/view_profile/<username>',methods=['GET','POST'])
-def viewProfile(username):
+def viewProfile(username='None'):
+    if username == 'None':
+        return redirect('/')
     viewer=session['username']
     criteria= {"username":username}
     user=db.find_user(criteria)
@@ -66,27 +73,25 @@ def viewProfile(username):
         clubs.append(club[0])
         
     info=[username,user['first'],user['last'],user['schedule'],user['essays'],clubs]
+    essays = db.find_essays({'user':username})
     if request.method== 'GET':
-        
-        return render_template('profile.html',viewer=viewer,info=info,counter=False)   
+        return render_template('profile.html',viewer=viewer,info=info,counter=False,user=user, essays=essays)   
     else:
         button = request.form['button']
         if button == 'Search':        
             return redirect('/search/'+request.form['query'])
         localtime = time.strftime("%B %d, %Y, %I:%M %p")
-        
-        userMessage= user['Message']
-        
+        userMessage= user['Message']        
         message = request.form['User_Message']
-        message = {"Message":message,"Sender":session['username'],"Time":localtime}
-        
+        message = {"Message":message,"Sender":session['username'],"Time":localtime}        
         if userMessage== None:
             userMessage=[]
         userMessage.append(message)
+        user=db.find_user(criteria)
         db.update_user(criteria,{"Message":userMessage})
+        essays = db.find_essays({'user':username})
         
-        
-        return render_template('profile.html',info=info,viewer=viewer,counter=True)
+        return render_template('profile.html',info=info,viewer=viewer,counter=True,user=user, essays=essays)
         
                        
 @app.route('/view_message',methods=['GET','POST'])
@@ -131,6 +136,8 @@ def viewSchedule():
             return redirect('/edit_schedule')
         elif button == 'View Classmates':
             return redirect('/classmates')
+        elif button == 'View Teachers':
+            return redirect('/view_teachers')
     user = db.find_user({'username': session['username']})    
     return render_template('view_schedule.html',user=user)
 
@@ -166,12 +173,11 @@ def editSchedule():
             sL=[]
             xd = 1
             while xd !=11:
-              sL.append( request.form['teacher'+str(xd)])
-              xd+= 1
+                sL.append( request.form['teacher'+str(xd)])
+                xd+= 1
             while xd !=21:
-              sL.append(request.form['course'+str(xd-10)])
-              xd+=1
-            
+                sL.append(request.form['course'+str(xd-10)])
+                xd+=1
             db.update_schedule(user,sL)
             return redirect('/view_schedule')
 
@@ -228,7 +234,7 @@ def essays():
             return redirect('/view_essays')
         if button == 'Your Essays':
             return redirect('/your_essays')
-        if button == 'Post an Essay':
+        if button == 'Post An Essay':
             return redirect('/post_essay')
 
 @app.route('/your_essays', methods=['GET', 'POST'])
@@ -428,6 +434,10 @@ def search_businesses():
             else:
                 query = "&keyword="+keyword
                 if limit:
+                    try:
+                        int(limit)
+                    except:
+                        return render_template('search_businesses.html', error='int')
                     query += "&limit="+limit
                 else:
                     query += "&limit=5"
@@ -542,18 +552,18 @@ def logout():
 def change_account():
     if request.method == 'GET':
         return render_template('change_account.html')
-
     if request.form['button'] == 'cancel':
         return redirect('/')
-
     criteria = {'username': session['username']}
-
+    old_password = request.form['old_password']
     password = request.form['password']
     password2 = request.form['password2']
     first = request.form['first']
     last = request.form['last']
     changeset = {}
     if password:
+        if old_password != db.find_user(criteria)['password']:
+            return render_template('change_account.html', error="Incorrect old password entered.")            
         if password == password2:
             changeset['password'] = password            
             change_user_info('password',password)

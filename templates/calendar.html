@@ -1,4 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+{% extends "layout.html" %}
+{% block body %}
 <html>
 <head>
 <title>Calendar of Events</title>
@@ -21,7 +23,7 @@
 <p align="center">Calendar of Events</p>
 
 <center>
-<table id="calendar" border="0" cellpadding="0" cellspacing="0" width="584">
+<table id="evtcal" border="0" cellpadding="0" cellspacing="0" width="584">
 	<tbody>
 		<tr>
 			<td style="padding: 3px;" align="center" bgcolor="#aaddff" valign="top" width="314">
@@ -47,3 +49,4 @@
 
 </body>
 </html>
+{% endblock %}

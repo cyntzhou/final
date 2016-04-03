@@ -8,6 +8,8 @@ Places Near Stuy
 
 {% if error == "incomplete" %}
 Please complete the required fields.
+{% elif error == "int" %}
+Please input an integer for Limit field.
 {% endif %}
 
 <form method="POST" class="pure-form pure-form-aligned">

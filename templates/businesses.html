@@ -30,7 +30,8 @@ You are not logged in.
       <td>{{b['review_count']}}</td>
       <td>
 	{% for i in b['location']['display_address'] %}
-	{{i}}, 
+	{{i}}
+	{% if i != b['location']['display_address'][b['location']['display_address']|length-1] %}, {% endif %} <!-- no comma after last address word -->
 	{% endfor %}
       </td>
       <td>

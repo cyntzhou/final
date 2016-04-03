@@ -29,7 +29,12 @@ You are not logged in.
       </td>
       <td> 
 	{% for c in classmates[period] %}
-	<a href="/view_profile/{{c}}">{{c}}</a>,
+	{% if c != session['username'] %} <!-- excludes yourself -->
+	<a href="/view_profile/{{c}}">{{c}}</a>
+	{% if c != classmates[period][classmates[period]|length-1] %}
+	, <!-- no comma after last person -->
+	{% endif %}
+	{% endif %}
 	{% endfor %}
       </td>
     </tr>
